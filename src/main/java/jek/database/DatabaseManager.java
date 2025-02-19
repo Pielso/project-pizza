@@ -19,7 +19,7 @@ public class DatabaseManager {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
-    public static void scriptRunner(String path) throws SQLException {
+    public static void scriptRunner(String path) {
         try (Connection connection = getConnection()){
             Statement statement = connection.createStatement();
 
