@@ -12,7 +12,7 @@ public class DatabaseManager {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/certlimit";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "+?.5griFFeLt4vla";
-    private static final String dropDB = "src/main/java/jek/sql-scripts/drop-database.sql";
+    private static final String dropDB = "src/main/java/jek/sql-scripts/drop-and-resurrect-database.sql";
     private static final String createDB = "src/main/java/jek/sql-scripts/create-all-tables.sql";
 
     public static Connection getConnection() throws SQLException {
