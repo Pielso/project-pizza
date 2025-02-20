@@ -1,7 +1,6 @@
 package jek;
 
 import jek.database.DatabaseManager;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Main {
