@@ -9,15 +9,15 @@ import java.util.*;
 
 public class LoginService {
 
-    private static String username;
-    private static String password;
+    private static String activeUsername;
+    private static String activeUserPassword;
     public static Scanner scan = new Scanner(System.in);
 
     public static void wait(int millisec) throws InterruptedException {
         Thread.sleep(millisec);
     }
 
-    public static boolean checkIfUserNameAndPassWasSaved(String username, String password) throws SQLException {
+    public static boolean checkIfUserNameAndPassWasSaved(String usernameToCheck, String passwordToCheck) throws SQLException {
 
         String lastSavedUser = "";
         String lastSavedPass = "";
@@ -30,7 +30,7 @@ public class LoginService {
             lastSavedPass = resultSet.getString("password");
         }
 
-        return lastSavedUser.equals(username) && lastSavedPass.equals(password);
+        return lastSavedUser.equals(usernameToCheck) && lastSavedPass.equals(passwordToCheck);
     }
 
     public static boolean doesUsernameExistInDB(String nameGiven) throws SQLException {
@@ -42,36 +42,35 @@ public class LoginService {
         String passInDB = "";
         int attempts = 0;
         System.out.print("PASSWORD:");
-        password = scan.nextLine();
+        activeUserPassword = scan.nextLine();
         Connection connection = DatabaseManager.getConnection();
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
+        ResultSet resultSet = statement.executeQuery("SELECT password FROM users WHERE username = '" + usernameToCheck + "'; ");
         Map<String, String> sets = new HashMap<>();
-        while (resultSet.next()){
-            sets.put(resultSet.getString(username))
+        if (resultSet.next()){
             passInDB = resultSet.getString("password");
         }
-        while (!Objects.equals(password, passInDB)){
+        while (!Objects.equals(activeUserPassword, passInDB)){
             if (attempts > 2) break;
             attempts = attempts+1;
             System.out.println("Incorrect password. Try again");
-            password = scan.nextLine();
+            activeUserPassword = scan.nextLine();
         }
 
 
-        return (passInDB.equals(password));
+        return (passInDB.equals(activeUserPassword));
     }
 
     public static void loginScreen() throws SQLException, InterruptedException {
         scan = new Scanner(System.in);
         System.out.print(StringScreens.loginScreen);
-        username = scan.nextLine().trim().toLowerCase();
+        activeUsername = scan.nextLine().trim().toLowerCase();
 
-        if (username.equalsIgnoreCase("register")){
+        if (activeUsername.equalsIgnoreCase("register")){
             createNewUser();
         }
-        else if (doesUsernameExistInDB(username)) {
-            if (checkPassword(username)){
+        else if (doesUsernameExistInDB(activeUsername)) {
+            if (checkPassword(activeUsername)){
                 PizzaGame.menu();
             }
             else {
@@ -87,22 +86,22 @@ public class LoginService {
         System.out.print(StringScreens.createNewUser);
 
         do {
-            username = scan.next().trim().toLowerCase();
-            if (doesUsernameExistInDB(username)){
+            activeUsername = scan.next().trim().toLowerCase();
+            if (doesUsernameExistInDB(activeUsername)){
                 System.out.println("User already exists, try another name.");
             }
         }
-        while (doesUsernameExistInDB(username));
+        while (doesUsernameExistInDB(activeUsername));
         System.out.print("PASSWORD: ");
 
         do {
-            password = scan.nextLine();
+            activeUserPassword = scan.nextLine();
         }
-        while (password.isEmpty());
+        while (activeUserPassword.isEmpty());
 
-        saveUsernameAndPassword(username, password);
+        saveUsernameAndPassword(activeUsername, activeUserPassword);
 
-        if (checkIfUserNameAndPassWasSaved(username, password)){
+        if (checkIfUserNameAndPassWasSaved(activeUsername, activeUserPassword)){
             wait(900);
             System.out.println("New user created and saved to the database.");
             wait(900);
