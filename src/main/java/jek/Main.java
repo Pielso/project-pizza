@@ -1,23 +1,25 @@
 package jek;
 
+import jek.accounts.LoginService;
 import jek.database.DatabaseManager;
-import java.sql.SQLException;
+import jek.game.PizzaGame;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        if (DatabaseManager.getConnection().isValid(10)){
-            System.out.println("Tja");
+        DatabaseManager.dropDatabase();
+        DatabaseManager.createDatabase();
+        DatabaseManager.insertToppingsAndIngredients();
 
-            try {
-                DatabaseManager.dropDatabase();
-                DatabaseManager.createDatabase();
-                DatabaseManager.scriptRunner("src/main/java/jek/sql-scripts/insert-basic-ingredients.sql");
-            }
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
+
+
+        boolean saveIsConfirmed = false;
+        while (!PizzaGame.exit){
+            LoginService.loginScreen();
         }
+
+
+
     }
 }

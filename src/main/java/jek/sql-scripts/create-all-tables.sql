@@ -1,13 +1,13 @@
-CREATE TABLE players (
-    player_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    player_name VARCHAR(255),
+CREATE TABLE users (
+    user_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255),
     password VARCHAR(255));
 
 CREATE TABLE recipes (
    recipe_id INTEGER PRIMARY KEY AUTO_INCREMENT,
    recipe_name VARCHAR(255),
-   player_id INTEGER,
-FOREIGN KEY (player_id) REFERENCES players(player_id));
+   user_id INTEGER,
+FOREIGN KEY (user_id) REFERENCES users(user_id));
 
 CREATE TABLE toppings (
    topping_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -42,14 +42,14 @@ CREATE TABLE raw_ingredients (
     amount_in_stock INTEGER);
 
 CREATE TABLE save_progress (
-    player_id INTEGER PRIMARY KEY,
+    user_id INTEGER PRIMARY KEY,
     cash DECIMAL,
     loan DECIMAL,
     interest_rate DECIMAL,
     customers_per_day INTEGER,
     restaurant_size INTEGER,
     days_played INTEGER,
-    FOREIGN KEY (player_id) REFERENCES players(player_id));
+    FOREIGN KEY (user_id) REFERENCES users(user_id));
 
 
 
