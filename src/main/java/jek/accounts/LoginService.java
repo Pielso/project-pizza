@@ -46,7 +46,7 @@ public class LoginService {
         Connection connection = DatabaseManager.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT password FROM users WHERE username = '" + usernameToCheck + "'; ");
-        Map<String, String> sets = new HashMap<>();
+
         if (resultSet.next()){
             passInDB = resultSet.getString("password");
         }
