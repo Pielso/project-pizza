@@ -10,9 +10,6 @@ public class Main {
         if (DatabaseManager.getConnection().isValid(10)){
             System.out.println("Tja");
 
-
-            // String insertIntoGames = "INSERT INTO games (title, min_players, max_players, rating) VALUES (?, ?, ?, ?);";
-
             try {
                 DatabaseManager.dropDatabase();
                 DatabaseManager.createDatabase();
