@@ -1,4 +1,4 @@
-DROP DATABASE certlimit;
+DROP DATABASE pizza;
 
-CREATE DATABASE certlimit;
+CREATE DATABASE pizza;
 

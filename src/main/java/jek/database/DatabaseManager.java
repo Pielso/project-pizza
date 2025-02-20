@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class DatabaseManager {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/certlimit";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/pizza";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "+?.5griFFeLt4vla";
     private static final String dropDB = "src/main/java/jek/sql-scripts/drop-and-resurrect-database.sql";

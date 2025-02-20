@@ -1,25 +1,55 @@
+CREATE TABLE players (
+    player_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    player_name VARCHAR(255),
+    password VARCHAR(255));
+
 CREATE TABLE recipes (
    recipe_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-   recipe_name VARCHAR(255));
+   recipe_name VARCHAR(255),
+   player_id INTEGER,
+FOREIGN KEY (player_id) REFERENCES players(player_id));
 
-CREATE TABLE ingredients (
-   ingredient_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-   ingredient_name VARCHAR(255),
+CREATE TABLE toppings (
+   topping_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+   topping_name VARCHAR(255),
    amount_in_stock INTEGER);
 
-CREATE TABLE recipe_ingredients (
-   recipe_ingredient_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-   ingredient_name VARCHAR(255),
-   recipe_name VARCHAR(255),
-   FOREIGN KEY (ingredient_name) REFERENCES ingredients(ingredient_name),
-   FOREIGN KEY (recipe_name) REFERENCES recipes(recipe_name));
+CREATE TABLE recipe_toppings (
+   recipe_toppings_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+   recipe_id INTEGER,
+   topping_id INTEGER,
+   FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id),
+   FOREIGN KEY (topping_id) REFERENCES toppings(topping_id));
 
 CREATE TABLE customers (
     customer_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     customer_name VARCHAR(255),
-    favorite_ingredient_1 VARCHAR(255),
-    favorite_ingredient_2 VARCHAR(255),
-    favorite_ingredient_3 VARCHAR(255));
+    desired_topping1 INTEGER,
+    desired_topping2 INTEGER,
+    desired_topping3 INTEGER,
+    FOREIGN KEY (desired_topping1) REFERENCES toppings(topping_id),
+    FOREIGN KEY (desired_topping2) REFERENCES toppings(topping_id),
+    FOREIGN KEY (desired_topping3) REFERENCES toppings(topping_id));
+
+CREATE TABLE basic_ingredients (
+    basic_ingredient_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    basic_ingredient_name VARCHAR(255),
+    amount_in_stock INTEGER);
+
+CREATE TABLE raw_ingredients (
+    raw_ingredient_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    raw_ingredient_name VARCHAR(255),
+    amount_in_stock INTEGER);
+
+CREATE TABLE save_progress (
+    player_id INTEGER PRIMARY KEY,
+    cash DECIMAL,
+    loan DECIMAL,
+    interest_rate DECIMAL,
+    customers_per_day INTEGER,
+    restaurant_size INTEGER,
+    days_played INTEGER,
+    FOREIGN KEY (player_id) REFERENCES players(player_id));
 
 
 
