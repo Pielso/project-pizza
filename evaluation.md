@@ -5,7 +5,7 @@
 > using only the tools/syntax/classes that I understood at least on surface level it worked out fine.
 
 > That included:
-> - DriverManager.getConnetion
+> - DriverManager.getConnection
 > - PreparedStatement
 > - Statement
 > - ResultSet
