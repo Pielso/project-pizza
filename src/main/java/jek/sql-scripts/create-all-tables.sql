@@ -7,7 +7,7 @@ CREATE TABLE recipes (
    recipe_id INTEGER PRIMARY KEY AUTO_INCREMENT,
    recipe_name VARCHAR(255),
    user_id INTEGER,
-FOREIGN KEY (user_id) REFERENCES users(user_id));
+   FOREIGN KEY (user_id) REFERENCES users(user_id));
 
 CREATE TABLE toppings (
    topping_id INTEGER PRIMARY KEY AUTO_INCREMENT,

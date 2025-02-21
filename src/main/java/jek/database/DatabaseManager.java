@@ -11,8 +11,10 @@ public class DatabaseManager {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/pizza";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "+?.5griFFeLt4vla";
+
     private static final String dropDB = "src/main/java/jek/sql-scripts/drop-and-resurrect-database.sql";
     private static final String createDB = "src/main/java/jek/sql-scripts/create-all-tables.sql";
+
     private static final String insertRawIngredients = "src/main/java/jek/sql-scripts/insert-raw-ingredients.sql";
     private static final String insertBasicIngredients = "src/main/java/jek/sql-scripts/insert-basic-ingredients.sql";
     private static final String insertToppings = "src/main/java/jek/sql-scripts/insert-toppings.sql";
@@ -26,7 +28,6 @@ public class DatabaseManager {
             Statement statement = connection.createStatement();
 
             String script = new String(Files.readAllBytes(Paths.get(path)));
-
             String[] sqlStatements = script.split(";");
 
             for (String query: sqlStatements){
@@ -39,6 +40,13 @@ public class DatabaseManager {
         } catch (SQLException | java.io.IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static ResultSet queryRunner(String query) throws SQLException {
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        return resultSet;
     }
 
     public static List <String> columnToList(String column, String table) throws SQLException {

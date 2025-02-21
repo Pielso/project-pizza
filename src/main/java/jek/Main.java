@@ -12,9 +12,6 @@ public class Main {
         DatabaseManager.createDatabase();
         DatabaseManager.insertToppingsAndIngredients();
 
-
-
-        boolean saveIsConfirmed = false;
         while (!PizzaGame.exit){
             LoginService.loginScreen();
         }

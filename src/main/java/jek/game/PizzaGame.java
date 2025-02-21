@@ -20,7 +20,9 @@ public class PizzaGame {
                 4: GO TO KITCHEN
                 5: GO TO THE BANK
                 6: GO TO THE NEXT DAY
-                7: SAVE & EXIT""");
+                7: LOGOUT
+                8: ACCOUNT MANAGEMENT
+                9: SAVE & EXIT""");
 
             try {
                 menuChoice = scan.nextInt();
@@ -29,15 +31,33 @@ public class PizzaGame {
             }
 
             switch (menuChoice){
-                case 1:{}
-                case 2:{}
-                case 3:{}
-                case 4:{}
-                case 5:{}
-                case 6:{}
+                case 1:{
+                    // SEE STATS BREAKDOWN & MANAGE UPGRADES
+                }
+                case 2:{
+                    // ORDER NEW INGREDIENTS/TOPPINGS
+                }
+                case 3:{
+                    // SERVE CUSTOMERS
+                }
+                case 4:{
+                    // CREATE RECIPES & PREPARE BASIC INGREDIENTS
+                }
+                case 5:{
+                    // PAY OFF LOAN, TAKE LOAN, CHANGE INTEREST?
+                }
+                case 6:{
+                    // INCREASE DAYS PLAYED, GENERATE NEW CUSTOMERS, INCREMENT LOAN BY INTEREST / 365
+                }
                 case 7:{
+                    // RETURN TO LOGINSCREEN & LOGOUT (what is logout? reset of activeUsername?)
+                }
+                case 8:{
+                    // CHANGE PASSWORD AND/OR REMOVE ACCOUNT.
+                }
+                case 9:{
 
-                    // SAVE-LOGIC
+                    // SAVE-LOGIC HERE
 
                     exit = true;
                 }

@@ -23,7 +23,7 @@ public class LoginService {
         String lastSavedPass = "";
         Connection connection = DatabaseManager.getConnection();
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM users ORDER BY user_id DESC LIMIT 1");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM users ORDER BY user_id DESC LIMIT 1;");
 
         if (resultSet.next()){
             lastSavedUser = resultSet.getString("username");
