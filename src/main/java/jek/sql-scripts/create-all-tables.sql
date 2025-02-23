@@ -41,7 +41,7 @@ CREATE TABLE raw_ingredients (
     raw_ingredient_name VARCHAR(255),
     amount_in_stock INTEGER);
 
-CREATE TABLE save_progress (
+CREATE TABLE progress (
     user_id INTEGER PRIMARY KEY,
     cash DECIMAL,
     loan DECIMAL,

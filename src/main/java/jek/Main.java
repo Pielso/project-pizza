@@ -1,22 +1,18 @@
 package jek;
 
-import jek.accounts.LoginService;
-import jek.database.DatabaseManager;
-import jek.game.PizzaGame;
+import jek.controllers.LoginController;
+import jek.services.system.DatabaseService;
+import jek.controllers.PizzaGameController;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        DatabaseManager.dropDatabase();
-        DatabaseManager.createDatabase();
-        DatabaseManager.insertToppingsAndIngredients();
+        //DatabaseService.dropDatabase();
+        //DatabaseService.createDatabase();
+        //DatabaseService.createInitialInventory();
 
-        while (!PizzaGame.exit){
-            LoginService.loginScreen();
-        }
-
-
+        LoginController.loginOrRegister();
 
     }
 }

@@ -41,6 +41,11 @@
     - Set up home page.
     - *Risky* - Further plans about 'raw-ingredients' like flour, yeast, olive oil, tomatoes, basil, garlic, and the upgrades connected to them.
 
+## Entry #2
 
+> So a lot has happened since last post. Good and bad. I decided that it was too complex for me to try and create it as a web app.
+> So console application it is! I have kind of created the Login Service. It will need heavy refactoring, but it mostly works.
+> Now I can go on with either (1) refactoring now, which is probably for the best to avoid later spaghetti.
+> or (2) start on writing what happens in each "section" like rules, office-stat-view, buying stock, prepare basic ingredients, serving customers and the recipe-creation.
 
 
