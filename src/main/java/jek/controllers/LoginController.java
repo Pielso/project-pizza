@@ -111,7 +111,7 @@ public class LoginController {
     }
 
 
-    private static boolean checkPassword(int attempts) throws SQLException {
+    private static boolean checkPassword(int attempts) {
         String passInDB = getPasswordByUsername(tempUserName);
 
         System.out.print("PASSWORD: ");
