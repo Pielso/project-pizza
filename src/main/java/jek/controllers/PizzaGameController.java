@@ -1,49 +1,45 @@
 package jek.controllers;
 
 import jek.services.ProgressService;
+import jek.services.system.TextService;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Scanner;
+
+import static jek.controllers.BankController.goToTheBank;
+import static jek.controllers.LoginController.activeProgress;
+import static jek.controllers.OfficeController.goToOffice;
+import static jek.services.ProgressService.saveProgress;
+import static jek.services.system.TextService.*;
 
 public class PizzaGameController {
 
     public static boolean exit = false;
+    private static final Scanner scan = new Scanner(System.in);
 
-    // Här behövs det hämtas all sparad data ifrån DynamoDB
 
     public static void menu() throws SQLException, InterruptedException {
         exit = false;
-        Scanner scan = new Scanner(System.in);
+
         int menuChoice = 0;
 
         while (!exit){
-            System.out.println("""
-                1: GO TO OFFICE
-                2: GO TO PANTRY
-                3: GO TO RESTAURANT
-                4: GO TO KITCHEN
-                5: GO TO THE BANK
-                6: GO TO THE NEXT DAY
-                7: RULES
-                8: LOGOUT
-                9: ACCOUNT MANAGEMENT
-                10: SAVE & EXIT""");
 
+            pizzaGameMenu();
             try {
                 menuChoice = scan.nextInt();
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 System.out.println("Not a valid choice");
+                scan.nextLine();
+
             }
 
             switch (menuChoice){
                 case 1:{
                     // SEE STATS BREAKDOWN & MANAGE UPGRADES
-                System.out.println(     "Your cash: " + ProgressService.getProgress().getCash() +
-                                        "\nYour loan: " + ProgressService.getProgress().getLoan() +
-                                        "\nYour interest rate: " + ProgressService.getProgress().getInterestRate() +
-                                        "\nYour customers per day: " + ProgressService.getProgress().getCustomersPerDay() +
-                                        "\nYour restaurant size: " + ProgressService.getProgress().getRestaurantSize() +
-                                        "\nYour days played: " + ProgressService.getProgress().getDaysPlayed());
+                    goToOffice();
                 }
                 case 2:{
                     // ORDER NEW INGREDIENTS/TOPPINGS
@@ -62,6 +58,8 @@ public class PizzaGameController {
                 }
                 case 5:{
                     // PAY OFF LOAN, TAKE LOAN, CHANGE INTEREST?
+
+                    goToTheBank();
 
                     break;
                 }

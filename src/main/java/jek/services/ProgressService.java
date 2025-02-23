@@ -13,8 +13,9 @@ import java.sql.SQLException;
 public class ProgressService {
 
     public static void saveNewProgress(int userId, BigDecimal cash, BigDecimal loan, int interestRate, int customersPerDay, int restaurantSize, int daysPlayed){
+        String query = "INSERT INTO progress (user_id, cash, loan, interest_rate, customers_per_day, restaurant_size, days_played) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection connection = DatabaseService.getConnection()){
-            String query = "INSERT INTO progress (user_id, cash, loan, interest_rate, customers_per_day, restaurant_size, days_played) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, userId);
             ps.setBigDecimal(2, cash);
@@ -25,7 +26,29 @@ public class ProgressService {
             ps.setInt(7, daysPlayed);
             ps.execute();
 
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void saveProgress(Progress progress){
+        String query = "UPDATE progress SET cash = ?, loan = ?, interest_rate = ?, customers_per_day = ?, restaurant_size = ?, days_played = ? WHERE user_id = ?;";
+
+        try (Connection connection = DatabaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+
+            ps.setBigDecimal(1, progress.getCash());
+            ps.setBigDecimal(2, progress.getLoan());
+            ps.setInt(3, progress.getInterestRate());
+            ps.setInt(4, progress.getCustomersPerDay());
+            ps.setInt(5, progress.getRestaurantSize());
+            ps.setInt(6, progress.getDaysPlayed());
+            ps.setInt(7, progress.getUserId());
+            ps.execute();
+
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -33,6 +56,7 @@ public class ProgressService {
     public static Progress loadProgressFromDatabase(int userId){
         String query = "SELECT * FROM progress WHERE user_id = ?;";
         Progress progress = null;
+
         try (Connection connection = DatabaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, userId);
@@ -46,9 +70,9 @@ public class ProgressService {
                         rs.getInt("customers_per_day"),
                         rs.getInt("restaurant_size"),
                         rs.getInt("days_played"));
-
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return progress;

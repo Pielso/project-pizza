@@ -56,7 +56,7 @@ public class LoginController {
                 User user = createAndReturnNewUser();
                 loggedInOrExited = true;
                 SaveNewUser(user);
-                saveNewProgress(getUserIdByUsername(tempUserName), new BigDecimal(10000), new BigDecimal(50000), 5, 7, 1, 0);
+                saveNewProgress(getUserIdByUsername(tempUserName), new BigDecimal(10000), new BigDecimal(50000), 10, 7, 1, 0);
                 flushTemp();
                 loginOrRegister();
             }
@@ -71,6 +71,9 @@ public class LoginController {
 
                     setActiveUserByUsername(tempUserName);
                     activeProgress = loadProgressFromDatabase(activeUser.getUserId());
+
+                    // HERE DYNAMO_DB WILL FILL ALL AMOUNT_IN_STOCK
+                    loggedInOrExited = true;
                     PizzaGameController.menu();
                 }
                 else {
@@ -93,7 +96,7 @@ public class LoginController {
                     || tempUserName.equalsIgnoreCase("register")
                     || tempUserName.isEmpty()
                     || doesUsernameExistInDB(tempUserName)) {
-                System.out.println("That name is reserved, taken or invalid and cannot be chosen. Choose something else.");
+                System.out.println("That name is empty, reserved, taken or invalid and cannot be chosen. Choose something else.");
             }
             else break;
         }

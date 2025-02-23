@@ -48,7 +48,6 @@ public class UserService {
         String query = "SELECT user_id, password FROM users WHERE username = ?;";
 
         try (Connection connection = DatabaseService.getConnection()){
-
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();

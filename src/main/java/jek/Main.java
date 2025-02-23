@@ -10,7 +10,7 @@ public class Main {
 
         //DatabaseService.dropDatabase();
         //DatabaseService.createDatabase();
-        //DatabaseService.createInitialInventory();
+        DatabaseService.createInitialInventory();
 
         LoginController.loginOrRegister();
 
