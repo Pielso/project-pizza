@@ -2,31 +2,46 @@ package jek.controllers;
 
 import jek.services.ProgressService;
 import jek.services.system.TextService;
-
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import static jek.controllers.BankController.goToTheBank;
 import static jek.controllers.LoginController.activeProgress;
-import static jek.controllers.OfficeController.goToOffice;
-import static jek.services.ProgressService.saveProgress;
-import static jek.services.system.TextService.*;
+
+
 
 public class PizzaGameController {
 
     public static boolean exit = false;
     private static final Scanner scan = new Scanner(System.in);
 
+    private TextService textService;
+    private ProgressService progressService;
+    private LoginController loginController;
+    private OfficeController officeController;
+    private PentryController pentryController;
+    private RestaurantController restaurantController;
+    private KitchenController kitchenController;
+    private BankController bankController;
 
-    public static void menu() throws SQLException, InterruptedException {
+    public PizzaGameController(TextService textService, ProgressService progressService, LoginController loginController, OfficeController officeController, PentryController pentryController, RestaurantController restaurantController, KitchenController kitchenController, BankController bankController) {
+        this.textService = textService;
+        this.progressService = progressService;
+        this.loginController = loginController;
+        this.officeController = officeController;
+        this.pentryController = pentryController;
+        this.restaurantController = restaurantController;
+        this.kitchenController = kitchenController;
+        this.bankController = bankController;
+    }
+
+    public void menu() throws SQLException, InterruptedException {
         exit = false;
 
         int menuChoice = 0;
 
         while (!exit){
 
-            pizzaGameMenu();
+            textService.pizzaGameMenu();
             try {
                 menuChoice = scan.nextInt();
             }
@@ -39,7 +54,7 @@ public class PizzaGameController {
             switch (menuChoice){
                 case 1:{
                     // SEE STATS BREAKDOWN & MANAGE UPGRADES
-                    goToOffice();
+                    officeController.goToOffice();
                 }
                 case 2:{
                     // ORDER NEW INGREDIENTS/TOPPINGS
@@ -59,7 +74,7 @@ public class PizzaGameController {
                 case 5:{
                     // PAY OFF LOAN, TAKE LOAN, CHANGE INTEREST?
 
-                    goToTheBank();
+                    bankController.goToTheBank();
 
                     break;
                 }
@@ -76,7 +91,7 @@ public class PizzaGameController {
                 case 8:{
                     // RETURN TO LOGIN-SCREEN & LOGOUT (what is logout? reset of activeUsername?)
                     exit = true;
-                    LoginController.loginOrRegister();
+                    loginController.loginOrRegister();
 
                     break;
                 }

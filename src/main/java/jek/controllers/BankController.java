@@ -1,24 +1,31 @@
 package jek.controllers;
 
+import jek.services.ProgressService;
+import jek.services.system.TextService;
+
 import java.math.BigDecimal;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static jek.controllers.LoginController.activeProgress;
-import static jek.services.ProgressService.saveProgress;
-import static jek.services.system.TextService.bankScreen;
 
 public class BankController {
-
     public static final Scanner scan = new Scanner(System.in);
+    private TextService textService;
+    private ProgressService progressService;
 
-    public static void goToTheBank(){
+    public BankController(TextService textService, ProgressService progressService) {
+        this.textService = textService;
+        this.progressService = progressService;
+    }
+
+    public void goToTheBank(){
         boolean exitFromBank = false;
         BigDecimal amount;
 
 
         do {
-            bankScreen(activeProgress.getCash(), activeProgress.getLoan(), activeProgress.getInterestRate());
+            textService.bankScreen(activeProgress.getCash(), activeProgress.getLoan(), activeProgress.getInterestRate());
             System.out.println("""
                     1: PAY OFF LOAN
                     2: INCREASE YOUR LOAN WITH $50'000 MORE (Max $100'000)
@@ -45,13 +52,13 @@ public class BankController {
                                 System.out.println("This is more than you owe, so here is your change.");
                                 activeProgress.setCash(activeProgress.getCash().subtract(activeProgress.getLoan()));
                                 activeProgress.setLoan(activeProgress.getLoan().subtract(activeProgress.getLoan()));
-                                saveProgress(activeProgress);
+                                progressService.UpdateActiveProgress(activeProgress);
                                 break;
                             }
                             else {
                                 activeProgress.setCash(activeProgress.getCash().subtract(amount));
                                 activeProgress.setLoan(activeProgress.getLoan().subtract(amount));
-                                saveProgress(activeProgress);
+                                progressService.UpdateActiveProgress(activeProgress);
                                 break;
                             }
 
@@ -73,7 +80,7 @@ public class BankController {
                         else {
                             activeProgress.setCash(activeProgress.getCash().add(BigDecimal.valueOf(50000)));
                             activeProgress.setLoan(activeProgress.getLoan().add(BigDecimal.valueOf(50000)));
-                            saveProgress(activeProgress);
+                            progressService.UpdateActiveProgress(activeProgress);
                         }
 
                         break;

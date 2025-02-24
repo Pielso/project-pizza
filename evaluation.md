@@ -49,3 +49,14 @@
 > or (2) start on writing what happens in each "section" like rules, office-stat-view, buying stock, prepare basic ingredients, serving customers and the recipe-creation.
 
 
+ENTRY 3
+
+Något om att i detta projektet har jag börjat lära mig och/eller ifrågasätta att andra arbetsmetoder. Som att varför behöver jag ett id, när jag ändå hämtar per username, samt arkitektur och så vidare.
+
+
+
+- Skapa DAO
+- Hasha passwords
+- refaktorera statics?
+- flytta CRUD till repo-layer?
+- 

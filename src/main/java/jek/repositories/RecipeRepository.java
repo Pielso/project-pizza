@@ -1,0 +1,78 @@
+package jek.repositories;
+
+import jek.models.RawIngredient;
+import jek.models.Recipe;
+import jek.services.system.DatabaseService;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class RecipeRepository {
+    private DatabaseService databaseService;
+
+    public RecipeRepository(DatabaseService databaseService) {
+        this.databaseService = databaseService;
+    }
+
+    // CREATE
+
+    public void SaveNewRecipe(Recipe newRecipe) {
+
+        String query = "INSERT INTO recipes (recipe_name, user_id) VALUES (?, ?);";
+
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, newRecipe.getRecipeName());
+            ps.setInt(2, newRecipe.getUserId());
+
+            ps.execute();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    // READ
+
+    public Recipe getRecipeById(int recipeId){
+        Recipe recipe = new Recipe();
+        String query = "SELECT recipe_id, recipe_name, user_id FROM recipes WHERE recipe_id = ?;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, recipeId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                recipe.setRecipeId(rs.getInt("recipe_id"));
+                recipe.setRecipeName(rs.getString("recipe_name"));
+                recipe.setUserId(rs.getInt("user_id"));
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return recipe;
+    }
+
+    // UPDATE
+
+    public void UpdateRecipeById(int recipeId, String recipeName, int userId){
+        String query = "UPDATE recipes SET recipe_name = ?, user_id = ? WHERE recipe_id = ?;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, recipeName);
+            ps.setInt(2, userId);
+            ps.setInt(3,recipeId);
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // DELETE
+
+
+
+}

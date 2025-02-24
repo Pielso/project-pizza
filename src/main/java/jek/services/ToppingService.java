@@ -1,12 +1,19 @@
 package jek.services;
 
 import jek.models.Topping;
+import jek.repositories.ToppingRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ToppingService {
+    ToppingRepository toppingRepository;
+
+    public ToppingService(ToppingRepository toppingRepository) {
+
+    }
+
     public static List<Topping> createInventoryOfToppings(){
         Topping ham = new Topping("Ham", 0);
         Topping mushroom = new Topping("Mushroom", 0);

@@ -22,6 +22,10 @@ public class Progress {
         this.daysPlayed = daysPlayed;
     }
 
+    public Progress(){
+
+    }
+
     public int getUserId() {
         return userId;
     }

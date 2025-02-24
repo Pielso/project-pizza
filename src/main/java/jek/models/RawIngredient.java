@@ -11,8 +11,16 @@ public class RawIngredient {
         this.amountInStock = amount_in_stock;
     }
 
+    public RawIngredient(){
+
+    }
+
     public int getRawIngredientId() {
         return rawIngredientId;
+    }
+
+    public void setRawIngredientId(int rawIngredientId) {
+        this.rawIngredientId = rawIngredientId;
     }
 
     public String getRawIngredientName() {

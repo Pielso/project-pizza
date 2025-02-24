@@ -10,8 +10,16 @@ public class Topping {
         this.amountInStock = amountInStock;
     }
 
+    public Topping() {
+
+    }
+
     public int getToppingId() {
         return toppingId;
+    }
+
+    public void setToppingId(int toppingId) {
+        this.toppingId = toppingId;
     }
 
     public String getToppingName() {

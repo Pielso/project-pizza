@@ -10,8 +10,16 @@ public class BasicIngredient {
         this.amountInStock = amountInStock;
     }
 
+    public BasicIngredient(){
+
+    }
+
     public int getBasicIngredientId() {
         return basicIngredientId;
+    }
+
+    public void setBasicIngredientId(int basicIngredientId) {
+        this.basicIngredientId = basicIngredientId;
     }
 
     public String getBasicIngredientName() {

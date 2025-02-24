@@ -1,12 +1,20 @@
 package jek.controllers;
 
-import static jek.services.system.TextService.officeStats;
+import jek.services.ProgressService;
+import jek.services.system.TextService;
 
 public class OfficeController {
+    private TextService textService;
+    private ProgressService progressService;
 
-    public static void goToOffice(){
-        officeStats();
+    public OfficeController(TextService textService, ProgressService progressService) {
+        this.textService = textService;
+        this.progressService = progressService;
+    }
 
+    public void goToOffice(){
+
+        textService.officeStats();
 
     }
 }

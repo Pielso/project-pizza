@@ -1,12 +1,18 @@
 package jek.services;
 
 import jek.models.BasicIngredient;
+import jek.repositories.BasicIngredientRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class BasicIngredientService {
+    BasicIngredientRepository basicIngredientRepository;
+
+    public BasicIngredientService(BasicIngredientRepository basicIngredientRepository) {
+
+    }
 
     public static List<BasicIngredient> createInventoryOfBasicIngredients(){
         BasicIngredient dough = new BasicIngredient("Dough", 0);

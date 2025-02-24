@@ -1,20 +1,23 @@
 package jek.services.system;
 
 import jek.services.ProgressService;
-
 import java.math.BigDecimal;
 
-import static jek.services.ProgressService.getProgress;
 
 public class TextService {
+    private ProgressService progressService;
 
-    public static void centerText(String text){
+    public TextService(ProgressService progressService) {
+        this.progressService = progressService;
+    }
+
+    public void centerText(String text){
         int consoleWidth = 200;
         int padding = (consoleWidth - text.length()) / 2;
         System.out.printf("%" + padding + "s%s%n", "", text);
     }
 
-    public static void loginScreen(){
+    public void loginScreen(){
         centerText("--------------------------------------------------------------------------< LOGIN >--------------------------------------------------------------------------");
         centerText("INPUT LOGIN CREDENTIALS TO CONTINUE PLAYING");
         centerText("IF YOU DONT HAVE AN ACCOUNT, INPUT 'REGISTER'");
@@ -22,7 +25,7 @@ public class TextService {
         centerText("");
     }
 
-    public static void createNewUserScreen(){
+    public void createNewUserScreen(){
         centerText("--------------------------------------------------------------------< CREATE NEW USER >----------------------------------------------------------------------");
         centerText("");
         centerText("CHOOSE A USERNAME & PASSWORD");
@@ -30,7 +33,7 @@ public class TextService {
         centerText("YOU CANNOT HAVE 'REGISTER' OR 'EXIT' AS A USERNAME, AND IT CANNOT BE BLANK");
     }
 
-    public static void pizzaGameMenu(){
+    public void pizzaGameMenu(){
         System.out.println("""
                 1: GO TO OFFICE
                 2: GO TO PANTRY
@@ -44,20 +47,20 @@ public class TextService {
                 10: SAVE & EXIT""");
     }
 
-    public static void officeStats(){
+    public void officeStats(){
         centerText("----------------------------------------------------------------------< WELCOME TO YOUR OFFICE >----------------------------------------------------------------------");
         centerText("");
-        centerText("Your cash: " + getProgress().getCash());
-        centerText("Your loan: " + getProgress().getLoan());
-        centerText("Your interest rate: " + getProgress().getInterestRate());
+        centerText("Your cash: " + progressService.getProgress().getCash());
+        centerText("Your loan: " + progressService.getProgress().getLoan());
+        centerText("Your interest rate: " + progressService.getProgress().getInterestRate());
         centerText("");
-        centerText("Your customers per day: " + getProgress().getCustomersPerDay());
-        centerText("Your restaurant size: " + getProgress().getRestaurantSize());
-        centerText("Your days played: " + getProgress().getDaysPlayed());
+        centerText("Your customers per day: " + progressService.getProgress().getCustomersPerDay());
+        centerText("Your restaurant size: " + progressService.getProgress().getRestaurantSize());
+        centerText("Your days played: " + progressService.getProgress().getDaysPlayed());
         centerText("");
     }
 
-    public static void bankScreen(BigDecimal cash, BigDecimal loan, int interestRate){
+    public void bankScreen(BigDecimal cash, BigDecimal loan, int interestRate){
         centerText("----------------------------------------------------------------< BANK OF CIRCULAR FOOD INVESTMENTS >----------------------------------------------------------------");
         centerText("");
         centerText("WELCOME");

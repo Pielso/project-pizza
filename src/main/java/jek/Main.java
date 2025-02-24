@@ -1,18 +1,28 @@
 package jek;
 
 import jek.controllers.LoginController;
-import jek.services.system.DatabaseService;
-import jek.controllers.PizzaGameController;
+import jek.dependecies.DependencyContainer;
+
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        //DatabaseService.dropDatabase();
-        //DatabaseService.createDatabase();
-        DatabaseService.createInitialInventory();
+        DependencyContainer dependencyContainer = new DependencyContainer();
+        LoginController loginController = dependencyContainer.getLoginController();
 
-        LoginController.loginOrRegister();
+
+        dependencyContainer.getDatabaseService().dropDatabase();
+        dependencyContainer.getDatabaseService().createDatabase();
+
+
+        try {
+            loginController.setPizzaGameController(dependencyContainer.getPizzaGameController());
+            loginController.loginOrRegister();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 }

@@ -26,11 +26,15 @@ public class DatabaseService {
     private static final String insertBasicIngredients = "src/main/java/jek/sql-scripts/insert-basic-ingredients.sql";
     private static final String insertToppings = "src/main/java/jek/sql-scripts/insert-toppings.sql";
 
-    public static Connection getConnection() throws SQLException {
+    public DatabaseService() {
+
+    }
+
+    public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
-    public static void scriptRunner(String path) {
+    public void scriptRunner(String path) {
         try (Connection connection = getConnection()){
             Statement statement = connection.createStatement();
 
@@ -49,7 +53,7 @@ public class DatabaseService {
         }
     }
 
-    public static List <String> columnToList(String column, String table) throws SQLException {
+    public List <String> columnToList(String column, String table) throws SQLException {
         String query = "SELECT " + column + " FROM " + table + " ;";
         List<String> list = new ArrayList<>();
         try (Connection connection = getConnection()){
@@ -68,21 +72,21 @@ public class DatabaseService {
         return list;
     }
 
-    public static void insertToppingsAndIngredients(){
+    public void insertToppingsAndIngredients(){
         //scriptRunner(insertRawIngredients);
         scriptRunner(insertBasicIngredients);
         scriptRunner(insertToppings);
     }
 
-    public static void dropDatabase() throws SQLException {
+    public void dropDatabase() throws SQLException {
         scriptRunner(dropDB);
     }
 
-    public static void createDatabase() throws SQLException {
+    public void createDatabase() throws SQLException {
         scriptRunner(createDB);
     }
 
-    private static void insertRawIngredients() throws SQLException{
+    private void insertRawIngredients() throws SQLException{
         try (Connection connection = getConnection()){
             for (RawIngredient ingredient: RawIngredientService.createInventoryOfRawIngredients()){
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO raw_ingredients (raw_ingredient_name, amount_in_stock) VALUES (?, ?);");
@@ -95,7 +99,7 @@ public class DatabaseService {
         }
     }
 
-    private static void insertBasicIngredients() throws SQLException{
+    private void insertBasicIngredients() throws SQLException{
         try (Connection connection = getConnection()){
             for (BasicIngredient ingredient: BasicIngredientService.createInventoryOfBasicIngredients()){
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO basic_ingredients (basic_ingredient_name, amount_in_stock) VALUES (?, ?);");
@@ -108,7 +112,7 @@ public class DatabaseService {
         }
     }
 
-    private static void insertToppings() throws SQLException{
+    private void insertToppings() throws SQLException{
         try (Connection connection = getConnection()){
             for (Topping topping: ToppingService.createInventoryOfToppings()){
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO toppings (topping_name, amount_in_stock) VALUES (?, ?);");
@@ -121,7 +125,7 @@ public class DatabaseService {
         }
     }
 
-    public static void createInitialInventory() throws SQLException {
+    public void createInitialInventory() throws SQLException {
         insertRawIngredients();
         insertBasicIngredients();
         insertToppings();

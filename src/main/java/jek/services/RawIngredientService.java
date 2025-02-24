@@ -1,12 +1,19 @@
 package jek.services;
 
 import jek.models.RawIngredient;
+import jek.repositories.RawIngredientRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class RawIngredientService {
+    RawIngredientRepository rawIngredientRepository;
+
+    public RawIngredientService(RawIngredientRepository rawIngredientRepository) {
+
+    }
+
     public static List<RawIngredient> createInventoryOfRawIngredients(){
         RawIngredient flour = new RawIngredient("Flour", 0);
         RawIngredient yeast = new RawIngredient("Yeast", 0);

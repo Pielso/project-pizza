@@ -2,6 +2,8 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/main/java/jek/controllers/LoginController.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/jek/repositories/BasicIngredientRepository.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/jek/repositories/UserRepository.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/jek/services/ProgressService.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/jek/services/UserService.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/jek/services/system/DatabaseService.java" dialect="MySQL" />
@@ -11,5 +13,6 @@
     <file url="file://$PROJECT_DIR$/src/main/java/jek/sql-scripts/insert-new-user.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/jek/sql-scripts/insert-raw-ingredients.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/jek/sql-scripts/insert-toppings.sql" dialect="MySQL" />
+    <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>
