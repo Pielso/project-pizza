@@ -39,7 +39,6 @@ public class ProgressRepository {
         }
     }
 
-
     // READ
 
     public Progress getProgressById(int userId){
