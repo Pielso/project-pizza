@@ -22,6 +22,15 @@ public class BasicIngredientService {
         }
     }
 
+    public void addCheeseAmountInStock(int basicIngredientId, int amountToAdd){
+        int before = basicIngredientRepository.getBasicIngredientAmountInStockById(basicIngredientId);
+        basicIngredientRepository.updateBasicIngredientAmountInStockById(basicIngredientId, before + amountToAdd);
+    }
+
+    public int getBasicIngredientAmountInStockById(int basicIngredientId){
+        return basicIngredientRepository.getBasicIngredientAmountInStockById(basicIngredientId);
+    }
+
     public List<BasicIngredient> allBasicIngredients(){
         BasicIngredient dough = new BasicIngredient("Dough", 0);
         BasicIngredient tomatoSauce = new BasicIngredient("Tomato Sauce", 0);

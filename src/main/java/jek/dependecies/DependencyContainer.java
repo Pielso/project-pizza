@@ -23,6 +23,7 @@ public class DependencyContainer {
         private final UserRepository userRepository;
 
         // Services
+        private final IngredientInventoryService ingredientInventoryService;
         private final BasicIngredientService basicIngredientService;
         private final RawIngredientService rawIngredientService;
         private final CustomerService customerService;
@@ -36,7 +37,7 @@ public class DependencyContainer {
         private final KitchenController kitchenController;
         private final LoginController loginController;
         private final OfficeController officeController;
-        private final PentryController pentryController;
+        private final PantryController pantryController;
         private final PizzaGameController pizzaGameController;
         private final RestaurantController restaurantController;
 
@@ -57,6 +58,7 @@ public class DependencyContainer {
             this.userRepository = new UserRepository(databaseService);
 
             // Create services that for most part only should need their own repository.
+            this.ingredientInventoryService = new IngredientInventoryService(databaseService);
             this.basicIngredientService = new BasicIngredientService(basicIngredientRepository);
             this.rawIngredientService = new RawIngredientService(rawIngredientRepository);
             this.customerService = new CustomerService(customerRepository);
@@ -64,16 +66,16 @@ public class DependencyContainer {
             this.recipeService = new RecipeService(recipeRepository);
             this.toppingService = new ToppingService(toppingRepository);
             this.userService = new UserService(userRepository);
-            this.textService = new TextService(progressService);
+            this.textService = new TextService(progressService, rawIngredientService, ingredientInventoryService, basicIngredientService, toppingService);
 
             // Skapa controllers och injicera tjänster
             this.bankController = new BankController(textService, progressService);
             this.kitchenController = new KitchenController(textService, progressService, recipeService, rawIngredientService, basicIngredientService, toppingService);
             this.officeController = new OfficeController(textService, progressService);
-            this.pentryController = new PentryController(textService, progressService, rawIngredientService, basicIngredientService, toppingService);
+            this.pantryController = new PantryController(textService, progressService, rawIngredientService, basicIngredientService, toppingService);
             this.restaurantController = new RestaurantController(textService, progressService, customerService, recipeService);
             this.loginController = new LoginController(textService, progressService, userService);
-            this.pizzaGameController = new PizzaGameController(textService, progressService, loginController, officeController, pentryController, restaurantController, kitchenController, bankController);
+            this.pizzaGameController = new PizzaGameController(textService, progressService, loginController, officeController, pantryController, restaurantController, kitchenController, bankController);
         }
 
         public DatabaseService getDatabaseService(){
@@ -100,8 +102,8 @@ public class DependencyContainer {
             return officeController;
         }
 
-        public PentryController getPentryController() {
-            return pentryController;
+        public PantryController getPentryController() {
+            return pantryController;
         }
 
         public RestaurantController getRestaurantController() {
@@ -174,5 +176,8 @@ public class DependencyContainer {
 
         public UserService getUserService() {
             return userService;
+        }
+        public IngredientInventoryService getIngredientInventoryService(){
+            return ingredientInventoryService;
         }
 }

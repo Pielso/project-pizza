@@ -18,8 +18,22 @@ public class RawIngredientService {
         for (RawIngredient rawIngredient: allRawIngredients()){
             rawIngredientRepository.SaveRawIngredient(rawIngredient);
         }
-
     }
+
+    // Read
+
+    public int getRawIngredientAmountInStockById(int rawIngredientId){
+        return rawIngredientRepository.getRawIngredientAmountInStockById(rawIngredientId);
+    }
+
+
+    // Update
+    public void addRawIngredientAmountInStock(int rawIngredientId, int amountToAdd){
+        int before = rawIngredientRepository.getRawIngredientAmountInStockById(rawIngredientId);
+        rawIngredientRepository.updateRawIngredientAmountInStockById(rawIngredientId, before + amountToAdd);
+    }
+
+
 
     public List<RawIngredient> allRawIngredients(){
         RawIngredient flour = new RawIngredient("Flour", 0);

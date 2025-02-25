@@ -54,6 +54,22 @@ public class ToppingRepository {
         return topping;
     }
 
+    public int getToppingAmountInStockById(int toppingId){
+        String query = "SELECT amount_in_stock FROM toppings WHERE topping_id = ?";
+        int amount = 0;
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, toppingId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                amount = rs.getInt("amount_in_stock");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return amount;
+    }
+
     // UPDATE
 
     public void UpdateToppingById(int toppingId, String toppingName, int amountInStock){
@@ -66,6 +82,24 @@ public class ToppingRepository {
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+
+
+
+    // UPDATE
+
+    public void updateToppingAmountInStockById(int toppingId, int amountInStock){
+        String query = "UPDATE toppings SET amount_in_stock = ? WHERE topping_id = ?;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, amountInStock);
+            ps.setInt(2, toppingId);
+            ps.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

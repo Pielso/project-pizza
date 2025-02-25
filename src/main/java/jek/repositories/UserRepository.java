@@ -36,6 +36,25 @@ public class UserRepository {
 
     // READ
 
+    public int getUserIdByUsername(String name){
+        String query = "SELECT user_id FROM users WHERE username = ?;";
+        int id = 0;
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                id = rs.getInt("user_id");
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return id;
+    }
+
+
+
     public User getUserByUsername(String name){
         User user = new User();
         String query = "SELECT user_id, username, password FROM users WHERE username = ?;";

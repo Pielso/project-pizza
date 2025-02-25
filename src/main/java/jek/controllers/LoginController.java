@@ -33,6 +33,7 @@ public class LoginController {
         this.pizzaGameController = pizzaGameController;
     }
 
+    // Login session starts.
     public void loginOrRegister() throws SQLException, InterruptedException {
         flushActiveUserAndTemp();
         textService.loginScreen();
@@ -83,7 +84,7 @@ public class LoginController {
         while (!loggedInOrExited);
     }
 
-    public void userChoosesUsername() throws SQLException {
+    private void userChoosesUsername() throws SQLException {
         while (true){
             System.out.print("CHOOSE USERNAME: ");
             tempUserName = scan.nextLine().trim();
@@ -97,7 +98,7 @@ public class LoginController {
         }
     }
 
-    public void userChoosesPassword(){
+    private void userChoosesPassword(){
         while (true) {
             System.out.print("CHOOSE PASSWORD: ");
             tempUserPassword = scan.nextLine();
@@ -109,11 +110,7 @@ public class LoginController {
         }
     }
 
-
-
-
-
-    public boolean checkPassword(int attempts) {
+    private boolean checkPassword(int attempts) {
         String passInDB = userService.getPasswordByUsername(tempUserName);
 
         System.out.print("PASSWORD: ");
@@ -128,12 +125,12 @@ public class LoginController {
         return (passInDB.equals(tempUserPassword));
     }
 
-    public void flushTemp(){
+    private void flushTemp(){
         tempUserName = "";
         tempUserPassword = "";
     }
 
-    public void flushActiveUserAndTemp(){
+    private void flushActiveUserAndTemp(){
         tempUserName = "";
         tempUserPassword = "";
         activeUser.setUserId(0);

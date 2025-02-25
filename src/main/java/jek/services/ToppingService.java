@@ -21,6 +21,15 @@ public class ToppingService {
         }
     }
 
+    public int getToppingAmountInStockById(int toppingId){
+        return toppingRepository.getToppingAmountInStockById(toppingId);
+    }
+
+    public void addToppingAmountInStock(int toppingId, int amountToAdd){
+        int before = toppingRepository.getToppingAmountInStockById(toppingId);
+        toppingRepository.updateToppingAmountInStockById(toppingId, before + amountToAdd);
+    }
+
     public List<Topping> allToppings(){
         Topping ham = new Topping("Ham", 0);
         Topping mushroom = new Topping("Mushroom", 0);
@@ -35,8 +44,10 @@ public class ToppingService {
         Topping pineapple = new Topping("Pineapple", 0);
         Topping shrimps = new Topping("Shrimps", 0);
         Topping bacon = new Topping("Bacon", 0);
-        Topping jalapenos = new Topping("Jalapeños", 0);
+        Topping jalapenos = new Topping("Jalapenos", 0);
         Topping sauce = new Topping("Sauce", 0);
         return new ArrayList<>(Arrays.asList(ham, mushroom, kebab, tuna, beef, chicken, pepperoni, olives, paprika, onion, pineapple, shrimps, bacon, jalapenos, sauce));
     }
+
+
 }

@@ -18,17 +18,17 @@ public class PizzaGameController {
     private ProgressService progressService;
     private LoginController loginController;
     private OfficeController officeController;
-    private PentryController pentryController;
+    private PantryController pantryController;
     private RestaurantController restaurantController;
     private KitchenController kitchenController;
     private BankController bankController;
 
-    public PizzaGameController(TextService textService, ProgressService progressService, LoginController loginController, OfficeController officeController, PentryController pentryController, RestaurantController restaurantController, KitchenController kitchenController, BankController bankController) {
+    public PizzaGameController(TextService textService, ProgressService progressService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController, BankController bankController) {
         this.textService = textService;
         this.progressService = progressService;
         this.loginController = loginController;
         this.officeController = officeController;
-        this.pentryController = pentryController;
+        this.pantryController = pantryController;
         this.restaurantController = restaurantController;
         this.kitchenController = kitchenController;
         this.bankController = bankController;
@@ -55,10 +55,11 @@ public class PizzaGameController {
                 case 1:{
                     // SEE STATS BREAKDOWN & MANAGE UPGRADES
                     officeController.goToOffice();
+                    break;
                 }
                 case 2:{
                     // ORDER NEW INGREDIENTS/TOPPINGS
-
+                    pantryController.goToPantry();
                     break;
                 }
                 case 3:{
@@ -74,7 +75,7 @@ public class PizzaGameController {
                 case 5:{
                     // PAY OFF LOAN, TAKE LOAN, CHANGE INTEREST?
 
-                    bankController.goToTheBank();
+                    bankController.goToBank();
 
                     break;
                 }

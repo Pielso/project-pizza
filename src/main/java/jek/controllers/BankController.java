@@ -11,15 +11,15 @@ import static jek.controllers.LoginController.activeProgress;
 
 public class BankController {
     public static final Scanner scan = new Scanner(System.in);
-    private TextService textService;
-    private ProgressService progressService;
+    private final TextService textService;
+    private final ProgressService progressService;
 
     public BankController(TextService textService, ProgressService progressService) {
         this.textService = textService;
         this.progressService = progressService;
     }
 
-    public void goToTheBank(){
+    public void goToBank(){
         boolean exitFromBank = false;
         BigDecimal amount;
 
@@ -52,13 +52,15 @@ public class BankController {
                                 System.out.println("This is more than you owe, so here is your change.");
                                 activeProgress.setCash(activeProgress.getCash().subtract(activeProgress.getLoan()));
                                 activeProgress.setLoan(activeProgress.getLoan().subtract(activeProgress.getLoan()));
-                                progressService.updateProgress(activeProgress);
+                                progressService.updateProgressCashById(activeProgress.getUserId(), activeProgress.getCash());
+                                progressService.updateProgressLoanById(activeProgress.getUserId(), activeProgress.getLoan());
                                 break;
                             }
                             else {
                                 activeProgress.setCash(activeProgress.getCash().subtract(amount));
                                 activeProgress.setLoan(activeProgress.getLoan().subtract(amount));
-                                progressService.updateProgress(activeProgress);
+                                progressService.updateProgressCashById(activeProgress.getUserId(), activeProgress.getCash());
+                                progressService.updateProgressLoanById(activeProgress.getUserId(), activeProgress.getLoan());
                                 break;
                             }
 
@@ -90,10 +92,11 @@ public class BankController {
                         exitFromBank = true;
                         break;
                     }
+                    default: System.out.println("Invalid choice. Try again.");
 
                 }
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
         while (!exitFromBank);

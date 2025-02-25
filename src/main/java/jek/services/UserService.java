@@ -1,13 +1,12 @@
 package jek.services;
+
 import jek.models.User;
 import jek.repositories.UserRepository;
-
 import java.sql.SQLException;
-
 import static jek.controllers.LoginController.*;
 
 public class UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -20,16 +19,13 @@ public class UserService {
     }
 
     public void setActiveUserByUsername(String name){
-
         User user = userRepository.getUserByUsername(name);
         activeUser.setUserId(user.getUserId());
         activeUser.setUsername(user.getUsername());
         activeUser.setPassword(user.getPassword());
-
     }
 
     public int createUserAndReturnId(String username, String password) throws SQLException {
-
         userRepository.createUserByString(username, password);
         return userRepository.getUserByUsername(username).getUserId();
     }

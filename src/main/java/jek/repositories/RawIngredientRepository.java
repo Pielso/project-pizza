@@ -18,7 +18,6 @@ public class RawIngredientRepository {
     // CREATE
 
     public void SaveRawIngredient(RawIngredient newRawIngredient) {
-
         String query = "INSERT INTO raw_ingredients (raw_ingredient_name, amount_in_stock) VALUES (?, ?);";
 
         try (Connection connection = databaseService.getConnection()){
@@ -29,7 +28,7 @@ public class RawIngredientRepository {
             ps.execute();
         }
         catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
     }
@@ -51,24 +50,40 @@ public class RawIngredientRepository {
             }
         }
         catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return rawIngredient;
+    }
+
+    public int getRawIngredientAmountInStockById(int rawIngredientId){
+        String query = "SELECT amount_in_stock FROM pizza.raw_ingredients WHERE raw_ingredient_id = ?";
+        int amount = 0;
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, rawIngredientId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                amount = rs.getInt("amount_in_stock");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return amount;
     }
 
 
     // UPDATE
 
-    public void UpdateRawIngredientById(int rawIngredientId, String rawIngredientName, int amountInStock){
-        String query = "UPDATE raw_ingredients SET raw_ingredient_name = ?, amount_in_stock = ? WHERE raw_ingredient_id = ?;";
+    public void updateRawIngredientAmountInStockById(int rawIngredientId, int amountInStock){
+        String query = "UPDATE raw_ingredients SET raw_ingredients.amount_in_stock = ? WHERE raw_ingredient_id = ?;";
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, rawIngredientName);
-            ps.setInt(2, amountInStock);
-            ps.setInt(3, rawIngredientId);
+            ps.setInt(1, amountInStock);
+            ps.setInt(2, rawIngredientId);
+            ps.execute();
         }
         catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 

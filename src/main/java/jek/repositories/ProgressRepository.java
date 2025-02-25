@@ -2,7 +2,6 @@ package jek.repositories;
 
 import jek.models.Progress;
 import jek.services.system.DatabaseService;
-import software.amazon.awssdk.services.dynamodb.endpoints.internal.Value;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -19,7 +18,7 @@ public class ProgressRepository {
 
     // CREATE
 
-    public void createNewProgress(int userId, BigDecimal cash, BigDecimal loan, int interestRate, int customersPerDay, int restaurantSize, int daysPlayed) {
+    public void createProgress(int userId, BigDecimal cash, BigDecimal loan, int interestRate, int customersPerDay, int restaurantSize, int daysPlayed) {
 
         String query = "INSERT INTO progress (user_id, cash, loan, interest_rate, customers_per_day, restaurant_size, days_played) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
@@ -66,8 +65,6 @@ public class ProgressRepository {
 
     // UPDATE
 
-
-
     public void updateProgressCashById(int userId, BigDecimal cash) throws SQLException {
         String query = "UPDATE progress SET cash = ? WHERE user_id = ?;";
         try (Connection connection = databaseService.getConnection()) {
@@ -78,11 +75,12 @@ public class ProgressRepository {
         }
     }
 
-    public void updateProgressLoanById(int id, BigDecimal loan) throws SQLException {
-        String query = "UPDATE progress SET loan = ?;";
+    public void updateProgressLoanById(int userId, BigDecimal loan) throws SQLException {
+        String query = "UPDATE progress SET loan = ? WHERE user_id = ?;";
         try (Connection connection = databaseService.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setBigDecimal(1, loan);
+            ps.setInt(2, userId);
             ps.execute();
         }
     }

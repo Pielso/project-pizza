@@ -15,7 +15,7 @@ public class ProgressService {
     }
 
     public void createProgress(int userId){
-        progressRepository.createNewProgress(userId, new BigDecimal(10000), new BigDecimal(50000), 10, 7, 1, 0);
+        progressRepository.createProgress(userId, new BigDecimal(10000), new BigDecimal(50000), 10, 7, 1, 0);
     }
 
     public void updateProgress(Progress progress){
