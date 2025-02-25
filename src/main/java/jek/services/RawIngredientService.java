@@ -2,19 +2,26 @@ package jek.services;
 
 import jek.models.RawIngredient;
 import jek.repositories.RawIngredientRepository;
-
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class RawIngredientService {
-    RawIngredientRepository rawIngredientRepository;
+    private final RawIngredientRepository rawIngredientRepository;
 
     public RawIngredientService(RawIngredientRepository rawIngredientRepository) {
+        this.rawIngredientRepository = rawIngredientRepository;
+    }
+
+    public void createAllRawIngredients() throws SQLException {
+        for (RawIngredient rawIngredient: allRawIngredients()){
+            rawIngredientRepository.SaveRawIngredient(rawIngredient);
+        }
 
     }
 
-    public static List<RawIngredient> createInventoryOfRawIngredients(){
+    public List<RawIngredient> allRawIngredients(){
         RawIngredient flour = new RawIngredient("Flour", 0);
         RawIngredient yeast = new RawIngredient("Yeast", 0);
         RawIngredient oliveOil = new RawIngredient("Olive Oil", 0);

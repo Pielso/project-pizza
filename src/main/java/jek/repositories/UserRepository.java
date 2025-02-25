@@ -1,9 +1,7 @@
 package jek.repositories;
 
-import jek.models.RawIngredient;
 import jek.models.User;
 import jek.services.system.DatabaseService;
-import software.amazon.awssdk.services.dynamodb.endpoints.internal.Value;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,14 +18,14 @@ public class UserRepository {
 
     // CREATE
 
-    public void SaveNewUser(User newUser) {
+    public void createUserByString(String username, String password) {
 
         String query = "INSERT INTO users (username, password) VALUES (?, ?);";
 
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, newUser.getUsername());
-            ps.setString(2, newUser.getPassword());
+            ps.setString(1, username);
+            ps.setString(2, password);
 
             ps.execute();
         }

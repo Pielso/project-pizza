@@ -52,13 +52,13 @@ public class BankController {
                                 System.out.println("This is more than you owe, so here is your change.");
                                 activeProgress.setCash(activeProgress.getCash().subtract(activeProgress.getLoan()));
                                 activeProgress.setLoan(activeProgress.getLoan().subtract(activeProgress.getLoan()));
-                                progressService.UpdateActiveProgress(activeProgress);
+                                progressService.updateProgress(activeProgress);
                                 break;
                             }
                             else {
                                 activeProgress.setCash(activeProgress.getCash().subtract(amount));
                                 activeProgress.setLoan(activeProgress.getLoan().subtract(amount));
-                                progressService.UpdateActiveProgress(activeProgress);
+                                progressService.updateProgress(activeProgress);
                                 break;
                             }
 
@@ -80,7 +80,8 @@ public class BankController {
                         else {
                             activeProgress.setCash(activeProgress.getCash().add(BigDecimal.valueOf(50000)));
                             activeProgress.setLoan(activeProgress.getLoan().add(BigDecimal.valueOf(50000)));
-                            progressService.UpdateActiveProgress(activeProgress);
+                            progressService.updateProgressCashById(activeProgress.getUserId(), activeProgress.getCash());
+                            progressService.updateProgress(activeProgress);
                         }
 
                         break;

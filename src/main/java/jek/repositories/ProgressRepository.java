@@ -1,8 +1,8 @@
 package jek.repositories;
 
-import jek.models.Customer;
 import jek.models.Progress;
 import jek.services.system.DatabaseService;
+import software.amazon.awssdk.services.dynamodb.endpoints.internal.Value;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -19,7 +19,7 @@ public class ProgressRepository {
 
     // CREATE
 
-    public void SaveNewProgress(int userId, BigDecimal cash, BigDecimal loan, int interestRate, int customersPerDay, int restaurantSize, int daysPlayed) {
+    public void createNewProgress(int userId, BigDecimal cash, BigDecimal loan, int interestRate, int customersPerDay, int restaurantSize, int daysPlayed) {
 
         String query = "INSERT INTO progress (user_id, cash, loan, interest_rate, customers_per_day, restaurant_size, days_played) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
@@ -66,7 +66,67 @@ public class ProgressRepository {
 
     // UPDATE
 
-    public void UpdateProgressById(int userId, BigDecimal cash, BigDecimal loan, int interestRate, int customersPerDay, int restaurantSize, int daysPlayed){
+
+
+    public void updateProgressCashById(int userId, BigDecimal cash) throws SQLException {
+        String query = "UPDATE progress SET cash = ? WHERE user_id = ?;";
+        try (Connection connection = databaseService.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setBigDecimal(1, cash);
+            ps.setInt(2, userId);
+            ps.execute();
+        }
+    }
+
+    public void updateProgressLoanById(int id, BigDecimal loan) throws SQLException {
+        String query = "UPDATE progress SET loan = ?;";
+        try (Connection connection = databaseService.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setBigDecimal(1, loan);
+            ps.execute();
+        }
+    }
+
+    public void updateProgressInterestRateById(int id, int interestRate) throws SQLException {
+        String query = "UPDATE progress SET interest_rate = ?;";
+        try (Connection connection = databaseService.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, interestRate);
+            ps.execute();
+        }
+    }
+
+    public void updateProgressCustomersPerDayById(int id, int customersPerDay) throws SQLException {
+        String query = "UPDATE progress SET customers_per_day = ?;";
+        try (Connection connection = databaseService.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, customersPerDay);
+            ps.execute();
+        }
+    }
+
+    public void updateProgressRestaurantSizeById(int id, int restaurantSize) throws SQLException {
+        String query = "UPDATE progress SET restaurant_size = ?;";
+        try (Connection connection = databaseService.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, restaurantSize);
+            ps.execute();
+        }
+    }
+
+    public void updateProgressDaysPlayedById(int id, int daysPlayed) throws SQLException {
+        String query = "UPDATE progress SET days_played = ?;";
+        try (Connection connection = databaseService.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, daysPlayed);
+            ps.execute();
+        }
+    }
+
+
+
+
+    public void updateProgressById(int userId, BigDecimal cash, BigDecimal loan, int interestRate, int customersPerDay, int restaurantSize, int daysPlayed){
         String query = "UPDATE progress SET cash = ?, loan = ?, interest_rate = ?, customers_per_day = ?, restaurant_size = ?, days_played = ? WHERE user_id = ?;";
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
@@ -77,6 +137,7 @@ public class ProgressRepository {
             ps.setInt(5, restaurantSize);
             ps.setInt(6, daysPlayed);
             ps.setInt(7, userId);
+            ps.execute();
         }
         catch (SQLException e) {
             throw new RuntimeException(e);

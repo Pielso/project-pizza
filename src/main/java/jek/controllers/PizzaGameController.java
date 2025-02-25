@@ -90,6 +90,7 @@ public class PizzaGameController {
                 }
                 case 8:{
                     // RETURN TO LOGIN-SCREEN & LOGOUT (what is logout? reset of activeUsername?)
+                    progressService.updateProgress(activeProgress);
                     exit = true;
                     loginController.loginOrRegister();
 

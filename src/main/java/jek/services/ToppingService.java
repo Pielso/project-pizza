@@ -3,18 +3,25 @@ package jek.services;
 import jek.models.Topping;
 import jek.repositories.ToppingRepository;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ToppingService {
-    ToppingRepository toppingRepository;
+    private final ToppingRepository toppingRepository;
 
     public ToppingService(ToppingRepository toppingRepository) {
-
+        this.toppingRepository = toppingRepository;
     }
 
-    public static List<Topping> createInventoryOfToppings(){
+    public void createAllToppings() throws SQLException {
+        for (Topping topping: allToppings()){
+            toppingRepository.SaveTopping(topping);
+        }
+    }
+
+    public List<Topping> allToppings(){
         Topping ham = new Topping("Ham", 0);
         Topping mushroom = new Topping("Mushroom", 0);
         Topping kebab = new Topping("Kebab", 0);

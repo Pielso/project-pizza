@@ -7,6 +7,7 @@ import jek.services.system.*;
 
 public class DependencyContainer {
 
+        // System Services
         private final DatabaseService databaseService;
         private final DynamoDBService dynamoDBService;
         private final SaveAndLoadService saveAndLoadService;
@@ -41,13 +42,12 @@ public class DependencyContainer {
 
         public DependencyContainer() {
 
-            // Skapa systemtjänster
+            // Create System Services
             this.databaseService = new DatabaseService();
             this.dynamoDBService = new DynamoDBService();
             this.saveAndLoadService = new SaveAndLoadService();
 
-
-            // Skapa repositories (de behöver bara DatabaseService)
+            // Create repositories, which should only need DatabaseService
             this.basicIngredientRepository = new BasicIngredientRepository(databaseService);
             this.rawIngredientRepository = new RawIngredientRepository(databaseService);
             this.customerRepository = new CustomerRepository(databaseService);
@@ -56,8 +56,7 @@ public class DependencyContainer {
             this.toppingRepository = new ToppingRepository(databaseService);
             this.userRepository = new UserRepository(databaseService);
 
-
-            // Skapa services och injicera repositories
+            // Create services that for most part only should need their own repository.
             this.basicIngredientService = new BasicIngredientService(basicIngredientRepository);
             this.rawIngredientService = new RawIngredientService(rawIngredientRepository);
             this.customerService = new CustomerService(customerRepository);

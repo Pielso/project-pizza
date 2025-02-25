@@ -1,7 +1,5 @@
 package jek.repositories;
 
-import jek.models.RawIngredient;
-import jek.models.Recipe;
 import jek.models.Topping;
 import jek.services.system.DatabaseService;
 
@@ -19,7 +17,7 @@ public class ToppingRepository {
 
     // CREATE
 
-    public void SaveNewTopping(Topping newTopping) {
+    public void SaveTopping(Topping newTopping) {
 
         String query = "INSERT INTO toppings (topping_name, amount_in_stock) VALUES (?, ?);";
 

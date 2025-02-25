@@ -1,10 +1,8 @@
 package jek.repositories;
 
-import jek.models.Progress;
 import jek.models.RawIngredient;
 import jek.services.system.DatabaseService;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +17,7 @@ public class RawIngredientRepository {
 
     // CREATE
 
-    public void SaveNewRawIngredient(RawIngredient newRawIngredient) {
+    public void SaveRawIngredient(RawIngredient newRawIngredient) {
 
         String query = "INSERT INTO raw_ingredients (raw_ingredient_name, amount_in_stock) VALUES (?, ?);";
 
@@ -33,6 +31,7 @@ public class RawIngredientRepository {
         catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
     }
 
 

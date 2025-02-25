@@ -1,7 +1,6 @@
 package jek.repositories;
 
 import jek.models.BasicIngredient;
-import jek.models.User;
 import jek.services.system.DatabaseService;
 
 import java.sql.Connection;
@@ -18,7 +17,7 @@ public class BasicIngredientRepository {
 
     // CREATE
 
-    public void SaveNewBasicIngredient(BasicIngredient newBasicIngredient) {
+    public void SaveBasicIngredient(BasicIngredient newBasicIngredient) {
 
         String query = "INSERT INTO basic_ingredients (basic_ingredient_name, amount_in_stock) VALUES (?, ?);";
 

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 
 public class TextService {
-    private ProgressService progressService;
+    private final ProgressService progressService;
 
     public TextService(ProgressService progressService) {
         this.progressService = progressService;
@@ -57,6 +57,20 @@ public class TextService {
         centerText("Your customers per day: " + progressService.getProgress().getCustomersPerDay());
         centerText("Your restaurant size: " + progressService.getProgress().getRestaurantSize());
         centerText("Your days played: " + progressService.getProgress().getDaysPlayed());
+        centerText("");
+    }
+
+    public void pentryScreen(){
+        centerText("----------------------------------------------------------------< YOUR PENTRY FOOD INVESTMENTS >----------------------------------------------------------------");
+        centerText("");
+        centerText("WELCOME");
+        centerText("YOUR CURRENT STATUS IS:");
+        centerText("");
+        centerText("CASH: $" + cash);
+        centerText("LOAN: $" + loan);
+        centerText("INTEREST RATE: " + interestRate + "%");
+        centerText("");
+        centerText("WHAT CAN WE HELP YOU WITH TODAY?");
         centerText("");
     }
 

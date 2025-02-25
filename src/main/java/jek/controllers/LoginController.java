@@ -4,12 +4,9 @@ import jek.models.Progress;
 import jek.models.User;
 import jek.services.ProgressService;
 import jek.services.UserService;
-import jek.services.system.DatabaseService;
 import jek.services.system.TextService;
 
-import java.math.BigDecimal;
 import java.sql.*;
-import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -17,14 +14,13 @@ public class LoginController {
 
     public static Progress activeProgress;
     public static User activeUser = new User();
-    private static String tempUserName;
-    private static String tempUserPassword;
+    public static String tempUserName;
+    public static String tempUserPassword;
     private static final Scanner scan = new Scanner(System.in);
-    private static boolean loggedInOrExited = false;
 
-    private TextService textService;
-    private ProgressService progressService;
-    private UserService userService;
+    private final TextService textService;
+    private final ProgressService progressService;
+    private final UserService userService;
     private PizzaGameController pizzaGameController; // Set by workaround in Main due to circular dependency w/ LoginController
 
     public LoginController(TextService textService, ProgressService progressService, UserService userService) {
@@ -37,13 +33,10 @@ public class LoginController {
         this.pizzaGameController = pizzaGameController;
     }
 
-
-
-
     public void loginOrRegister() throws SQLException, InterruptedException {
         flushActiveUserAndTemp();
         textService.loginScreen();
-        loggedInOrExited = false;
+        boolean loggedInOrExited = false;
 
         do {
             System.out.print("USERNAME: ");
@@ -56,10 +49,11 @@ public class LoginController {
 
             else if (tempUserName.equalsIgnoreCase("register")){
                 flushTemp();
-                User user = createAndReturnNewUser();
+                textService.createNewUserScreen();
+                userChoosesUsername();
+                userChoosesPassword();
                 loggedInOrExited = true;
-                userService.SaveNewUser(user);
-                progressService.saveNewProgress(userService.getUserIdByUsername(tempUserName));
+                progressService.createProgress(userService.createUserAndReturnId(tempUserName, tempUserPassword));
                 flushTemp();
                 loginOrRegister();
             }
@@ -89,9 +83,7 @@ public class LoginController {
         while (!loggedInOrExited);
     }
 
-    public User createAndReturnNewUser() throws SQLException {
-        textService.createNewUserScreen();
-
+    public void userChoosesUsername() throws SQLException {
         while (true){
             System.out.print("CHOOSE USERNAME: ");
             tempUserName = scan.nextLine().trim();
@@ -103,7 +95,9 @@ public class LoginController {
             }
             else break;
         }
+    }
 
+    public void userChoosesPassword(){
         while (true) {
             System.out.print("CHOOSE PASSWORD: ");
             tempUserPassword = scan.nextLine();
@@ -113,8 +107,10 @@ public class LoginController {
             }
             else break;
         }
-        return new User(tempUserName, tempUserPassword);
     }
+
+
+
 
 
     public boolean checkPassword(int attempts) {

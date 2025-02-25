@@ -3,12 +3,8 @@ package jek.services;
 import jek.controllers.LoginController;
 import jek.models.Progress;
 import jek.repositories.ProgressRepository;
-import jek.services.system.DatabaseService;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProgressService {
@@ -18,12 +14,12 @@ public class ProgressService {
         this.progressRepository = progressRepository;
     }
 
-    public void saveNewProgress(int userId){
-        progressRepository.SaveNewProgress(userId, new BigDecimal(10000), new BigDecimal(50000), 10, 7, 1, 0);
+    public void createProgress(int userId){
+        progressRepository.createNewProgress(userId, new BigDecimal(10000), new BigDecimal(50000), 10, 7, 1, 0);
     }
 
-    public void UpdateActiveProgress(Progress progress){
-        progressRepository.UpdateProgressById(progress.getUserId(), progress.getCash(), progress.getLoan(), progress.getInterestRate(), progress.getCustomersPerDay(), progress.getRestaurantSize(), progress.getDaysPlayed());
+    public void updateProgress(Progress progress){
+        progressRepository.updateProgressById(progress.getUserId(), progress.getCash(), progress.getLoan(), progress.getInterestRate(), progress.getCustomersPerDay(), progress.getRestaurantSize(), progress.getDaysPlayed());
     }
 
     public Progress getProgressById(int userId){
@@ -33,4 +29,30 @@ public class ProgressService {
     public Progress getProgress(){
         return LoginController.activeProgress;
     }
+
+    public void updateProgressCashById(int userId, BigDecimal cash) throws SQLException {
+        progressRepository.updateProgressCashById(userId, cash);
+    }
+
+    public void updateProgressLoanById(int userId, BigDecimal loan) throws SQLException {
+        progressRepository.updateProgressLoanById(userId, loan);
+    }
+
+    public void updateProgressInterestRateById(int userId, int interestRate) throws SQLException {
+        progressRepository.updateProgressInterestRateById(userId, interestRate);
+    }
+
+    public void updateProgressCustomersPerDayById(int userId, int customersPerDay) throws SQLException {
+        progressRepository.updateProgressCustomersPerDayById(userId, customersPerDay);
+    }
+
+    public void updateProgressRestaurantSizeById(int userId, int restaurantSize) throws SQLException {
+        progressRepository.updateProgressRestaurantSizeById(userId, restaurantSize);
+    }
+
+    public void updateProgressDaysPlayedById(int userId, int daysPlayed) throws SQLException {
+        progressRepository.updateProgressDaysPlayedById(userId, daysPlayed);
+    }
+
+
 }

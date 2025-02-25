@@ -1,8 +1,5 @@
 package jek.services.system;
 
-import jek.models.BasicIngredient;
-import jek.models.RawIngredient;
-import jek.models.Topping;
 import jek.services.BasicIngredientService;
 import jek.services.RawIngredientService;
 import jek.services.ToppingService;
@@ -18,13 +15,8 @@ public class DatabaseService {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/pizza";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "+?.5griFFeLt4vla";
-
     private static final String dropDB = "src/main/java/jek/sql-scripts/drop-and-resurrect-database.sql";
     private static final String createDB = "src/main/java/jek/sql-scripts/create-all-tables.sql";
-
-    //private static final String insertRawIngredients = scriptParser("src/main/java/jek/sql-scripts/insert-raw-ingredients.sql");
-    private static final String insertBasicIngredients = "src/main/java/jek/sql-scripts/insert-basic-ingredients.sql";
-    private static final String insertToppings = "src/main/java/jek/sql-scripts/insert-toppings.sql";
 
     public DatabaseService() {
 
@@ -66,16 +58,7 @@ public class DatabaseService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-
         return list;
-    }
-
-    public void insertToppingsAndIngredients(){
-        //scriptRunner(insertRawIngredients);
-        scriptRunner(insertBasicIngredients);
-        scriptRunner(insertToppings);
     }
 
     public void dropDatabase() throws SQLException {
@@ -86,48 +69,9 @@ public class DatabaseService {
         scriptRunner(createDB);
     }
 
-    private void insertRawIngredients() throws SQLException{
-        try (Connection connection = getConnection()){
-            for (RawIngredient ingredient: RawIngredientService.createInventoryOfRawIngredients()){
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO raw_ingredients (raw_ingredient_name, amount_in_stock) VALUES (?, ?);");
-                preparedStatement.setString(1, ingredient.getRawIngredientName());
-                preparedStatement.setInt(2, 0);
-                preparedStatement.execute();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void insertBasicIngredients() throws SQLException{
-        try (Connection connection = getConnection()){
-            for (BasicIngredient ingredient: BasicIngredientService.createInventoryOfBasicIngredients()){
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO basic_ingredients (basic_ingredient_name, amount_in_stock) VALUES (?, ?);");
-                preparedStatement.setString(1, ingredient.getBasicIngredientName());
-                preparedStatement.setInt(2, 0);
-                preparedStatement.execute();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void insertToppings() throws SQLException{
-        try (Connection connection = getConnection()){
-            for (Topping topping: ToppingService.createInventoryOfToppings()){
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO toppings (topping_name, amount_in_stock) VALUES (?, ?);");
-                preparedStatement.setString(1, topping.getToppingName());
-                preparedStatement.setInt(2, 0);
-                preparedStatement.execute();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void createInitialInventory() throws SQLException {
-        insertRawIngredients();
-        insertBasicIngredients();
-        insertToppings();
+    public void createInventory(RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService) throws SQLException {
+        toppingService.createAllToppings();
+        basicIngredientService.createAllBasicIngredients();
+        rawIngredientService.createAllRawIngredients();
     }
 }
