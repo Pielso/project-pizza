@@ -14,16 +14,16 @@ public class PizzaGameController {
     public static boolean exit = false;
     private static final Scanner scan = new Scanner(System.in);
 
-    private TextService textService;
-    private ProgressService progressService;
-    private LoginController loginController;
-    private OfficeController officeController;
-    private PantryController pantryController;
+    private final TextService textService;
+    private final ProgressService progressService;
+    private final LoginController loginController;
+    private final OfficeController officeController;
+    private final PantryController pantryController;
     private RestaurantController restaurantController;
     private KitchenController kitchenController;
-    private BankController bankController;
+    private final BankController bankController;
 
-    public PizzaGameController(TextService textService, ProgressService progressService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController, BankController bankController) {
+    public PizzaGameController(TextService textService, ProgressService progressService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController,  BankController bankController) {
         this.textService = textService;
         this.progressService = progressService;
         this.loginController = loginController;
@@ -43,7 +43,7 @@ public class PizzaGameController {
 
             textService.pizzaGameMenu();
             try {
-                menuChoice = scan.nextInt();
+                menuChoice = Integer.parseInt(scan.nextLine());
             }
             catch (Exception e) {
                 System.out.println("Not a valid choice");
@@ -69,7 +69,7 @@ public class PizzaGameController {
                 }
                 case 4:{
                     // CREATE RECIPES & PREPARE BASIC INGREDIENTS
-
+                    kitchenController.goToKitchen();
                     break;
                 }
                 case 5:{

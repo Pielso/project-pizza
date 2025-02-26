@@ -17,8 +17,12 @@ public class ToppingService {
 
     public void createAllToppings() throws SQLException {
         for (Topping topping: allToppings()){
-            toppingRepository.SaveTopping(topping);
+            toppingRepository.createTopping(topping);
         }
+    }
+
+    public Topping getToppingById(int toppingId){
+        return toppingRepository.getToppingById(toppingId);
     }
 
     public int getToppingAmountInStockById(int toppingId){

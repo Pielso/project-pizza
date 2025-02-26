@@ -1,22 +1,128 @@
 package jek.controllers;
 
+import jek.models.Recipe;
+import jek.models.RecipeTopping;
+import jek.models.Topping;
 import jek.services.*;
 import jek.services.system.TextService;
 
-public class KitchenController {
-    private TextService textService;
-    private ProgressService progressService;
-    private RecipeService recipeService;
-    private RawIngredientService rawIngredientService;
-    private BasicIngredientService basicIngredientService;
-    private ToppingService toppingService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-    public KitchenController(TextService textService, ProgressService progressService, RecipeService recipeService, RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService) {
+import static jek.controllers.LoginController.activeUser;
+
+public class KitchenController {
+    private final Scanner scan = new Scanner(System.in);
+    private final TextService textService;
+    private ProgressService progressService;
+    private final RecipeService recipeService;
+    private final RawIngredientService rawIngredientService;
+    private BasicIngredientService basicIngredientService;
+    private final ToppingService toppingService;
+    private final RecipeToppingService recipeToppingService;
+
+    public KitchenController(TextService textService, ProgressService progressService, RecipeService recipeService, RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService, RecipeToppingService recipeToppingService) {
         this.textService = textService;
         this.progressService = progressService;
         this.recipeService = recipeService;
         this.rawIngredientService = rawIngredientService;
         this.basicIngredientService = basicIngredientService;
         this.toppingService = toppingService;
+        this.recipeToppingService = recipeToppingService;
+    }
+
+    public void goToKitchen() {
+        boolean exitFromKitchen = false;
+
+        do {
+            textService.kitchenScreen();
+            System.out.println("1: CREATE A NEW RECIPE");
+            System.out.println("2: PREPARE DOUGH");
+            System.out.println("3: PREPARE TOMATO SAUCE");
+            System.out.println("4: EXIT FROM KITCHEN");
+
+            int menuChoice = Integer.parseInt(scan.nextLine());
+            try {
+                switch (menuChoice) {
+                    case 1: {
+                        createRecipe();
+                        break;
+                    }
+                    case 2: {
+                        //prepareDough();
+                        break;
+                    }
+                    case 3: {
+                        //prepareTomatoSauce();
+                        break;
+                    }
+                    case 4: {
+                        exitFromKitchen = true;
+                        break;
+                    }
+                    default: System.out.println("Invalid choice. Try again.");
+                }
+            } catch (Exception e) {
+                System.out.println("An error occurred: " + e.getMessage());
+            }
+        } while (!exitFromKitchen);
+    }
+
+    private void createRecipe() {
+        List <Integer> chosenToppings = new ArrayList<>();
+        System.out.println("Enter recipe name: ");
+        String recipeName = scan.nextLine();
+
+        while (true) {
+
+            displayAvailableToppings();
+            System.out.println("Which topping would you like to add to the recipe? (enter ID).\nTo exit without saving the recipe, input '0'. \nWhen you are done with the recipe, input any number above 15");
+            int toppingId = Integer.parseInt(scan.nextLine());
+            if (toppingId == 0) break;
+            if (toppingId > 0 && toppingId < 16) {
+                chosenToppings.add(toppingId);
+            }
+            if (toppingId > 15){
+                if (chosenToppings.isEmpty()) break;
+                else {
+                    Recipe recipe = new Recipe(recipeName, activeUser.getUserId());
+                    recipeService.createRecipe(recipe);
+                    System.out.println("Recipe created successfully!");
+                    for (Integer topping: chosenToppings){
+                        RecipeTopping recipeTopping = new RecipeTopping(recipeService.getRecipeByName(recipeName).getRecipeId(), topping);
+                        recipeToppingService.createRecipeTopping(recipeTopping);
+                    }
+                }
+            }
+        }
+    }
+
+//    private void prepareDough() {
+//        if (rawIngredientService.hasEnoughIngredients(activeProgress.getUserId(), "flour", 1, "yeast", 1, "olive oil", 1)) {
+//            rawIngredientService.subtractIngredients(activeProgress.getUserId(), "flour", 1, "yeast", 1, "olive oil", 1);
+//            System.out.println("Dough prepared successfully!");
+//        } else {
+//            System.out.println("Not enough ingredients to prepare dough.");
+//        }
+//    }
+//
+//    private void prepareTomatoSauce() {
+//        if (rawIngredientService.hasEnoughIngredients(activeProgress.getUserId(), "tomatoes", 1, "basil", 1, "garlic", 1, "olive oil", 1)) {
+//            rawIngredientService.subtractIngredients(activeProgress.getUserId(), "tomatoes", 1, "basil", 1, "garlic", 1, "olive oil", 1);
+//            System.out.println("Tomato sauce prepared successfully!");
+//        } else {
+//            System.out.println("Not enough ingredients to prepare tomato sauce.");
+//        }
+//    }
+
+    private void displayAvailableToppings(){
+        List <Topping> allToppings = toppingService.allToppings();
+
+        for (Topping topping: allToppings){
+            System.out.println("ID: " + topping.getToppingId() + " - " + topping.getToppingName());
+        }
     }
 }
+
+

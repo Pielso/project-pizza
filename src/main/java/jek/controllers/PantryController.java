@@ -12,11 +12,11 @@ import java.util.Scanner;
 import static jek.controllers.LoginController.activeProgress;
 
 public class PantryController {
-    private TextService textService;
-    private ProgressService progressService;
-    private RawIngredientService rawIngredientService;
-    private BasicIngredientService basicIngredientService;
-    private ToppingService toppingService;
+    private final TextService textService;
+    private final ProgressService progressService;
+    private final RawIngredientService rawIngredientService;
+    private final BasicIngredientService basicIngredientService;
+    private final ToppingService toppingService;
     private final Scanner scan = new Scanner(System.in);
 
     public PantryController(TextService textService, ProgressService progressService, RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService) {
@@ -38,7 +38,7 @@ public class PantryController {
             System.out.println("3: BUY MORE TOPPINGS");
             System.out.println("4: EXIT FROM PANTRY");
 
-            int menuChoice = scan.nextInt();
+            int menuChoice = Integer.parseInt(scan.nextLine());
             try {
                 switch (menuChoice) {
                     case 1: {
@@ -55,6 +55,7 @@ public class PantryController {
                     }
                     case 4: {
                         exitFromPantry = true;
+                        break;
                     }
                     default: System.out.println("Invalid choice. Try again.");
                 }
@@ -65,71 +66,62 @@ public class PantryController {
     }
 
     private void buyRawIngredients() {
-        System.out.println("\nHow many of each do you want to buy? (COST = $0.2 per unit) - To exit back to menu, input '0'");
-        int quantity;
-        quantity = scan.nextInt();
-        scan.nextLine();
-        BigDecimal costPerUnit = BigDecimal.valueOf(0.2);
-        BigDecimal costOfPurchase = BigDecimal.valueOf(quantity);
-        costOfPurchase = costOfPurchase.multiply(costPerUnit);
-        costOfPurchase = costOfPurchase.multiply(BigDecimal.valueOf(6));
-
-        if (BigDecimal.valueOf(quantity).equals(BigDecimal.valueOf(0))) {
-            return;
-        }
-        if (activeProgress.getCash().compareTo(costOfPurchase) < 0) {
-            System.out.println("Not enough money.");
-        }
-        else {
-            activeProgress.setCash(activeProgress.getCash().subtract(costOfPurchase));
-            progressService.updateProgress(activeProgress);
+        int quantity = getAmountToBuyFromUser("raw ingredients", BigDecimal.valueOf(0.2));
+        boolean paid = handlePurchase(BigDecimal.valueOf(quantity), BigDecimal.valueOf(0.2), BigDecimal.valueOf(6));
+        if (paid){
             addStockOfRawIngredients(quantity);
         }
     }
 
     private void buyToppings() {
-        System.out.println("\nHow many of each do you want to buy? (COST = $2 per unit) - To exit back to menu, input '0'");
-        int quantity;
-        quantity = scan.nextInt();
-        scan.nextLine();
-        BigDecimal costPerUnit = BigDecimal.valueOf(2);
-        BigDecimal costOfPurchase = BigDecimal.valueOf(quantity);
-        costOfPurchase = costOfPurchase.multiply(costPerUnit);
-        costOfPurchase = costOfPurchase.multiply(BigDecimal.valueOf(15));
-
-        if (BigDecimal.valueOf(quantity).equals(BigDecimal.valueOf(0))) {
-            return;
-        }
-        if (activeProgress.getCash().compareTo(costOfPurchase) < 0) {
-            System.out.println("Not enough money.");
-        }
-        else {
-            activeProgress.setCash(activeProgress.getCash().subtract(costOfPurchase));
-            progressService.updateProgress(activeProgress);
+        int quantity = getAmountToBuyFromUser("toppings", BigDecimal.valueOf(2));
+        boolean paid = handlePurchase(BigDecimal.valueOf(quantity), BigDecimal.valueOf(2), BigDecimal.valueOf(15));
+        if (paid){
             addStockOfToppings(quantity);
         }
     }
 
     private void buyCheese() {
-        System.out.println("\nHow many units of cheese do you want to buy? (COST = $0.5 per unit) - To exit back to menu, input '0'");
-        int quantity;
-        quantity = scan.nextInt();
-        scan.nextLine();
-        BigDecimal costPerUnit = BigDecimal.valueOf(0.5);
-        BigDecimal costOfPurchase = BigDecimal.valueOf(quantity);
-        costOfPurchase = costOfPurchase.multiply(costPerUnit);
+        int quantity = getAmountToBuyFromUser("cheese", BigDecimal.valueOf(0.5));
+        boolean paid = handlePurchase(BigDecimal.valueOf(quantity), BigDecimal.valueOf(0.5), BigDecimal.valueOf(1));
+        if (paid) {
+            addStockOfCheese(quantity);
+        }
+    }
 
-        if (BigDecimal.valueOf(quantity).equals(BigDecimal.valueOf(0))) {
-            return;
+    private Boolean handlePurchase(BigDecimal quantity, BigDecimal costPerUnit, BigDecimal numberOfItems){
+        BigDecimal costOfPurchase = costPerUnit.multiply(quantity).multiply(numberOfItems);
+        if (quantity.equals(BigDecimal.valueOf(0))) {
+            return false;
         }
         if (activeProgress.getCash().compareTo(costOfPurchase) < 0) {
             System.out.println("Not enough money.");
+            return false;
         }
         else {
             activeProgress.setCash(activeProgress.getCash().subtract(costOfPurchase));
             progressService.updateProgress(activeProgress);
-            addStockOfCheese(quantity);
+            return true;
         }
+
+    }
+
+    private int getAmountToBuyFromUser(String typeOfIngredient, BigDecimal costPerUnit){
+        int quantity;
+        while (true){
+            try {
+                System.out.println("\nHow many units of "+ typeOfIngredient + " do you want to buy? (COST = $" + costPerUnit + " per unit) - To exit back to menu, input '0'");
+                quantity = Integer.parseInt(scan.nextLine());
+                if (quantity < 0){
+                    System.out.println("You cannot un-buy stock.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Try again");
+            }
+        }
+        return quantity;
     }
 
     private void addStockOfRawIngredients(int quantity) {

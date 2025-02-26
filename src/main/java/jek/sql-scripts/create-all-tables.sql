@@ -14,7 +14,7 @@ CREATE TABLE toppings (
    topping_name VARCHAR(255),
    amount_in_stock INTEGER);
 
-CREATE TABLE recipe_toppings (
+CREATE TABLE recipe_topping (
    recipe_toppings_id INTEGER PRIMARY KEY AUTO_INCREMENT,
    recipe_id INTEGER,
    topping_id INTEGER,

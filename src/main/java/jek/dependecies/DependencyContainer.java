@@ -21,6 +21,7 @@ public class DependencyContainer {
         private final RecipeRepository recipeRepository;
         private final ToppingRepository toppingRepository;
         private final UserRepository userRepository;
+        private final RecipeToppingRepository recipeToppingRepository;
 
         // Services
         private final IngredientInventoryService ingredientInventoryService;
@@ -31,6 +32,7 @@ public class DependencyContainer {
         private final RecipeService recipeService;
         private final ToppingService toppingService;
         private final UserService userService;
+        private final RecipeToppingService recipeToppingService;
 
         // Controllers
         private final BankController bankController;
@@ -56,8 +58,10 @@ public class DependencyContainer {
             this.recipeRepository = new RecipeRepository(databaseService);
             this.toppingRepository = new ToppingRepository(databaseService);
             this.userRepository = new UserRepository(databaseService);
+            this.recipeToppingRepository = new RecipeToppingRepository(databaseService);
 
             // Create services that for most part only should need their own repository.
+            this.recipeToppingService = new RecipeToppingService(recipeToppingRepository);
             this.ingredientInventoryService = new IngredientInventoryService(databaseService);
             this.basicIngredientService = new BasicIngredientService(basicIngredientRepository);
             this.rawIngredientService = new RawIngredientService(rawIngredientRepository);
@@ -70,7 +74,7 @@ public class DependencyContainer {
 
             // Skapa controllers och injicera tjänster
             this.bankController = new BankController(textService, progressService);
-            this.kitchenController = new KitchenController(textService, progressService, recipeService, rawIngredientService, basicIngredientService, toppingService);
+            this.kitchenController = new KitchenController(textService, progressService, recipeService, rawIngredientService, basicIngredientService, toppingService, recipeToppingService);
             this.officeController = new OfficeController(textService, progressService);
             this.pantryController = new PantryController(textService, progressService, rawIngredientService, basicIngredientService, toppingService);
             this.restaurantController = new RestaurantController(textService, progressService, customerService, recipeService);

@@ -18,6 +18,8 @@ public class UserRepository {
 
     // CREATE
 
+    /// Refactor this to be object .
+
     public void createUserByString(String username, String password) {
 
         String query = "INSERT INTO users (username, password) VALUES (?, ?);";

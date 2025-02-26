@@ -17,7 +17,7 @@ public class ToppingRepository {
 
     // CREATE
 
-    public void SaveTopping(Topping newTopping) {
+    public void createTopping(Topping newTopping) {
 
         String query = "INSERT INTO toppings (topping_name, amount_in_stock) VALUES (?, ?);";
 
@@ -25,7 +25,6 @@ public class ToppingRepository {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, newTopping.getToppingName());
             ps.setInt(2, newTopping.getAmountInStock());
-
             ps.execute();
         }
         catch (SQLException e) {

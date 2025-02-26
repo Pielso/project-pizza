@@ -1,6 +1,5 @@
 package jek.repositories;
 
-import jek.models.RawIngredient;
 import jek.models.Recipe;
 import jek.services.system.DatabaseService;
 
@@ -18,7 +17,7 @@ public class RecipeRepository {
 
     // CREATE
 
-    public void SaveNewRecipe(Recipe newRecipe) {
+    public void createRecipe(Recipe newRecipe) {
 
         String query = "INSERT INTO recipes (recipe_name, user_id) VALUES (?, ?);";
 
@@ -43,6 +42,25 @@ public class RecipeRepository {
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, recipeId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                recipe.setRecipeId(rs.getInt("recipe_id"));
+                recipe.setRecipeName(rs.getString("recipe_name"));
+                recipe.setUserId(rs.getInt("user_id"));
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return recipe;
+    }
+
+    public Recipe getRecipeByName(String name){
+        Recipe recipe = new Recipe();
+        String query = "SELECT recipe_id, recipe_name, user_id FROM recipes WHERE recipe_name = ?;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
                 recipe.setRecipeId(rs.getInt("recipe_id"));

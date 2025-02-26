@@ -10,7 +10,7 @@ import java.util.Scanner;
 import static jek.controllers.LoginController.activeProgress;
 
 public class BankController {
-    public static final Scanner scan = new Scanner(System.in);
+    public final Scanner scan = new Scanner(System.in);
     private final TextService textService;
     private final ProgressService progressService;
 

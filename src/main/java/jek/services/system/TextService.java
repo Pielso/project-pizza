@@ -5,8 +5,6 @@ import jek.services.*;
 
 import java.math.BigDecimal;
 
-
-
 public class TextService {
     private final ProgressService progressService;
     private final RawIngredientService rawIngredientService;
@@ -139,8 +137,14 @@ public class TextService {
         centerText("");
     }
 
-
-
+    public void kitchenScreen() {
+        centerText("----------------------------------------------------------------< WELCOME TO YOUR KITCHEN >----------------------------------------------------------------");
+        centerText("");
+        centerText("HERE, YOU CAN CREATE RECIPES AND/OR PREPARE YOUR BASIC INGREDIENTS");
+        centerText("");
+        centerText("WHAT DO YOU WANT TO DO TODAY?");
+        centerText("");
+    }
 }
 
 
