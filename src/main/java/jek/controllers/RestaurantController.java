@@ -17,4 +17,26 @@ public class RestaurantController {
         this.customerService = customerService;
         this.recipeService = recipeService;
     }
+
+    public void goToRestaurant(){
+
+        while (true){
+
+            // SHOW USER ALL CUSTOMERS FOR TODAY, AND THEIR desired_toppings.
+
+            // SERVE CUSTOMER - WHICH CUSTOMER? - WHICH RECIPE? - HAS ENOUGH INGREDIENTS?
+
+            // SUBTRACT INGREDIENTS WHERE (SQL-JOIN)
+
+            // GET PAID (BASE PRICE $6 AND +2, +5, +9 FOR MATCHED desired_toppings).
+
+            // ADD TO PROGRESS, SAVE.
+
+            // DELETE CUSTOMER
+
+            // SAVE
+
+        }
+    }
+
 }

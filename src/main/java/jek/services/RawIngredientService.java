@@ -14,26 +14,23 @@ public class RawIngredientService {
         this.rawIngredientRepository = rawIngredientRepository;
     }
 
-    public void createAllRawIngredients() throws SQLException {
+    // Create
+    public void createAllRawIngredients() {
         for (RawIngredient rawIngredient: allRawIngredients()){
             rawIngredientRepository.createRawIngredient(rawIngredient);
         }
     }
 
     // Read
-
     public int getRawIngredientAmountInStockById(int rawIngredientId){
         return rawIngredientRepository.getRawIngredientAmountInStockById(rawIngredientId);
     }
-
 
     // Update
     public void addRawIngredientAmountInStock(int rawIngredientId, int amountToAdd){
         int before = rawIngredientRepository.getRawIngredientAmountInStockById(rawIngredientId);
         rawIngredientRepository.updateRawIngredientAmountInStockById(rawIngredientId, before + amountToAdd);
     }
-
-
 
     public List<RawIngredient> allRawIngredients(){
         RawIngredient flour = new RawIngredient("Flour", 0);
@@ -56,14 +53,13 @@ public class RawIngredientService {
     }
 
     public boolean hasEnoughIngredientsTomatoSauce() {
-        return (getRawIngredientAmountInStockById(3) > 9 && getRawIngredientAmountInStockById(4) > 9 && getRawIngredientAmountInStockById(5) > 9 && getRawIngredientAmountInStockById(6) > 9);
+        return (getRawIngredientAmountInStockById(4) > 9 && getRawIngredientAmountInStockById(5) > 9 && getRawIngredientAmountInStockById(6) > 9);
     }
 
     public void subtractIngredientsForTomatoSauce() {
-        rawIngredientRepository.updateRawIngredientAmountInStockById(1, getRawIngredientAmountInStockById(3)-10);
-        rawIngredientRepository.updateRawIngredientAmountInStockById(2, getRawIngredientAmountInStockById(4)-10);
-        rawIngredientRepository.updateRawIngredientAmountInStockById(3, getRawIngredientAmountInStockById(5)-10);
-        rawIngredientRepository.updateRawIngredientAmountInStockById(3, getRawIngredientAmountInStockById(6)-10);
+        rawIngredientRepository.updateRawIngredientAmountInStockById(4, getRawIngredientAmountInStockById(4)-10);
+        rawIngredientRepository.updateRawIngredientAmountInStockById(5, getRawIngredientAmountInStockById(5)-10);
+        rawIngredientRepository.updateRawIngredientAmountInStockById(6, getRawIngredientAmountInStockById(6)-10);
     }
 }
 

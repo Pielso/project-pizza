@@ -84,7 +84,7 @@ public class PantryController {
         int quantity = getAmountToBuyFromUser("cheese", BigDecimal.valueOf(0.5));
         boolean paid = handlePurchase(BigDecimal.valueOf(quantity), BigDecimal.valueOf(0.5), BigDecimal.valueOf(1));
         if (paid) {
-            addStockOfCheese(quantity);
+            basicIngredientService.addCheese(quantity);
         }
     }
 
@@ -102,7 +102,6 @@ public class PantryController {
             progressService.updateProgressCashById(progressService.getProgress().getUserId(), progressService.getProgress().getCash());
             return true;
         }
-
     }
 
     private int getAmountToBuyFromUser(String typeOfIngredient, BigDecimal costPerUnit){
@@ -134,10 +133,4 @@ public class PantryController {
             toppingService.addToppingAmountInStock(i, quantity);
         }
     }
-
-    private void addStockOfCheese(int quantity) {
-        basicIngredientService.addCheeseAmountInStock(3, quantity);
-
-    }
-
 }

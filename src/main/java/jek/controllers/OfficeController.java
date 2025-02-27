@@ -4,8 +4,8 @@ import jek.services.ProgressService;
 import jek.services.system.TextService;
 
 public class OfficeController {
-    private TextService textService;
-    private ProgressService progressService;
+    private final TextService textService;
+    private final ProgressService progressService;
 
     public OfficeController(TextService textService, ProgressService progressService) {
         this.textService = textService;
@@ -13,7 +13,6 @@ public class OfficeController {
     }
 
     public void goToOffice(){
-
         textService.officeStats();
 
     }

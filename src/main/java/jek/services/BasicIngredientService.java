@@ -15,17 +15,14 @@ public class BasicIngredientService {
         this.basicIngredientRepository = basicIngredientRepository;
     }
 
-    public void createAllBasicIngredients() throws SQLException {
+    public void createAllBasicIngredients() {
 
         for (BasicIngredient basicIngredient: allBasicIngredients()){
-            basicIngredientRepository.SaveBasicIngredient(basicIngredient);
+            basicIngredientRepository.createBasicIngredient(basicIngredient);
         }
     }
 
-    public void addCheeseAmountInStock(int basicIngredientId, int amountToAdd){
-        int before = basicIngredientRepository.getBasicIngredientAmountInStockById(basicIngredientId);
-        basicIngredientRepository.updateBasicIngredientAmountInStockById(basicIngredientId, before + amountToAdd);
-    }
+
 
     public int getBasicIngredientAmountInStockById(int basicIngredientId){
         return basicIngredientRepository.getBasicIngredientAmountInStockById(basicIngredientId);
@@ -39,8 +36,14 @@ public class BasicIngredientService {
     }
 
     public void addDough() {
-        basicIngredientRepository.updateBasicIngredientAmountInStockById(1, 10);
-        basicIngredientRepository.updateBasicIngredientAmountInStockById(2, 10);
-        basicIngredientRepository.updateBasicIngredientAmountInStockById(3, 10);
+        basicIngredientRepository.updateBasicIngredientAmountInStockById(1, getBasicIngredientAmountInStockById(1)+10);
+    }
+
+    public void addTomatoSauce() {
+        basicIngredientRepository.updateBasicIngredientAmountInStockById(2, getBasicIngredientAmountInStockById(2)+10);
+    }
+
+    public void addCheese(int amountToAdd){
+        basicIngredientRepository.updateBasicIngredientAmountInStockById(3, getBasicIngredientAmountInStockById(3)+amountToAdd);
     }
 }

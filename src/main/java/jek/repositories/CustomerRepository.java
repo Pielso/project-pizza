@@ -34,7 +34,6 @@ public class CustomerRepository {
         }
     }
 
-
     // READ
 
     public Customer getCustomerById(int customerId){
@@ -60,7 +59,7 @@ public class CustomerRepository {
 
     // UPDATE
 
-    public void UpdateCustomerById(int customerId, String customerName, int desiredTopping1, int desiredTopping2, int desiredTopping3){
+    public void updateCustomerById(int customerId, String customerName, int desiredTopping1, int desiredTopping2, int desiredTopping3){
         String query = "UPDATE customers SET customer_name = ?, desired_topping1 = ?, desired_topping2 = ?, desired_topping3 = ? WHERE customer_id = ?;";
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);

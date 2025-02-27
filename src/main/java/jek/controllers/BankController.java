@@ -21,7 +21,6 @@ public class BankController {
         boolean exitFromBank = false;
         BigDecimal amount;
 
-
         do {
             textService.bankScreen(progressService.getProgress().getCash(), progressService.getProgress().getLoan(), progressService.getProgress().getInterestRate());
             System.out.println("""
@@ -63,6 +62,7 @@ public class BankController {
                             }
 
                         }
+
                         // Denna funkar inte
                         catch (InputMismatchException e) {
                             System.out.println("Not a valid sum");
@@ -71,8 +71,7 @@ public class BankController {
                     }
                     case 2: {
 
-                        // INGEN FELHANTERING ALLS!!!
-
+                        // INGEN FELHANTERING ALLS!
                         if (progressService.getProgress().getLoan().compareTo(BigDecimal.valueOf(50000)) > 0){
                             System.out.println("Your loan need to be less than $50'000 for this to be approved.");
                             break;
@@ -83,7 +82,6 @@ public class BankController {
                             progressService.updateProgressCashById(progressService.getProgress().getUserId(), progressService.getProgress().getCash());
                             progressService.updateProgressLoanById(progressService.getProgress().getUserId(), progressService.getProgress().getLoan());
                         }
-
                         break;
                     }
                     case 3: {
@@ -98,6 +96,5 @@ public class BankController {
             }
         }
         while (!exitFromBank);
-
     }
 }

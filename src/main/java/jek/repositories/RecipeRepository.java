@@ -33,7 +33,6 @@ public class RecipeRepository {
         }
     }
 
-
     // READ
 
     public Recipe getRecipeById(int recipeId){
@@ -76,7 +75,7 @@ public class RecipeRepository {
 
     // UPDATE
 
-    public void UpdateRecipeById(int recipeId, String recipeName, int userId){
+    public void updateRecipeById(int recipeId, String recipeName, int userId){
         String query = "UPDATE recipes SET recipe_name = ?, user_id = ? WHERE recipe_id = ?;";
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);

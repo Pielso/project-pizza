@@ -17,7 +17,7 @@ public class BasicIngredientRepository {
 
     // CREATE
 
-    public void SaveBasicIngredient(BasicIngredient newBasicIngredient) {
+    public void createBasicIngredient(BasicIngredient newBasicIngredient) {
 
         String query = "INSERT INTO basic_ingredients (basic_ingredient_name, amount_in_stock) VALUES (?, ?);";
 

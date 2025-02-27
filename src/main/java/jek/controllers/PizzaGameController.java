@@ -5,10 +5,6 @@ import jek.services.system.TextService;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import static jek.controllers.LoginController.activeProgress;
-
-
-
 public class PizzaGameController {
 
     public static boolean exit = false;
@@ -74,9 +70,7 @@ public class PizzaGameController {
                 }
                 case 5:{
                     // PAY OFF LOAN, TAKE LOAN, CHANGE INTEREST?
-
                     bankController.goToBank();
-
                     break;
                 }
                 case 6:{
@@ -93,7 +87,6 @@ public class PizzaGameController {
                     // RETURN TO LOGIN-SCREEN & LOGOUT (what is logout? reset of activeUsername?)
                     exit = true;
                     loginController.loginOrRegister();
-
                     break;
                 }
                 case 9:{
@@ -102,10 +95,9 @@ public class PizzaGameController {
                     break;
                 }
                 case 10:{
+                    // SAVE AMOUNT_IN_STOCK LOGIC TO DYNAMODB HERE
 
-                    // SAVE-LOGIC HERE
-
-                    // CONFIRM-SAVE-LOGIC HERE
+                    // CONFIRM-SAVE-LOGIC HERE?
 
                     exit = true;
                     break;

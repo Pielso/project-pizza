@@ -15,10 +15,10 @@ import static jek.controllers.LoginController.activeUser;
 public class KitchenController {
     private final Scanner scan = new Scanner(System.in);
     private final TextService textService;
-    private ProgressService progressService;
+    private final ProgressService progressService;
     private final RecipeService recipeService;
     private final RawIngredientService rawIngredientService;
-    private BasicIngredientService basicIngredientService;
+    private final BasicIngredientService basicIngredientService;
     private final ToppingService toppingService;
     private final RecipeToppingService recipeToppingService;
 
@@ -39,7 +39,7 @@ public class KitchenController {
             textService.kitchenScreen();
             System.out.println("1: CREATE A NEW RECIPE");
             System.out.println("2: PREPARE 10 DOUGH");
-            System.out.println("3: PREPARE TOMATO SAUCE");
+            System.out.println("3: PREPARE 10 TOMATO SAUCE");
             System.out.println("4: EXIT FROM KITCHEN");
 
             int menuChoice = Integer.parseInt(scan.nextLine());
@@ -112,6 +112,7 @@ public class KitchenController {
     private void prepareTomatoSauce() {
         if (rawIngredientService.hasEnoughIngredientsTomatoSauce()) {
             rawIngredientService.subtractIngredientsForTomatoSauce();
+            basicIngredientService.addTomatoSauce();
             System.out.println("Tomato sauce prepared successfully!");
         } else {
             System.out.println("Not enough ingredients to prepare tomato sauce.");

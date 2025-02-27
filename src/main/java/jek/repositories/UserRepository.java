@@ -98,7 +98,7 @@ public class UserRepository {
 
     // UPDATE
 
-    public void UpdateUserById(int userId, String name, String password){
+    public void updateUserById(int userId, String name, String password){
         String query = "UPDATE users SET username = ?, password = ? WHERE user_id = ?;";
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
