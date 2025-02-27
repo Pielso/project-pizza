@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RecipeRepository {
-    private DatabaseService databaseService;
+    private final DatabaseService databaseService;
 
     public RecipeRepository(DatabaseService databaseService) {
         this.databaseService = databaseService;

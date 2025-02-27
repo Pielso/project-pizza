@@ -6,6 +6,7 @@ import jek.services.ProgressService;
 import jek.services.UserService;
 import jek.services.system.TextService;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.Objects;
 import java.util.Scanner;
@@ -54,7 +55,7 @@ public class LoginController {
                 userChoosesUsername();
                 userChoosesPassword();
                 loggedInOrExited = true;
-                progressService.createProgress(userService.createUserAndReturnId(tempUserName, tempUserPassword));
+                progressService.createProgress(new Progress(userService.createUserAndReturnId(new User(tempUserName, tempUserPassword))));
                 flushTemp();
                 loginOrRegister();
             }

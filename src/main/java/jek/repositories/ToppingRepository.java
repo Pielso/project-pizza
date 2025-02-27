@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ToppingRepository {
-    private DatabaseService databaseService;
+    private final DatabaseService databaseService;
 
     public ToppingRepository(DatabaseService databaseService) {
         this.databaseService = databaseService;
@@ -68,24 +68,6 @@ public class ToppingRepository {
         }
         return amount;
     }
-
-    // UPDATE
-
-    public void UpdateToppingById(int toppingId, String toppingName, int amountInStock){
-        String query = "UPDATE toppings SET topping_name = ?, amount_in_stock = ? WHERE topping_id = ?;";
-        try (Connection connection = databaseService.getConnection()){
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, toppingName);
-            ps.setInt(2, amountInStock);
-            ps.setInt(3,toppingId);
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-
 
     // UPDATE
 

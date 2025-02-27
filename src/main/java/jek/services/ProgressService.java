@@ -8,18 +8,14 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 
 public class ProgressService {
-    ProgressRepository progressRepository;
+    private final ProgressRepository progressRepository;
 
     public ProgressService(ProgressRepository progressRepository) {
         this.progressRepository = progressRepository;
     }
 
-    public void createProgress(int userId){
-        progressRepository.createProgress(userId, new BigDecimal(10000), new BigDecimal(50000), 10, 7, 1, 0);
-    }
-
-    public void updateProgress(Progress progress){
-        progressRepository.updateProgressById(progress.getUserId(), progress.getCash(), progress.getLoan(), progress.getInterestRate(), progress.getCustomersPerDay(), progress.getRestaurantSize(), progress.getDaysPlayed());
+    public void createProgress(Progress newProgress){
+        progressRepository.createProgress(newProgress);
     }
 
     public Progress getProgressById(int userId){

@@ -19,8 +19,8 @@ public class PizzaGameController {
     private final LoginController loginController;
     private final OfficeController officeController;
     private final PantryController pantryController;
-    private RestaurantController restaurantController;
-    private KitchenController kitchenController;
+    private final RestaurantController restaurantController;
+    private final KitchenController kitchenController;
     private final BankController bankController;
 
     public PizzaGameController(TextService textService, ProgressService progressService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController,  BankController bankController) {
@@ -91,7 +91,6 @@ public class PizzaGameController {
                 }
                 case 8:{
                     // RETURN TO LOGIN-SCREEN & LOGOUT (what is logout? reset of activeUsername?)
-                    progressService.updateProgress(activeProgress);
                     exit = true;
                     loginController.loginOrRegister();
 

@@ -7,9 +7,8 @@ import jek.services.ToppingService;
 import jek.services.system.TextService;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.Scanner;
-
-import static jek.controllers.LoginController.activeProgress;
 
 public class PantryController {
     private final TextService textService;
@@ -65,7 +64,7 @@ public class PantryController {
         } while (!exitFromPantry);
     }
 
-    private void buyRawIngredients() {
+    private void buyRawIngredients() throws SQLException {
         int quantity = getAmountToBuyFromUser("raw ingredients", BigDecimal.valueOf(0.2));
         boolean paid = handlePurchase(BigDecimal.valueOf(quantity), BigDecimal.valueOf(0.2), BigDecimal.valueOf(6));
         if (paid){
@@ -73,7 +72,7 @@ public class PantryController {
         }
     }
 
-    private void buyToppings() {
+    private void buyToppings() throws SQLException {
         int quantity = getAmountToBuyFromUser("toppings", BigDecimal.valueOf(2));
         boolean paid = handlePurchase(BigDecimal.valueOf(quantity), BigDecimal.valueOf(2), BigDecimal.valueOf(15));
         if (paid){
@@ -81,7 +80,7 @@ public class PantryController {
         }
     }
 
-    private void buyCheese() {
+    private void buyCheese() throws SQLException {
         int quantity = getAmountToBuyFromUser("cheese", BigDecimal.valueOf(0.5));
         boolean paid = handlePurchase(BigDecimal.valueOf(quantity), BigDecimal.valueOf(0.5), BigDecimal.valueOf(1));
         if (paid) {
@@ -89,18 +88,18 @@ public class PantryController {
         }
     }
 
-    private Boolean handlePurchase(BigDecimal quantity, BigDecimal costPerUnit, BigDecimal numberOfItems){
+    private Boolean handlePurchase(BigDecimal quantity, BigDecimal costPerUnit, BigDecimal numberOfItems) throws SQLException {
         BigDecimal costOfPurchase = costPerUnit.multiply(quantity).multiply(numberOfItems);
         if (quantity.equals(BigDecimal.valueOf(0))) {
             return false;
         }
-        if (activeProgress.getCash().compareTo(costOfPurchase) < 0) {
+        if (progressService.getProgress().getCash().compareTo(costOfPurchase) < 0) {
             System.out.println("Not enough money.");
             return false;
         }
         else {
-            activeProgress.setCash(activeProgress.getCash().subtract(costOfPurchase));
-            progressService.updateProgress(activeProgress);
+            progressService.getProgress().setCash(progressService.getProgress().getCash().subtract(costOfPurchase));
+            progressService.updateProgressCashById(progressService.getProgress().getUserId(), progressService.getProgress().getCash());
             return true;
         }
 

@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RawIngredientRepository {
-    private DatabaseService databaseService;
+    private final DatabaseService databaseService;
 
     public RawIngredientRepository(DatabaseService databaseService) {
         this.databaseService = databaseService;
@@ -17,7 +17,7 @@ public class RawIngredientRepository {
 
     // CREATE
 
-    public void SaveRawIngredient(RawIngredient newRawIngredient) {
+    public void createRawIngredient(RawIngredient newRawIngredient) {
         String query = "INSERT INTO raw_ingredients (raw_ingredient_name, amount_in_stock) VALUES (?, ?);";
 
         try (Connection connection = databaseService.getConnection()){
@@ -70,7 +70,6 @@ public class RawIngredientRepository {
         }
         return amount;
     }
-
 
     // UPDATE
 

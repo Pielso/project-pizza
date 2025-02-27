@@ -6,10 +6,10 @@ import jek.services.RecipeService;
 import jek.services.system.TextService;
 
 public class RestaurantController {
-    private TextService textService;
-    private ProgressService progressService;
-    private CustomerService customerService;
-    private RecipeService recipeService;
+    private final TextService textService;
+    private final ProgressService progressService;
+    private final CustomerService customerService;
+    private final RecipeService recipeService;
 
     public RestaurantController(TextService textService, ProgressService progressService, CustomerService customerService, RecipeService recipeService) {
         this.textService = textService;

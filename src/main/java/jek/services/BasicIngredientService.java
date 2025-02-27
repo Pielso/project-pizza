@@ -37,4 +37,10 @@ public class BasicIngredientService {
         BasicIngredient cheese = new BasicIngredient("Cheese", 0);
         return new ArrayList<>(Arrays.asList(dough, tomatoSauce, cheese));
     }
+
+    public void addDough() {
+        basicIngredientRepository.updateBasicIngredientAmountInStockById(1, 10);
+        basicIngredientRepository.updateBasicIngredientAmountInStockById(2, 10);
+        basicIngredientRepository.updateBasicIngredientAmountInStockById(3, 10);
+    }
 }

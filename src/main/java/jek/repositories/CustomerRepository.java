@@ -1,6 +1,5 @@
 package jek.repositories;
 
-import jek.models.BasicIngredient;
 import jek.models.Customer;
 import jek.services.system.DatabaseService;
 
@@ -10,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CustomerRepository {
-    private DatabaseService databaseService;
+    private final DatabaseService databaseService;
 
     public CustomerRepository(DatabaseService databaseService) {
         this.databaseService = databaseService;
@@ -18,7 +17,7 @@ public class CustomerRepository {
 
     // CREATE
 
-    public void SaveNewCustomer(Customer newCustomer) {
+    public void createCustomer(Customer newCustomer) {
 
         String query = "INSERT INTO customers (customer_name, desired_topping1, desired_topping2, desired_topping3) VALUES (?, ?, ?, ?);";
 

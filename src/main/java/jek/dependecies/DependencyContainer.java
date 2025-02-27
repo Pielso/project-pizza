@@ -13,7 +13,7 @@ public class DependencyContainer {
         private final SaveAndLoadService saveAndLoadService;
         private final TextService textService;
 
-        // Repositories
+        // Repository
         private final BasicIngredientRepository basicIngredientRepository;
         private final RawIngredientRepository rawIngredientRepository;
         private final CustomerRepository customerRepository;
@@ -23,8 +23,7 @@ public class DependencyContainer {
         private final UserRepository userRepository;
         private final RecipeToppingRepository recipeToppingRepository;
 
-        // Services
-        private final IngredientInventoryService ingredientInventoryService;
+        // Service
         private final BasicIngredientService basicIngredientService;
         private final RawIngredientService rawIngredientService;
         private final CustomerService customerService;
@@ -62,7 +61,6 @@ public class DependencyContainer {
 
             // Create services that for most part only should need their own repository.
             this.recipeToppingService = new RecipeToppingService(recipeToppingRepository);
-            this.ingredientInventoryService = new IngredientInventoryService(databaseService);
             this.basicIngredientService = new BasicIngredientService(basicIngredientRepository);
             this.rawIngredientService = new RawIngredientService(rawIngredientRepository);
             this.customerService = new CustomerService(customerRepository);
@@ -70,7 +68,7 @@ public class DependencyContainer {
             this.recipeService = new RecipeService(recipeRepository);
             this.toppingService = new ToppingService(toppingRepository);
             this.userService = new UserService(userRepository);
-            this.textService = new TextService(progressService, rawIngredientService, ingredientInventoryService, basicIngredientService, toppingService);
+            this.textService = new TextService(progressService, rawIngredientService, basicIngredientService, toppingService);
 
             // Skapa controllers och injicera tjänster
             this.bankController = new BankController(textService, progressService);
@@ -181,7 +179,5 @@ public class DependencyContainer {
         public UserService getUserService() {
             return userService;
         }
-        public IngredientInventoryService getIngredientInventoryService(){
-            return ingredientInventoryService;
-        }
+
 }

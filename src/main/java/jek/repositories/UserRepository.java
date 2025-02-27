@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserRepository {
-    private DatabaseService databaseService;
+    private final DatabaseService databaseService;
 
     public UserRepository(DatabaseService databaseService) {
         this.databaseService = databaseService;
@@ -18,16 +18,14 @@ public class UserRepository {
 
     // CREATE
 
-    /// Refactor this to be object .
-
-    public void createUserByString(String username, String password) {
+    public void createUser(User user) {
 
         String query = "INSERT INTO users (username, password) VALUES (?, ?);";
 
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
 
             ps.execute();
         }
@@ -55,8 +53,6 @@ public class UserRepository {
         return id;
     }
 
-
-
     public User getUserByUsername(String name){
         User user = new User();
         String query = "SELECT user_id, username, password FROM users WHERE username = ?;";
@@ -76,7 +72,7 @@ public class UserRepository {
         return user;
     }
 
-    public List <String> returnListOfUsernames() throws SQLException {
+    public List <String> getListOfAllUsernames() throws SQLException {
         return databaseService.columnToList("username", "users");
     }
 
@@ -114,7 +110,6 @@ public class UserRepository {
             throw new RuntimeException(e);
         }
     }
-
 
     // DELETE
 

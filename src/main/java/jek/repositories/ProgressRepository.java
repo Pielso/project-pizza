@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProgressRepository {
-    private DatabaseService databaseService;
+    private final DatabaseService databaseService;
 
     public ProgressRepository(DatabaseService databaseService) {
         this.databaseService = databaseService;
@@ -18,19 +18,19 @@ public class ProgressRepository {
 
     // CREATE
 
-    public void createProgress(int userId, BigDecimal cash, BigDecimal loan, int interestRate, int customersPerDay, int restaurantSize, int daysPlayed) {
+    public void createProgress(Progress newProgress) {
 
         String query = "INSERT INTO progress (user_id, cash, loan, interest_rate, customers_per_day, restaurant_size, days_played) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, userId);
-            ps.setBigDecimal(2, cash);
-            ps.setBigDecimal(3, loan);
-            ps.setInt(4, interestRate);
-            ps.setInt(5, customersPerDay);
-            ps.setInt(6, restaurantSize);
-            ps.setInt(7, daysPlayed);
+            ps.setInt(1, newProgress.getUserId());
+            ps.setBigDecimal(2, newProgress.getCash());
+            ps.setBigDecimal(3, newProgress.getLoan());
+            ps.setInt(4, newProgress.getInterestRate());
+            ps.setInt(5, newProgress.getCustomersPerDay());
+            ps.setInt(6, newProgress.getRestaurantSize());
+            ps.setInt(7, newProgress.getDaysPlayed());
             ps.execute();
         }
         catch (SQLException e) {

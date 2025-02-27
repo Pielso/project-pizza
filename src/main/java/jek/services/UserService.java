@@ -25,9 +25,9 @@ public class UserService {
         activeUser.setPassword(user.getPassword());
     }
 
-    public int createUserAndReturnId(String username, String password) throws SQLException {
-        userRepository.createUserByString(username, password);
-        return userRepository.getUserByUsername(username).getUserId();
+    public int createUserAndReturnId(User newUser) throws SQLException {
+        userRepository.createUser(newUser);
+        return userRepository.getUserByUsername(newUser.getUsername()).getUserId();
     }
 
     public String getPasswordByUsername(String name) {
@@ -35,6 +35,6 @@ public class UserService {
     }
 
     public boolean doesUsernameExistInDB(String name) throws SQLException {
-        return userRepository.returnListOfUsernames().contains(name);
+        return userRepository.getListOfAllUsernames().contains(name);
     }
 }

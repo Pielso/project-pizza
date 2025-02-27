@@ -16,7 +16,7 @@ public class RawIngredientService {
 
     public void createAllRawIngredients() throws SQLException {
         for (RawIngredient rawIngredient: allRawIngredients()){
-            rawIngredientRepository.SaveRawIngredient(rawIngredient);
+            rawIngredientRepository.createRawIngredient(rawIngredient);
         }
     }
 
@@ -44,4 +44,26 @@ public class RawIngredientService {
         RawIngredient garlic = new RawIngredient("Garlic", 0);
         return new ArrayList<>(Arrays.asList(flour, yeast, oliveOil, tomatoes, basil, garlic));
     }
+
+    public boolean hasEnoughIngredientsForDough() {
+        return (getRawIngredientAmountInStockById(1) > 9 && getRawIngredientAmountInStockById(2) > 9 && getRawIngredientAmountInStockById(3) > 9);
+    }
+
+    public void subtractIngredientsForDough() {
+        rawIngredientRepository.updateRawIngredientAmountInStockById(1, getRawIngredientAmountInStockById(1)-10);
+        rawIngredientRepository.updateRawIngredientAmountInStockById(2, getRawIngredientAmountInStockById(2)-10);
+        rawIngredientRepository.updateRawIngredientAmountInStockById(3, getRawIngredientAmountInStockById(3)-10);
+    }
+
+    public boolean hasEnoughIngredientsTomatoSauce() {
+        return (getRawIngredientAmountInStockById(3) > 9 && getRawIngredientAmountInStockById(4) > 9 && getRawIngredientAmountInStockById(5) > 9 && getRawIngredientAmountInStockById(6) > 9);
+    }
+
+    public void subtractIngredientsForTomatoSauce() {
+        rawIngredientRepository.updateRawIngredientAmountInStockById(1, getRawIngredientAmountInStockById(3)-10);
+        rawIngredientRepository.updateRawIngredientAmountInStockById(2, getRawIngredientAmountInStockById(4)-10);
+        rawIngredientRepository.updateRawIngredientAmountInStockById(3, getRawIngredientAmountInStockById(5)-10);
+        rawIngredientRepository.updateRawIngredientAmountInStockById(3, getRawIngredientAmountInStockById(6)-10);
+    }
 }
+

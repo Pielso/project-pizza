@@ -38,7 +38,7 @@ public class KitchenController {
         do {
             textService.kitchenScreen();
             System.out.println("1: CREATE A NEW RECIPE");
-            System.out.println("2: PREPARE DOUGH");
+            System.out.println("2: PREPARE 10 DOUGH");
             System.out.println("3: PREPARE TOMATO SAUCE");
             System.out.println("4: EXIT FROM KITCHEN");
 
@@ -50,11 +50,11 @@ public class KitchenController {
                         break;
                     }
                     case 2: {
-                        //prepareDough();
+                        prepareDough();
                         break;
                     }
                     case 3: {
-                        //prepareTomatoSauce();
+                        prepareTomatoSauce();
                         break;
                     }
                     case 4: {
@@ -98,23 +98,25 @@ public class KitchenController {
         }
     }
 
-//    private void prepareDough() {
-//        if (rawIngredientService.hasEnoughIngredients(activeProgress.getUserId(), "flour", 1, "yeast", 1, "olive oil", 1)) {
-//            rawIngredientService.subtractIngredients(activeProgress.getUserId(), "flour", 1, "yeast", 1, "olive oil", 1);
-//            System.out.println("Dough prepared successfully!");
-//        } else {
-//            System.out.println("Not enough ingredients to prepare dough.");
-//        }
-//    }
-//
-//    private void prepareTomatoSauce() {
-//        if (rawIngredientService.hasEnoughIngredients(activeProgress.getUserId(), "tomatoes", 1, "basil", 1, "garlic", 1, "olive oil", 1)) {
-//            rawIngredientService.subtractIngredients(activeProgress.getUserId(), "tomatoes", 1, "basil", 1, "garlic", 1, "olive oil", 1);
-//            System.out.println("Tomato sauce prepared successfully!");
-//        } else {
-//            System.out.println("Not enough ingredients to prepare tomato sauce.");
-//        }
-//    }
+    private void prepareDough() {
+
+        if (rawIngredientService.hasEnoughIngredientsForDough()) {
+            rawIngredientService.subtractIngredientsForDough();
+            basicIngredientService.addDough();
+            System.out.println("Dough prepared successfully!");
+        } else {
+            System.out.println("Not enough ingredients to prepare dough.");
+        }
+    }
+
+    private void prepareTomatoSauce() {
+        if (rawIngredientService.hasEnoughIngredientsTomatoSauce()) {
+            rawIngredientService.subtractIngredientsForTomatoSauce();
+            System.out.println("Tomato sauce prepared successfully!");
+        } else {
+            System.out.println("Not enough ingredients to prepare tomato sauce.");
+        }
+    }
 
     private void displayAvailableToppings(){
         List <Topping> allToppings = toppingService.allToppings();

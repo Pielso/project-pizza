@@ -12,14 +12,14 @@ public class Progress {
     private int restaurantSize;
     private int daysPlayed;
 
-    public Progress(int userId, BigDecimal cash, BigDecimal loan, int interestRate, int customersPerDay, int restaurantSize, int daysPlayed) {
+    public Progress(int userId) {
         this.userId = userId;
-        this.cash = cash;
-        this.loan = loan;
-        this.interestRate = interestRate;
-        this.customersPerDay = customersPerDay;
-        this.restaurantSize = restaurantSize;
-        this.daysPlayed = daysPlayed;
+        this.cash = BigDecimal.valueOf(10000);
+        this.loan = BigDecimal.valueOf(50000);
+        this.interestRate = 10;
+        this.customersPerDay = 7;
+        this.restaurantSize = 1;
+        this.daysPlayed = 0;
     }
 
     public Progress(){

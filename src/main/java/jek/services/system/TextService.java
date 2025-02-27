@@ -9,14 +9,12 @@ public class TextService {
     private final ProgressService progressService;
     private final RawIngredientService rawIngredientService;
     private final BasicIngredientService basicIngredientService;
-    private final IngredientInventoryService ingredientInventoryService;
     private final ToppingService toppingService;
 
-    public TextService(ProgressService progressService,  RawIngredientService rawIngredientService, IngredientInventoryService ingredientInventoryService, BasicIngredientService basicIngredientService, ToppingService toppingService) {
+    public TextService(ProgressService progressService,  RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService) {
         this.progressService = progressService;
         this.rawIngredientService = rawIngredientService;
         this.basicIngredientService = basicIngredientService;
-        this.ingredientInventoryService = ingredientInventoryService;
         this.toppingService = toppingService;
     }
 

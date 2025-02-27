@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class RecipeToppingRepository {
-    DatabaseService databaseService;
+    private final DatabaseService databaseService;
 
     public RecipeToppingRepository(DatabaseService databaseService){
         this.databaseService = databaseService;
