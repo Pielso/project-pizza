@@ -2,7 +2,6 @@ package jek.services;
 
 import jek.models.RawIngredient;
 import jek.repositories.RawIngredientRepository;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

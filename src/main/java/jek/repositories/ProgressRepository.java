@@ -144,6 +144,27 @@ public class ProgressRepository {
 
     // DELETE
 
+    public void deleteProgressById(int id) throws SQLException {
+        String query = "DELETE FROM progress WHERE user_id = ?;";
+        try (Connection connection = databaseService.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.execute();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public void deleteProgress(Progress progress) throws SQLException {
+        try (Connection connection = databaseService.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM progress WHERE user_id = ?;");
+            ps.setInt(1, progress.getUserId());
+            ps.execute();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

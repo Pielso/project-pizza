@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerRepository {
     private final DatabaseService databaseService;
@@ -57,6 +59,28 @@ public class CustomerRepository {
         return customer;
     }
 
+    public List<Customer> getAllCustomers() throws SQLException {
+        String query = "SELECT * FROM customers;";
+        List<Customer> customers = new ArrayList<>();
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("customer_id"));
+                customer.setCustomerName(rs.getString("customer_name"));
+                customer.setDesiredTopping1(rs.getInt("desired_topping1"));
+                customer.setDesiredTopping2(rs.getInt("desired_topping2"));
+                customer.setDesiredTopping3(rs.getInt("desired_topping3"));
+                customers.add(customer);
+            }
+            return customers;
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // UPDATE
 
     public void updateCustomerById(int customerId, String customerName, int desiredTopping1, int desiredTopping2, int desiredTopping3){
@@ -76,6 +100,29 @@ public class CustomerRepository {
 
     // DELETE
 
+    public void deleteCustomerById(int customerId){
+        String query = "DELETE FROM customers WHERE customer_id = ?;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, customerId);
+            ps.execute();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteCustomer(Customer customer){
+        String query = "DELETE FROM customers WHERE customer_id = ?;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, customer.getCustomerId());
+            ps.execute();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }

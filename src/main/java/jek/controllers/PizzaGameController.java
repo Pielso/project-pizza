@@ -60,7 +60,7 @@ public class PizzaGameController {
                 }
                 case 3:{
                     // SERVE CUSTOMERS
-
+                    restaurantController.goToRestaurant();
                     break;
                 }
                 case 4:{

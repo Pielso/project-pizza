@@ -113,6 +113,29 @@ public class UserRepository {
 
     // DELETE
 
+    public void deleteUserById(int userId){
+        String query = "DELETE FROM users WHERE user_id = ?;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, userId);
+            ps.execute();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteUser(User user){
+        String query = "DELETE FROM users WHERE user_id = ?;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, user.getUsername());
+            ps.execute();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 

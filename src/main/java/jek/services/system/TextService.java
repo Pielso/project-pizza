@@ -1,21 +1,25 @@
 package jek.services.system;
 
 import com.google.protobuf.Value;
+import jek.models.Customer;
 import jek.services.*;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 public class TextService {
     private final ProgressService progressService;
     private final RawIngredientService rawIngredientService;
     private final BasicIngredientService basicIngredientService;
     private final ToppingService toppingService;
+    private final CustomerService customerService;
 
-    public TextService(ProgressService progressService,  RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService) {
+    public TextService(ProgressService progressService,  RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService, CustomerService customerService) {
         this.progressService = progressService;
         this.rawIngredientService = rawIngredientService;
         this.basicIngredientService = basicIngredientService;
         this.toppingService = toppingService;
+        this.customerService = customerService;
     }
 
     public void centerText(String text){
@@ -142,6 +146,18 @@ public class TextService {
         centerText("");
         centerText("WHAT DO YOU WANT TO DO TODAY?");
         centerText("");
+    }
+
+    public void restaurantScreen() throws SQLException {
+        centerText("----------------------------------------------------------------< WELCOME TO YOUR RESTAURANT >----------------------------------------------------------------");
+        centerText("");
+        centerText("HERE, YOU CAN SERVE YOUR CUSTOMERS AND EARN PRECIOUS MONEY");
+        centerText("");
+        centerText("WHAT DO YOU WANT TO DO TODAY?");
+        centerText("");
+        for (Customer customer: customerService.getAllCustomers()){
+            centerText("ID: " + customer.getCustomerId() + " - " + customer.getCustomerName() + " - LIKES: " + toppingService.getToppingById(customer.getDesiredTopping1()).getToppingName() + ", " + toppingService.getToppingById(customer.getDesiredTopping2()).getToppingName() + ", " + toppingService.getToppingById(customer.getDesiredTopping3()).getToppingName());
+        }
     }
 }
 

@@ -90,6 +90,16 @@ public class RecipeRepository {
 
     // DELETE
 
+    public void deleteRecipeById(int recipeId){
+        String query = "DELETE FROM recipes WHERE recipe_id = ?;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, recipeId);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }

@@ -68,7 +68,7 @@ public class DependencyContainer {
             this.recipeService = new RecipeService(recipeRepository);
             this.toppingService = new ToppingService(toppingRepository);
             this.userService = new UserService(userRepository);
-            this.textService = new TextService(progressService, rawIngredientService, basicIngredientService, toppingService);
+            this.textService = new TextService(progressService, rawIngredientService, basicIngredientService, toppingService, customerService);
 
             // Skapa controllers och injicera tjänster
             this.bankController = new BankController(textService, progressService);
