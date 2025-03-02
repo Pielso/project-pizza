@@ -14,18 +14,21 @@ public class ProgressService {
         this.progressRepository = progressRepository;
     }
 
+    // CREATE
     public void createProgress(Progress newProgress){
         progressRepository.createProgress(newProgress);
     }
 
+    // READ
     public Progress getProgressById(int userId){
         return progressRepository.getProgressById(userId);
     }
 
-    public Progress getProgress(){
+    public Progress getActiveProgress(){
         return LoginController.activeProgress;
     }
 
+    // UPDATE
     public void updateProgressCashById(int userId, BigDecimal cash) throws SQLException {
         progressRepository.updateProgressCashById(userId, cash);
     }

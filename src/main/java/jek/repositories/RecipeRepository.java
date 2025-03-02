@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeRepository {
     private final DatabaseService databaseService;
@@ -25,7 +27,6 @@ public class RecipeRepository {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, newRecipe.getRecipeName());
             ps.setInt(2, newRecipe.getUserId());
-
             ps.execute();
         }
         catch (SQLException e) {
@@ -73,6 +74,25 @@ public class RecipeRepository {
         return recipe;
     }
 
+    public List<Recipe> getAllRecipes(){
+        String query = "SELECT * FROM recipes;";
+        List<Recipe> recipes = new ArrayList<>();
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Recipe recipe = new Recipe();
+                recipe.setRecipeId(rs.getInt("recipe_id"));
+                recipe.setRecipeName(rs.getString("recipe_name"));
+                recipe.setUserId(rs.getInt("user_id"));
+                recipes.add(recipe);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return recipes;
+    }
+
     // UPDATE
 
     public void updateRecipeById(int recipeId, String recipeName, int userId){
@@ -82,6 +102,7 @@ public class RecipeRepository {
             ps.setString(1, recipeName);
             ps.setInt(2, userId);
             ps.setInt(3,recipeId);
+            ps.execute();
         }
         catch (SQLException e) {
             throw new RuntimeException(e);

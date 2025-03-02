@@ -26,6 +26,19 @@ public class DatabaseService {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
+    public ResultSet getData(String query) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement ps = connection.prepareStatement(query);
+        return ps.executeQuery();
+    }
+
+    public void putData(String query) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.execute();
+    }
+
+
     public void scriptRunner(String path) {
         try (Connection connection = getConnection()){
             Statement statement = connection.createStatement();

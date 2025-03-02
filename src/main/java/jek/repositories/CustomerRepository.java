@@ -92,6 +92,7 @@ public class CustomerRepository {
             ps.setInt(3, desiredTopping2);
             ps.setInt(3, desiredTopping3);
             ps.setInt(3, customerId);
+            ps.execute();
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -123,6 +124,5 @@ public class CustomerRepository {
             throw new RuntimeException(e);
         }
     }
-
 
 }

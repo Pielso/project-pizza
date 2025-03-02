@@ -93,13 +93,13 @@ public class PantryController {
         if (quantity.equals(BigDecimal.valueOf(0))) {
             return false;
         }
-        if (progressService.getProgress().getCash().compareTo(costOfPurchase) < 0) {
+        if (progressService.getActiveProgress().getCash().compareTo(costOfPurchase) < 0) {
             System.out.println("Not enough money.");
             return false;
         }
         else {
-            progressService.getProgress().setCash(progressService.getProgress().getCash().subtract(costOfPurchase));
-            progressService.updateProgressCashById(progressService.getProgress().getUserId(), progressService.getProgress().getCash());
+            progressService.getActiveProgress().setCash(progressService.getActiveProgress().getCash().subtract(costOfPurchase));
+            progressService.updateProgressCashById(progressService.getActiveProgress().getUserId(), progressService.getActiveProgress().getCash());
             return true;
         }
     }

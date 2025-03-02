@@ -1,11 +1,10 @@
 package jek.controllers;
 
 import jek.models.Customer;
-import jek.services.CustomerService;
-import jek.services.ProgressService;
-import jek.services.RecipeService;
+import jek.services.*;
 import jek.services.system.TextService;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -15,100 +14,127 @@ public class RestaurantController {
     private final ProgressService progressService;
     private final CustomerService customerService;
     private final RecipeService recipeService;
+    private final RecipeToppingService recipeToppingService;
+    private final ToppingService toppingService;
+    private final BasicIngredientService basicIngredientService;
 
-    public RestaurantController(TextService textService, ProgressService progressService, CustomerService customerService, RecipeService recipeService) {
+    public RestaurantController(TextService textService, ProgressService progressService, CustomerService customerService, RecipeService recipeService, RecipeToppingService recipeToppingService, ToppingService toppingService, BasicIngredientService basicIngredientService) {
         this.textService = textService;
         this.progressService = progressService;
         this.customerService = customerService;
         this.recipeService = recipeService;
+        this.recipeToppingService = recipeToppingService;
+        this.toppingService = toppingService;
+        this.basicIngredientService = basicIngredientService;
     }
 
     public void goToRestaurant() throws SQLException {
+        boolean exitFromRestaurant = false;
 
         for (int i = 10; i > 0; i--) {
             customerService.createCustomer(new Customer());
         }
 
-        while (true){
+        do {
+            textService.restaurantScreen();
+            System.out.println("1: SERVE A CUSTOMER");
+            System.out.println("2: EXIT RESTAURANT");
 
-            boolean exitFromRestaurant = false;
-
-            do {
-                textService.restaurantScreen();
-                System.out.println("2: SERVE A CUSTOMER");
-                System.out.println("3: EXIT RESTAURANT");
-
+            try {
                 int menuChoice = Integer.parseInt(scan.nextLine());
-                try {
-                    switch (menuChoice) {
-                        case 1: {
-                            //serveCustomer();
-                            break;
-                        }
-                        case 2: {
-                            exitFromRestaurant = true;
-                            break;
-                        }
-                        default: System.out.println("Invalid choice. Try again.");
+                switch (menuChoice) {
+                    case 1: {
+                        serveCustomer();
+                        break;
                     }
-                } catch (Exception e) {
-                    System.out.println("An error occurred: " + e.getMessage());
+                    case 2: {
+                        exitFromRestaurant = true;
+                        break;
+                    }
+                    default:{
+                        System.out.println("Invalid choice. Try again.");
+                        break;
+                    }
+
                 }
-            } while (!exitFromRestaurant);
-        }
+            } catch (Exception e) {
+                System.out.println("An error occurred: " + e.getMessage());
+            }
+        } while (!exitFromRestaurant);
 
 
-
-
+    }
 
         // SERVE CUSTOMER - WHICH CUSTOMER? - WHICH RECIPE? - HAS ENOUGH INGREDIENTS?
 
-//        private void serveCustomer() {
-//            System.out.println("Enter customer ID to serve: ");
-//            int customerId = scan.nextInt();
-//            scan.nextLine();
-//
-//            System.out.println("Enter recipe ID to serve: ");
-//            int recipeId = scan.nextInt();
-//            scan.nextLine();
-//
-//            if (!recipeService.hasEnoughIngredients(recipeId)) {
-//                System.out.println("Not enough ingredients to prepare this recipe.");
-//                return;
-//            }
-//
-//            // SUBTRACT INGREDIENTS WHERE (SQL-JOIN)
-//
-//            recipeService.subtractIngredients(recipeId);
-//            BigDecimal payment = calculatePayment(customerId, recipeId);
-//            activeProgress.setCash(activeProgress.getCash().add(payment));
-//            progressService.updateProgress(activeProgress);
-//
-//            customerService.deleteCustomer(customerId);
-//            System.out.println("Customer served! Earned: $" + payment);
-//        }
-//
-//        private BigDecimal calculatePayment(int customerId, int recipeId) {
-//            BigDecimal basePrice = BigDecimal.valueOf(6);
-//            int bonus = customerService.calculateBonus(customerId, recipeId);
-//            return basePrice.add(BigDecimal.valueOf(bonus));
-//        }
-//    }
-//
-//
-//
-//
-//
-//
-//            // GET PAID (BASE PRICE $6 AND +2, +5, +9 FOR MATCHED desired_toppings).
-//
-//            // ADD TO PROGRESS, SAVE.
-//
-//            // DELETE CUSTOMER
-//
-//            // SAVE
-//
-//        }
+    private void serveCustomer() throws SQLException {
+        textService.serveCustomerScreen();
+        System.out.println("Enter customer ID to serve, or '0' to exit. ");
+        int customerId = Integer.parseInt(scan.nextLine());
+        if (customerId == 0) {
+            return;
+        }
+
+        textService.showAvailableRecipesAndToppings();
+        System.out.println("Enter recipe ID to serve: ");
+        int recipeId = Integer.parseInt(scan.nextLine());
+
+        if (!toppingService.checkIfToppingAmountInStockExists(recipeToppingService.getAllToppingIdsByRecipeId(recipeId))
+                || !basicIngredientService.checkIfBasicIngredientsAmountInStockExists()) {
+            System.out.println("Not enough ingredients to prepare this recipe.");
+        }
+
+        basicIngredientService.preparedOnePizza();
+        toppingService.servedOnePizza(recipeToppingService.getAllToppingIdsByRecipeId(recipeId));
+
+        BigDecimal payment = calculatePayment(customerId, recipeId);
+        progressService.getActiveProgress().setCash(progressService.getActiveProgress().getCash().add(payment));
+        progressService.updateProgressCashById(progressService.getActiveProgress().getUserId(), progressService.getActiveProgress().getCash());
+
+        customerService.deleteCustomerById(customerId);
+        System.out.println("Customer served! Earned: $" + payment);
+
     }
+
+    private BigDecimal calculatePayment(int customerId, int recipeId) throws SQLException {
+        BigDecimal payment = null;
+        int counter = 0;
+
+        if (recipeToppingService.getAllToppingIdsByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping1())){
+            counter++;
+        }
+        if (recipeToppingService.getAllToppingIdsByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping2())){
+            counter++;
+        }
+        if (recipeToppingService.getAllToppingIdsByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping3())){
+            counter++;
+        }
+        if (counter == 1){
+            payment = BigDecimal.valueOf(8);
+        }
+        if (counter == 2){
+            payment = BigDecimal.valueOf(11);
+        }
+        if (counter == 3){
+            payment = BigDecimal.valueOf(15);
+        }
+        else if (counter == 0){
+            payment = BigDecimal.valueOf(6);
+        }
+
+
+        System.out.println("Total payment for customer " + customerId + " is $" + payment + ".");
+
+        return payment;
+    }
+
+    // ADD TO PROGRESS, SAVE.
+
+    // DELETE CUSTOMER
+
+    // SAVE
+
+
+
 
 }

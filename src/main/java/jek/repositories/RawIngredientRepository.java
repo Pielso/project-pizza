@@ -24,7 +24,6 @@ public class RawIngredientRepository {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, newRawIngredient.getRawIngredientName());
             ps.setInt(2, newRawIngredient.getAmountInStock());
-
             ps.execute();
         }
         catch (SQLException e) {

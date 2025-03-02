@@ -76,7 +76,7 @@ public class KitchenController {
 
         while (true) {
 
-            displayAvailableToppings();
+            textService.displayAvailableToppings();
             System.out.println("Which topping would you like to add to the recipe? (enter ID).\nTo exit without saving the recipe, input '0'. \nWhen you are done with the recipe, input any number above 15");
             int toppingId = Integer.parseInt(scan.nextLine());
             if (toppingId == 0) break;
@@ -94,6 +94,7 @@ public class KitchenController {
                         recipeToppingService.createRecipeTopping(recipeTopping);
                     }
                 }
+                break;
             }
         }
     }
@@ -102,7 +103,7 @@ public class KitchenController {
 
         if (rawIngredientService.hasEnoughIngredientsForDough()) {
             rawIngredientService.subtractIngredientsForDough();
-            basicIngredientService.addDough();
+            basicIngredientService.addDough(10);
             System.out.println("Dough prepared successfully!");
         } else {
             System.out.println("Not enough ingredients to prepare dough.");
@@ -112,20 +113,14 @@ public class KitchenController {
     private void prepareTomatoSauce() {
         if (rawIngredientService.hasEnoughIngredientsTomatoSauce()) {
             rawIngredientService.subtractIngredientsForTomatoSauce();
-            basicIngredientService.addTomatoSauce();
+            basicIngredientService.addTomatoSauce(10);
             System.out.println("Tomato sauce prepared successfully!");
         } else {
             System.out.println("Not enough ingredients to prepare tomato sauce.");
         }
     }
 
-    private void displayAvailableToppings(){
-        List <Topping> allToppings = toppingService.allToppings();
 
-        for (Topping topping: allToppings){
-            System.out.println("ID: " + topping.getToppingId() + " - " + topping.getToppingName());
-        }
-    }
 }
 
 

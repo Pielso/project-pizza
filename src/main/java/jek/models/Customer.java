@@ -50,7 +50,7 @@ public class Customer {
                         "Bruce", "Charlotte", "Logan", "Julia", "Billy", "Grace", "Joe", "Amber", "Alan", "Alice", "Juan", "Jean", "Elijah", "Denise",
                         "Willie", "Frances", "Albert", "Danielle", "Wayne", "Marilyn", "Randy", "Natalie", "Mason", "Beverly", "Vincent", "Liam",
                         "Brittany", "Roy", "Theresa", "Bobby", "Kayla", "Caleb", "Alexis", "Bradley", "Doris", "Russell", "Lori", "Lucas", "Tiffany"));
-        int name = rand.nextInt(0, listOfCustomerNames.size()+1);
+        int name = rand.nextInt(0, listOfCustomerNames.size());
         return listOfCustomerNames.get(name);
     }
 

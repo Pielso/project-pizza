@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ToppingRepository {
     private final DatabaseService databaseService;
@@ -67,6 +69,25 @@ public class ToppingRepository {
             e.printStackTrace();
         }
         return amount;
+    }
+
+    public List<Topping> getAllToppings(){
+        String query = "SELECT * FROM toppings";
+        List<Topping> toppings = new ArrayList<>();
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Topping topping = new Topping();
+                topping.setToppingId(rs.getInt("topping_id"));
+                topping.setToppingName(rs.getString("topping_name"));
+                topping.setAmountInStock(rs.getInt("amount_in_stock"));
+                toppings.add(topping);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return toppings;
     }
 
     // UPDATE

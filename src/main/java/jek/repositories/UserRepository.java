@@ -19,14 +19,11 @@ public class UserRepository {
     // CREATE
 
     public void createUser(User user) {
-
         String query = "INSERT INTO users (username, password) VALUES (?, ?);";
-
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
-
             ps.execute();
         }
         catch (SQLException e) {
@@ -105,6 +102,7 @@ public class UserRepository {
             ps.setString(1, name);
             ps.setString(2, password);
             ps.setInt(3,userId);
+            ps.execute();
         }
         catch (SQLException e) {
             throw new RuntimeException(e);

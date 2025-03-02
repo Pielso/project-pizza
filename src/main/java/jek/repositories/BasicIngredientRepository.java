@@ -72,24 +72,25 @@ public class BasicIngredientRepository {
 
     // UPDATE
 
-    public void updateBasicIngredientById(int basicIngredientId, String basicIngredientName, int amountInStock){
+    public void updateBasicIngredientById(BasicIngredient basicIngredient){
         String query = "UPDATE basic_ingredients SET basic_ingredient_name = ?, amount_in_stock = ? WHERE basic_ingredient_id = ?;";
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, basicIngredientId);
-            ps.setString(2, basicIngredientName);
-            ps.setInt(3, amountInStock);
+            ps.setString(1, basicIngredient.getBasicIngredientName());
+            ps.setInt(2, basicIngredient.getBasicIngredientId());
+            ps.setInt(3, basicIngredient.getBasicIngredientId());
+            ps.execute();
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateBasicIngredientAmountInStockById(int basicIngredientId, int amountInStock){
+    public void updateBasicIngredientAmountInStockById(int basicIngredientId, int newAmountInStock){
         String query = "UPDATE basic_ingredients SET amount_in_stock = ? WHERE basic_ingredient_id = ?;";
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, amountInStock);
+            ps.setInt(1, newAmountInStock);
             ps.setInt(2, basicIngredientId);
             ps.execute();
         }

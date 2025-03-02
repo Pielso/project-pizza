@@ -1,11 +1,13 @@
 package jek.services.system;
 
-import com.google.protobuf.Value;
 import jek.models.Customer;
+import jek.models.Recipe;
+import jek.models.Topping;
 import jek.services.*;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.List;
 
 public class TextService {
     private final ProgressService progressService;
@@ -13,13 +15,17 @@ public class TextService {
     private final BasicIngredientService basicIngredientService;
     private final ToppingService toppingService;
     private final CustomerService customerService;
+    private final RecipeService recipeService;
+    private final RecipeToppingService recipeToppingService;
 
-    public TextService(ProgressService progressService,  RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService, CustomerService customerService) {
+    public TextService(ProgressService progressService,  RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService, CustomerService customerService, RecipeService recipeService, RecipeToppingService recipeToppingService) {
         this.progressService = progressService;
         this.rawIngredientService = rawIngredientService;
         this.basicIngredientService = basicIngredientService;
         this.toppingService = toppingService;
         this.customerService = customerService;
+        this.recipeService = recipeService;
+        this.recipeToppingService = recipeToppingService;
     }
 
     public void centerText(String text){
@@ -61,13 +67,13 @@ public class TextService {
     public void officeStats(){
         centerText("----------------------------------------------------------------------< WELCOME TO YOUR OFFICE >----------------------------------------------------------------------");
         centerText("");
-        centerText("Your cash: " + progressService.getProgress().getCash());
-        centerText("Your loan: " + progressService.getProgress().getLoan());
-        centerText("Your interest rate: " + progressService.getProgress().getInterestRate());
+        centerText("Your cash: " + progressService.getActiveProgress().getCash());
+        centerText("Your loan: " + progressService.getActiveProgress().getLoan());
+        centerText("Your interest rate: " + progressService.getActiveProgress().getInterestRate());
         centerText("");
-        centerText("Your customers per day: " + progressService.getProgress().getCustomersPerDay());
-        centerText("Your restaurant size: " + progressService.getProgress().getRestaurantSize());
-        centerText("Your days played: " + progressService.getProgress().getDaysPlayed());
+        centerText("Your customers per day: " + progressService.getActiveProgress().getCustomersPerDay());
+        centerText("Your restaurant size: " + progressService.getActiveProgress().getRestaurantSize());
+        centerText("Your days played: " + progressService.getActiveProgress().getDaysPlayed());
         centerText("");
     }
 
@@ -118,7 +124,6 @@ public class TextService {
         printBasicIngredientsAmountInStock();
         centerText("");
         printToppingsAmountInStock();
-        centerText("TOPPINGS:");
 
         centerText("");
         centerText("WHAT DO YOU WANT TO DO?");
@@ -148,15 +153,39 @@ public class TextService {
         centerText("");
     }
 
+    public void displayAvailableToppings(){
+        List<Topping> allToppings = toppingService.getAllToppings();
+        for (Topping topping: allToppings){
+            System.out.println("ID: " + topping.getToppingId() + " - " + topping.getToppingName());
+        }
+    }
+
     public void restaurantScreen() throws SQLException {
         centerText("----------------------------------------------------------------< WELCOME TO YOUR RESTAURANT >----------------------------------------------------------------");
         centerText("");
         centerText("HERE, YOU CAN SERVE YOUR CUSTOMERS AND EARN PRECIOUS MONEY");
         centerText("");
+        centerText("NUMBER OF CUSTOMERS LEFT TO SERVE: " + customerService.getAllCustomers().size());
+        centerText("");
         centerText("WHAT DO YOU WANT TO DO TODAY?");
+
+    }
+
+    public void serveCustomerScreen() throws SQLException {
         centerText("");
         for (Customer customer: customerService.getAllCustomers()){
             centerText("ID: " + customer.getCustomerId() + " - " + customer.getCustomerName() + " - LIKES: " + toppingService.getToppingById(customer.getDesiredTopping1()).getToppingName() + ", " + toppingService.getToppingById(customer.getDesiredTopping2()).getToppingName() + ", " + toppingService.getToppingById(customer.getDesiredTopping3()).getToppingName());
+        }
+    }
+
+    public void showAvailableRecipesAndToppings() {
+        centerText("");
+        for (Recipe recipe: recipeService.getAllRecipes()){
+            centerText("ID: " + recipe.getRecipeId() + " - " + recipe.getRecipeName().toUpperCase() + ":");
+            for (String topping: recipeToppingService.getAllRecipeToppingNamesByRecipeId(recipe.getRecipeId())){
+                centerText("-" + topping);
+            }
+            centerText("");
         }
     }
 }

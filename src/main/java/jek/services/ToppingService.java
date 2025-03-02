@@ -15,12 +15,14 @@ public class ToppingService {
         this.toppingRepository = toppingRepository;
     }
 
+    // CREATE
     public void createAllToppings() throws SQLException {
         for (Topping topping: allToppings()){
             toppingRepository.createTopping(topping);
         }
     }
 
+    // READ
     public Topping getToppingById(int toppingId){
         return toppingRepository.getToppingById(toppingId);
     }
@@ -29,9 +31,31 @@ public class ToppingService {
         return toppingRepository.getToppingAmountInStockById(toppingId);
     }
 
+    public boolean checkIfToppingAmountInStockExists(List<Integer> toppingsIdsToCheck){
+        int counter = 0;
+        for (Integer toppingId: toppingsIdsToCheck){
+            if (getToppingAmountInStockById(toppingId) > 0){
+                counter++;
+            }
+        }
+        return counter == toppingsIdsToCheck.size();
+    }
+
+    public List<Topping> getAllToppings(){
+        return toppingRepository.getAllToppings();
+    }
+
+    // UPDATE
     public void addToppingAmountInStock(int toppingId, int amountToAdd){
         int before = toppingRepository.getToppingAmountInStockById(toppingId);
         toppingRepository.updateToppingAmountInStockById(toppingId, before + amountToAdd);
+    }
+
+    public void servedOnePizza(List <Integer> toppingIdsToSubtract) {
+        for (Integer toppingId: toppingIdsToSubtract){
+            int before = toppingRepository.getToppingAmountInStockById(toppingId);
+            toppingRepository.updateToppingAmountInStockById(toppingId, before - 1);
+        }
     }
 
     public List<Topping> allToppings(){
@@ -52,6 +76,7 @@ public class ToppingService {
         Topping sauce = new Topping("Sauce", 0);
         return new ArrayList<>(Arrays.asList(ham, mushroom, kebab, tuna, beef, chicken, pepperoni, olives, paprika, onion, pineapple, shrimps, bacon, jalapenos, sauce));
     }
+
 
 
 }
