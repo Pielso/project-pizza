@@ -4,16 +4,16 @@ import jek.models.Progress;
 import jek.models.User;
 import jek.services.ProgressService;
 import jek.services.UserService;
+import jek.services.system.SaveAndLoadService;
 import jek.services.system.TextService;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class LoginController {
 
-    public static Progress activeProgress;
+    public static Progress activeProgress = new Progress();
     public static User activeUser = new User();
     public static String tempUserName;
     public static String tempUserPassword;
@@ -22,12 +22,14 @@ public class LoginController {
     private final TextService textService;
     private final ProgressService progressService;
     private final UserService userService;
+    private final SaveAndLoadService saveAndLoadService;
     private PizzaGameController pizzaGameController; // Set by workaround in Main due to circular dependency w/ LoginController
 
-    public LoginController(TextService textService, ProgressService progressService, UserService userService) {
+    public LoginController(TextService textService, ProgressService progressService, UserService userService, SaveAndLoadService saveAndLoadService) {
         this.textService = textService;
         this.progressService = progressService;
         this.userService = userService;
+        this.saveAndLoadService = saveAndLoadService;
     }
 
     public void setPizzaGameController(PizzaGameController pizzaGameController){
@@ -56,6 +58,8 @@ public class LoginController {
                 userChoosesPassword();
                 loggedInOrExited = true;
                 progressService.createProgress(new Progress(userService.createUserAndReturnId(new User(tempUserName, tempUserPassword))));
+                activeProgress.setUserId(userService.getUserIdByUsername(tempUserName));
+                saveAndLoadService.saveAmountInStock();
                 flushTemp();
                 loginOrRegister();
             }
@@ -73,6 +77,8 @@ public class LoginController {
 
                     // HERE DYNAMO_DB WILL FILL ALL AMOUNT_IN_STOCK
                     loggedInOrExited = true;
+
+                    saveAndLoadService.loadAmountInStock();
                     pizzaGameController.menu();
                 }
                 else {

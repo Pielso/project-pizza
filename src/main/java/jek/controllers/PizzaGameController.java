@@ -1,6 +1,7 @@
 package jek.controllers;
 
 import jek.services.ProgressService;
+import jek.services.system.SaveAndLoadService;
 import jek.services.system.TextService;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -18,8 +19,9 @@ public class PizzaGameController {
     private final RestaurantController restaurantController;
     private final KitchenController kitchenController;
     private final BankController bankController;
+    private final SaveAndLoadService saveAndLoadService;
 
-    public PizzaGameController(TextService textService, ProgressService progressService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController,  BankController bankController) {
+    public PizzaGameController(TextService textService, ProgressService progressService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController, BankController bankController, SaveAndLoadService saveAndLoadService) {
         this.textService = textService;
         this.progressService = progressService;
         this.loginController = loginController;
@@ -28,6 +30,7 @@ public class PizzaGameController {
         this.restaurantController = restaurantController;
         this.kitchenController = kitchenController;
         this.bankController = bankController;
+        this.saveAndLoadService = saveAndLoadService;
     }
 
     public void menu() throws SQLException, InterruptedException {
@@ -86,6 +89,8 @@ public class PizzaGameController {
                 case 8:{
                     // RETURN TO LOGIN-SCREEN & LOGOUT (what is logout? reset of activeUsername?)
                     exit = true;
+                    saveAndLoadService.saveAmountInStock();
+                    saveAndLoadService.dropAmountInStock();
                     loginController.loginOrRegister();
                     break;
                 }
@@ -96,6 +101,7 @@ public class PizzaGameController {
                 }
                 case 10:{
                     // SAVE AMOUNT_IN_STOCK LOGIC TO DYNAMODB HERE
+                    saveAndLoadService.saveAmountInStock();
 
                     // CONFIRM-SAVE-LOGIC HERE?
 

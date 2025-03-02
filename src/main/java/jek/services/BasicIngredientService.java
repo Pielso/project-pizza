@@ -84,4 +84,12 @@ public class BasicIngredientService {
                 && getBasicIngredientAmountInStockById(2) > 0
                 && getBasicIngredientAmountInStockById(3) > 0;
     }
+
+    public void setAllAmountInStock(List <Integer> amountInStock) {
+        int id = 1;
+        for (Integer num : amountInStock) {
+            basicIngredientRepository.updateBasicIngredientAmountInStockById(id, num);
+            id++;
+        }
+    }
 }

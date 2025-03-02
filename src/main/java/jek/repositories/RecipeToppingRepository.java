@@ -17,6 +17,7 @@ public class RecipeToppingRepository {
         this.databaseService = databaseService;
     }
 
+    // CREATE
     public void createRecipeTopping(RecipeTopping recipeTopping){
         String query = "INSERT INTO recipe_topping (recipe_id, topping_id) VALUES (?, ?)";
         try (Connection connection = databaseService.getConnection()){
@@ -24,14 +25,12 @@ public class RecipeToppingRepository {
             ps.setInt(1, recipeTopping.getRecipeId());
             ps.setInt(2, recipeTopping.getToppingId());
             ps.execute();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    // Read
-
+    // READ
     public RecipeTopping getRecipeTopping(int recipeId, int toppingId){
         String query = "SELECT * FROM recipe_topping WHERE recipe_id = ? AND topping_id = ?";
         RecipeTopping recipeTopping = null;
@@ -45,7 +44,6 @@ public class RecipeToppingRepository {
                 recipeTopping.setRecipeId(rs.getInt("recipe_id"));
                 recipeTopping.setToppingId(rs.getInt("topping_id"));
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -63,8 +61,6 @@ public class RecipeToppingRepository {
             while (rs.next()){
                 toppingsInRecipe.add((rs.getString("topping_name")));
             }
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -82,7 +78,6 @@ public class RecipeToppingRepository {
             while (rs.next()){
                 toppingIdsInRecipe.add((rs.getInt("topping_id")));
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

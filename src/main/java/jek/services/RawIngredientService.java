@@ -64,5 +64,14 @@ public class RawIngredientService {
         rawIngredientRepository.updateRawIngredientAmountInStockById(5, getRawIngredientAmountInStockById(5)-10);
         rawIngredientRepository.updateRawIngredientAmountInStockById(6, getRawIngredientAmountInStockById(6)-10);
     }
+
+    public void setAllAmountInStock(List <Integer> amountInStock) {
+        int id = 1;
+        for (Integer num : amountInStock) {
+            rawIngredientRepository.updateRawIngredientAmountInStockById(id, num);
+            id++;
+        }
+    }
+
 }
 

@@ -16,6 +16,7 @@ public class ProgressService {
 
     // CREATE
     public void createProgress(Progress newProgress){
+
         progressRepository.createProgress(newProgress);
     }
 

@@ -78,5 +78,11 @@ public class ToppingService {
     }
 
 
-
+    public void setAllAmountInStock(List <Integer> amountInStock) {
+        int id = 1;
+        for (Integer num : amountInStock) {
+            toppingRepository.updateToppingAmountInStockById(id, num);
+            id++;
+        }
+    }
 }

@@ -46,8 +46,6 @@ public class DependencyContainer {
 
             // Create System Services
             this.databaseService = new DatabaseService();
-            this.dynamoDBService = new DynamoDBService();
-            this.saveAndLoadService = new SaveAndLoadService();
 
             // Create repositories, which should only need DatabaseService
             this.basicIngredientRepository = new BasicIngredientRepository(databaseService);
@@ -58,6 +56,8 @@ public class DependencyContainer {
             this.toppingRepository = new ToppingRepository(databaseService);
             this.userRepository = new UserRepository(databaseService);
             this.recipeToppingRepository = new RecipeToppingRepository(databaseService);
+
+
 
             // Create services that for most part only should need their own repository.
             this.recipeToppingService = new RecipeToppingService(recipeToppingRepository);
@@ -70,14 +70,17 @@ public class DependencyContainer {
             this.userService = new UserService(userRepository);
             this.textService = new TextService(progressService, rawIngredientService, basicIngredientService, toppingService, customerService, recipeService, recipeToppingService);
 
+            this.dynamoDBService = new DynamoDBService(progressService, rawIngredientService, basicIngredientService, toppingService);
+            this.saveAndLoadService = new SaveAndLoadService(dynamoDBService);
+
             // Skapa controllers och injicera tjänster
             this.bankController = new BankController(textService, progressService);
             this.kitchenController = new KitchenController(textService, progressService, recipeService, rawIngredientService, basicIngredientService, toppingService, recipeToppingService);
             this.officeController = new OfficeController(textService, progressService);
             this.pantryController = new PantryController(textService, progressService, rawIngredientService, basicIngredientService, toppingService);
             this.restaurantController = new RestaurantController(textService, progressService, customerService, recipeService, recipeToppingService, toppingService, basicIngredientService);
-            this.loginController = new LoginController(textService, progressService, userService);
-            this.pizzaGameController = new PizzaGameController(textService, progressService, loginController, officeController, pantryController, restaurantController, kitchenController, bankController);
+            this.loginController = new LoginController(textService, progressService, userService, saveAndLoadService);
+            this.pizzaGameController = new PizzaGameController(textService, progressService, loginController, officeController, pantryController, restaurantController, kitchenController, bankController, saveAndLoadService);
         }
 
         public DatabaseService getDatabaseService(){
