@@ -7,10 +7,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DynamoDBService {
     private DynamoDbClient dynamoDbClient = null;
@@ -106,7 +103,6 @@ public class DynamoDBService {
                 .item(inventoryMap)
                 .build();
         dynamoDbClient.putItem(request);
-
     }
 
     public void loadAmountInStock() throws SQLException, InterruptedException {
@@ -137,7 +133,6 @@ public class DynamoDBService {
             });
 
             setAllAmountInStock(rawIngredients, basicIngredients, toppings);
-
         }
     }
 
@@ -145,6 +140,35 @@ public class DynamoDBService {
         rawIngredientService.setAllAmountInStock(rawIngredients);
         basicIngredientService.setAllAmountInStock(basicIngredients);
         toppingService.setAllAmountInStock(toppings);
+    }
+
+    public void deleteAllAmountInStock() {
+        ScanRequest scanRequest = ScanRequest.builder()
+                .tableName(TABLE_NAME)
+                .build();
+        ScanResponse scanResponse = dynamoDbClient.scan(scanRequest);
+
+        for (Map <String, AttributeValue> item: scanResponse.items()){
+            DeleteItemRequest deleteItemRequest = DeleteItemRequest.builder()
+                    .tableName(TABLE_NAME)
+                    .key(Collections.singletonMap(KEY_ATTRIBUTE_NAME, item.get(KEY_ATTRIBUTE_NAME)))
+                    .build();
+            dynamoDbClient.deleteItem(deleteItemRequest);
+        }
+        System.out.println("AmountInStock database was successfully purged!");
+    }
+
+    public void deleteUserInventory() {
+        HashMap<String, AttributeValue> keyToDelete = new HashMap<>();
+        keyToDelete.put(KEY_ATTRIBUTE_NAME,
+                AttributeValue.builder().n(String.valueOf(progressService.getActiveProgress().getUserId()))
+                        .build());
+        DeleteItemRequest deleteItemRequest = DeleteItemRequest.builder()
+                .tableName(TABLE_NAME)
+                .key(keyToDelete)
+                .build();
+        dynamoDbClient.deleteItem(deleteItemRequest);
+        System.out.println("User inventory successfully deleted");
     }
 
 }

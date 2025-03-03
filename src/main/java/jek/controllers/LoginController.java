@@ -4,6 +4,7 @@ import jek.models.Progress;
 import jek.models.User;
 import jek.services.ProgressService;
 import jek.services.UserService;
+import jek.services.system.LoginService;
 import jek.services.system.SaveAndLoadService;
 import jek.services.system.TextService;
 
@@ -19,13 +20,15 @@ public class LoginController {
     public static String tempUserPassword;
     private final Scanner scan = new Scanner(System.in);
 
+    private final LoginService loginService;
     private final TextService textService;
     private final ProgressService progressService;
     private final UserService userService;
     private final SaveAndLoadService saveAndLoadService;
     private PizzaGameController pizzaGameController; // Set by workaround in Main due to circular dependency w/ LoginController
 
-    public LoginController(TextService textService, ProgressService progressService, UserService userService, SaveAndLoadService saveAndLoadService) {
+    public LoginController(LoginService loginService, TextService textService, ProgressService progressService, UserService userService, SaveAndLoadService saveAndLoadService) {
+        this.loginService = loginService;
         this.textService = textService;
         this.progressService = progressService;
         this.userService = userService;
@@ -38,111 +41,54 @@ public class LoginController {
 
     // Login session starts.
     public void loginOrRegister() throws SQLException, InterruptedException {
-        flushActiveUserAndTemp();
+        loginService.flushActiveUserAndTemp();
         textService.loginScreen();
-        boolean loggedInOrExited = false;
+        boolean completedLogin = false;
 
         do {
             System.out.print("USERNAME: ");
             tempUserName = scan.nextLine().trim();
-
-            if (tempUserName.equalsIgnoreCase("exit")){
-                flushTemp();
-                loggedInOrExited = true;
+            if (tempUserName.equalsIgnoreCase("admin")) {
+                loginService.adminMenu();
             }
-
-            else if (tempUserName.equalsIgnoreCase("register")){
-                flushTemp();
-                textService.createNewUserScreen();
-                userChoosesUsername();
-                userChoosesPassword();
-                loggedInOrExited = true;
+            if (tempUserName.equalsIgnoreCase("exit")){
+                loginService.flushTemp();
+                break;
+            }
+            if (tempUserName.equalsIgnoreCase("register")){
+                loginService.registerNewUser();
+                completedLogin = true;
                 progressService.createProgress(new Progress(userService.createUserAndReturnId(new User(tempUserName, tempUserPassword))));
                 activeProgress.setUserId(userService.getUserIdByUsername(tempUserName));
                 saveAndLoadService.saveAmountInStock();
-                flushTemp();
+                loginService.flushTemp();
                 loginOrRegister();
             }
-
             else if (!userService.doesUsernameExistInDB(tempUserName)){
-                flushTemp();
+                loginService.flushTemp();
                 System.out.println("User not found!");
             }
-
             else if (userService.doesUsernameExistInDB(tempUserName)) {
-                if (checkPassword(3)){
+                if (loginService.checkPassword(3)){
 
                     userService.setActiveUserByUsername(tempUserName);
                     activeProgress = progressService.getProgressById(activeUser.getUserId());
 
                     // HERE DYNAMO_DB WILL FILL ALL AMOUNT_IN_STOCK
-                    loggedInOrExited = true;
+                    completedLogin = true;
 
                     saveAndLoadService.loadAmountInStock();
                     pizzaGameController.menu();
                 }
                 else {
-                    flushActiveUserAndTemp();
+                    loginService.flushActiveUserAndTemp();
                     System.out.println("You are logged out!");
                     loginOrRegister();
                 }
             }
         }
-        while (!loggedInOrExited);
+        while (!completedLogin);
     }
 
-    private void userChoosesUsername() throws SQLException {
-        while (true){
-            System.out.print("CHOOSE USERNAME: ");
-            tempUserName = scan.nextLine().trim();
-            if (tempUserName.equalsIgnoreCase("exit")
-                    || tempUserName.equalsIgnoreCase("register")
-                    || tempUserName.isEmpty()
-                    || userService.doesUsernameExistInDB(tempUserName)) {
-                System.out.println("That name is empty, reserved, taken or invalid and cannot be chosen. Choose something else.");
-            }
-            else break;
-        }
-    }
-
-    private void userChoosesPassword(){
-        while (true) {
-            System.out.print("CHOOSE PASSWORD: ");
-            tempUserPassword = scan.nextLine();
-
-            if (tempUserPassword.isEmpty()) {
-                System.out.println("You cannot have an empty password!");
-            }
-            else break;
-        }
-    }
-
-    private boolean checkPassword(int attempts) {
-        String passInDB = userService.getPasswordByUsername(tempUserName);
-
-        System.out.print("PASSWORD: ");
-        tempUserPassword = scan.nextLine();
-
-        while (!Objects.equals(tempUserPassword, passInDB)){
-            if (attempts == 0) break;
-            attempts--;
-            System.out.println("Incorrect password. Try again");
-            tempUserPassword = scan.nextLine();
-        }
-        return (passInDB.equals(tempUserPassword));
-    }
-
-    private void flushTemp(){
-        tempUserName = "";
-        tempUserPassword = "";
-    }
-
-    private void flushActiveUserAndTemp(){
-        tempUserName = "";
-        tempUserPassword = "";
-        activeUser.setUserId(0);
-        activeUser.setUsername(tempUserName);
-        activeUser.setPassword(tempUserPassword);
-    }
 
 }

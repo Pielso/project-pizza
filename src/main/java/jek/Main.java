@@ -11,9 +11,9 @@ public class Main {
         DependencyContainer dependencyContainer = new DependencyContainer();
         LoginController loginController = dependencyContainer.getLoginController();
 
-        dependencyContainer.getDatabaseService().dropDatabase();
-        dependencyContainer.getDatabaseService().createDatabase();
-
+//        dependencyContainer.getDatabaseService().dropDatabase();
+//        dependencyContainer.getDatabaseService().createDatabase();
+//
         dependencyContainer.getDatabaseService().createInventory(
                 dependencyContainer.getRawIngredientService(),
                 dependencyContainer.getBasicIngredientService(),
