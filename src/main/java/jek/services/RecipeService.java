@@ -12,12 +12,10 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    // CREATE
     public void createRecipe(Recipe recipe){
         recipeRepository.createRecipe(recipe);
     }
 
-    // READ
     public Recipe getRecipeByName(String name){
         return recipeRepository.getRecipeByName(name);
     }
@@ -30,15 +28,11 @@ public class RecipeService {
         return recipeRepository.getRecipesByUserId(userId);
     }
 
-    // UPDATE
     public void updateRecipe(Recipe recipe){
         recipeRepository.updateRecipeById(recipe.getRecipeId(), recipe.getRecipeName(), recipe.getUserId());
     }
 
-    // DELETE
     public void deleteRecipe(Recipe recipe){
 
     }
-
-
 }

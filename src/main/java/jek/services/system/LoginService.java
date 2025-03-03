@@ -104,7 +104,6 @@ public class LoginService {
                     }
                 }
             }
-
         }
     }
 
@@ -120,7 +119,4 @@ public class LoginService {
         activeUser.setUsername(tempUserName);
         activeUser.setPassword(tempUserPassword);
     }
-
-
-
 }

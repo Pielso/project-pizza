@@ -14,20 +14,6 @@ public class BasicIngredientService {
         this.basicIngredientRepository = basicIngredientRepository;
     }
 
-    // Basic CRUD-Referrals
-
-    public void createBasicIngredient(BasicIngredient basicIngredient) {
-        basicIngredientRepository.createBasicIngredient(basicIngredient);
-    }
-    public BasicIngredient getBasicIngredient(int id) {
-        return basicIngredientRepository.getBasicIngredientById(id);
-    }
-
-
-
-
-
-
     public void createAllBasicIngredients() {
         if (basicIngredientRepository.basicIngredientsIsEmpty()){
             for (BasicIngredient basicIngredient: allBasicIngredients()){
@@ -35,8 +21,6 @@ public class BasicIngredientService {
             }
         }
     }
-
-
 
     public int getBasicIngredientAmountInStockById(int basicIngredientId){
         return basicIngredientRepository.getBasicIngredientAmountInStockById(basicIngredientId);

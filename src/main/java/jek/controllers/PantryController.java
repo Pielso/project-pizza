@@ -5,7 +5,6 @@ import jek.services.ProgressService;
 import jek.services.RawIngredientService;
 import jek.services.ToppingService;
 import jek.services.system.TextService;
-
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -31,7 +30,6 @@ public class PantryController {
 
         do {
             textService.pentryScreen();
-
             System.out.println("1: BUY MORE RAW INGREDIENTS");
             System.out.println("2: BUY MORE CHEESE");
             System.out.println("3: BUY MORE TOPPINGS");

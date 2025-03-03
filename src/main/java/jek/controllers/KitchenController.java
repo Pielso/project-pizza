@@ -2,10 +2,8 @@ package jek.controllers;
 
 import jek.models.Recipe;
 import jek.models.RecipeTopping;
-import jek.models.Topping;
 import jek.services.*;
 import jek.services.system.TextService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,20 +13,16 @@ import static jek.controllers.LoginController.activeUser;
 public class KitchenController {
     private final Scanner scan = new Scanner(System.in);
     private final TextService textService;
-    private final ProgressService progressService;
     private final RecipeService recipeService;
     private final RawIngredientService rawIngredientService;
     private final BasicIngredientService basicIngredientService;
-    private final ToppingService toppingService;
     private final RecipeToppingService recipeToppingService;
 
-    public KitchenController(TextService textService, ProgressService progressService, RecipeService recipeService, RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService, RecipeToppingService recipeToppingService) {
+    public KitchenController(TextService textService, RecipeService recipeService, RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, RecipeToppingService recipeToppingService) {
         this.textService = textService;
-        this.progressService = progressService;
         this.recipeService = recipeService;
         this.rawIngredientService = rawIngredientService;
         this.basicIngredientService = basicIngredientService;
-        this.toppingService = toppingService;
         this.recipeToppingService = recipeToppingService;
     }
 
@@ -75,7 +69,6 @@ public class KitchenController {
         String recipeName = scan.nextLine();
 
         while (true) {
-
             textService.displayAvailableToppings();
             System.out.println("Which topping would you like to add to the recipe? (enter ID).\nTo exit without saving the recipe, input '0'. \nWhen you are done with the recipe, input any number above 15");
             int toppingId = Integer.parseInt(scan.nextLine());
@@ -100,7 +93,6 @@ public class KitchenController {
     }
 
     private void prepareDough() {
-
         if (rawIngredientService.hasEnoughIngredientsForDough()) {
             rawIngredientService.subtractIngredientsForDough();
             basicIngredientService.addDough(10);
@@ -119,8 +111,6 @@ public class KitchenController {
             System.out.println("Not enough ingredients to prepare tomato sauce.");
         }
     }
-
-
 }
 
 

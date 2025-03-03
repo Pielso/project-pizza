@@ -17,8 +17,8 @@ public class LoginController {
     public static User activeUser = new User();
     public static String tempUserName;
     public static String tempUserPassword;
-    private final Scanner scan = new Scanner(System.in);
 
+    private final Scanner scan = new Scanner(System.in);
     private final LoginService loginService;
     private final TextService textService;
     private final ProgressService progressService;
@@ -76,8 +76,8 @@ public class LoginController {
                     userService.setActiveUserByUsername(tempUserName);
                     activeProgress = progressService.getProgressById(activeUser.getUserId());
 
-                    // HERE DYNAMO_DB WILL FILL ALL AMOUNT_IN_STOCK
                     completedLogin = true;
+
                     saveAndLoadService.createEmptyInventory();
                     saveAndLoadService.loadAmountInStock();
                     pizzaGameController.menu();

@@ -2,7 +2,6 @@ package jek.repositories;
 
 import jek.models.Topping;
 import jek.services.system.DatabaseService;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +15,6 @@ public class ToppingRepository {
     public ToppingRepository(DatabaseService databaseService) {
         this.databaseService = databaseService;
     }
-
-    // CREATE
 
     public void createTopping(Topping newTopping) {
 
@@ -33,8 +30,6 @@ public class ToppingRepository {
             throw new RuntimeException(e);
         }
     }
-
-    // READ
 
     public Topping getToppingById(int toppingId){
         Topping topping = new Topping();
@@ -101,8 +96,6 @@ public class ToppingRepository {
         }
     }
 
-    // UPDATE
-
     public void updateToppingAmountInStockById(int toppingId, int amountInStock){
         String query = "UPDATE toppings SET amount_in_stock = ? WHERE topping_id = ?;";
         try (Connection connection = databaseService.getConnection()){
@@ -116,8 +109,6 @@ public class ToppingRepository {
         }
     }
 
-    // DELETE
-
     public void deleteAllToppings(){
         String query = "DELETE FROM toppings;";
         try (Connection connection = databaseService.getConnection()){
@@ -129,6 +120,4 @@ public class ToppingRepository {
             throw new RuntimeException(e);
         }
     }
-
-
 }

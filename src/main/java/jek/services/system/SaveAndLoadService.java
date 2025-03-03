@@ -27,7 +27,7 @@ public class SaveAndLoadService {
         this.toppingService = toppingService;
     }
 
-    public void saveAmountInStock() throws SQLException, InterruptedException {
+    public void saveAmountInStock() {
         dynamoDBService.saveAmountInStock();
     }
 
@@ -47,7 +47,7 @@ public class SaveAndLoadService {
         databaseService.createInventory(rawIngredientService, basicIngredientService, toppingService);
     }
 
-    public void dropInventory() throws SQLException {
+    public void dropInventory() {
         rawIngredientService.deleteAllRawIngredients();
         basicIngredientService.deleteAllBasicIngredients();
         toppingService.deleteAllToppings();

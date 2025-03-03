@@ -12,7 +12,6 @@ public class PizzaGameController {
     private static final Scanner scan = new Scanner(System.in);
 
     private final TextService textService;
-    private final ProgressService progressService;
     private final LoginController loginController;
     private final OfficeController officeController;
     private final PantryController pantryController;
@@ -20,15 +19,11 @@ public class PizzaGameController {
     private final KitchenController kitchenController;
     private final BankController bankController;
     private final SaveAndLoadService saveAndLoadService;
-    private final RawIngredientService rawIngredientService;
-    private final BasicIngredientService basicIngredientService;
-    private final ToppingService toppingService;
     private final CustomerService customerService;
 
 
-    public PizzaGameController(TextService textService, ProgressService progressService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController, BankController bankController, SaveAndLoadService saveAndLoadService, RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService, CustomerService customerService) {
+    public PizzaGameController(TextService textService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController, BankController bankController, SaveAndLoadService saveAndLoadService, CustomerService customerService) {
         this.textService = textService;
-        this.progressService = progressService;
         this.loginController = loginController;
         this.officeController = officeController;
         this.pantryController = pantryController;
@@ -36,9 +31,6 @@ public class PizzaGameController {
         this.kitchenController = kitchenController;
         this.bankController = bankController;
         this.saveAndLoadService = saveAndLoadService;
-        this.rawIngredientService = rawIngredientService;
-        this.basicIngredientService = basicIngredientService;
-        this.toppingService = toppingService;
         this.customerService = customerService;
     }
 
@@ -48,7 +40,6 @@ public class PizzaGameController {
         int menuChoice = 0;
 
         while (!exit){
-
             textService.pizzaGameMenu();
             try {
                 menuChoice = Integer.parseInt(scan.nextLine());
@@ -56,7 +47,6 @@ public class PizzaGameController {
             catch (Exception e) {
                 System.out.println("Not a valid choice");
                 scan.nextLine();
-
             }
 
             switch (menuChoice){

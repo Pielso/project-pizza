@@ -15,17 +15,14 @@ public class ToppingService {
         this.toppingRepository = toppingRepository;
     }
 
-    // CREATE
     public void createAllToppings() throws SQLException {
         if (toppingRepository.toppingsIsEmpty()){
             for (Topping topping: allToppings()){
                 toppingRepository.createTopping(topping);
             }
         }
-
     }
 
-    // READ
     public Topping getToppingById(int toppingId){
         return toppingRepository.getToppingById(toppingId);
     }
@@ -48,7 +45,6 @@ public class ToppingService {
         return toppingRepository.getAllToppings();
     }
 
-    // UPDATE
     public void addToppingAmountInStock(int toppingId, int amountToAdd){
         int before = toppingRepository.getToppingAmountInStockById(toppingId);
         toppingRepository.updateToppingAmountInStockById(toppingId, before + amountToAdd);

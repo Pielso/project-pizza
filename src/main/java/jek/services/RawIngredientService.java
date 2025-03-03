@@ -13,7 +13,6 @@ public class RawIngredientService {
         this.rawIngredientRepository = rawIngredientRepository;
     }
 
-    // CREATE
     public void createAllRawIngredients() {
         if (rawIngredientRepository.rawIngredientsIsEmpty()){
             for (RawIngredient rawIngredient: allRawIngredients()){
@@ -22,21 +21,15 @@ public class RawIngredientService {
         }
     }
 
-    // READ
     public int getRawIngredientAmountInStockById(int rawIngredientId){
         return rawIngredientRepository.getRawIngredientAmountInStockById(rawIngredientId);
     }
 
-    // UPDATE
     public void addRawIngredientAmountInStock(int rawIngredientId, int amountToAdd){
         int before = rawIngredientRepository.getRawIngredientAmountInStockById(rawIngredientId);
         rawIngredientRepository.updateRawIngredientAmountInStockById(rawIngredientId, before + amountToAdd);
     }
 
-    // DELETE
-
-
-    // OTHER
     public List<RawIngredient> allRawIngredients(){
         RawIngredient flour = new RawIngredient("Flour", 0);
         RawIngredient yeast = new RawIngredient("Yeast", 0);

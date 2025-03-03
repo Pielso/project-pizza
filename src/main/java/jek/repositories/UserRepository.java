@@ -2,7 +2,6 @@ package jek.repositories;
 
 import jek.models.User;
 import jek.services.system.DatabaseService;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +15,6 @@ public class UserRepository {
         this.databaseService = databaseService;
     }
 
-    // CREATE
-
     public void createUser(User user) {
         String query = "INSERT INTO users (username, password) VALUES (?, ?);";
         try (Connection connection = databaseService.getConnection()){
@@ -30,8 +27,6 @@ public class UserRepository {
             throw new RuntimeException(e);
         }
     }
-
-    // READ
 
     public int getUserIdByUsername(String name){
         String query = "SELECT user_id FROM users WHERE username = ?;";
@@ -93,8 +88,6 @@ public class UserRepository {
         return user;
     }
 
-    // UPDATE
-
     public void updateUserById(int userId, String name, String password){
         String query = "UPDATE users SET username = ?, password = ? WHERE user_id = ?;";
         try (Connection connection = databaseService.getConnection()){
@@ -108,8 +101,6 @@ public class UserRepository {
             throw new RuntimeException(e);
         }
     }
-
-    // DELETE
 
     public void deleteUserById(int userId){
         String query = "DELETE FROM users WHERE user_id = ?;";

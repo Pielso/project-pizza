@@ -17,11 +17,6 @@ public class RecipeToppingService {
         recipeToppingRepository.createRecipeTopping(recipeTopping);
     }
 
-    // READ
-    public List<RecipeTopping> getAllRecipeToppings(){
-        return null;
-    }
-
     public List<String> getAllRecipeToppingNamesByRecipeId(int recipeId){
         return recipeToppingRepository.getAllToppingNamesByRecipeId(recipeId);
     }

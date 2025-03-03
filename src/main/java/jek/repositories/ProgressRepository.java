@@ -2,7 +2,6 @@ package jek.repositories;
 
 import jek.models.Progress;
 import jek.services.system.DatabaseService;
-
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,12 +15,8 @@ public class ProgressRepository {
         this.databaseService = databaseService;
     }
 
-    // CREATE
-
     public void createProgress(Progress newProgress) {
-
         String query = "INSERT INTO progress (user_id, cash, loan, interest_rate, customers_per_day, restaurant_size, days_played) VALUES (?, ?, ?, ?, ?, ?, ?);";
-
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, newProgress.getUserId());
@@ -37,8 +32,6 @@ public class ProgressRepository {
             throw new RuntimeException(e);
         }
     }
-
-    // READ
 
     public Progress getProgressById(int userId){
         Progress progress = new Progress();
@@ -62,8 +55,6 @@ public class ProgressRepository {
         }
         return progress;
     }
-
-    // UPDATE
 
     public void updateProgressCashById(int userId, BigDecimal cash) throws SQLException {
         String query = "UPDATE progress SET cash = ? WHERE user_id = ?;";
@@ -120,29 +111,6 @@ public class ProgressRepository {
             ps.execute();
         }
     }
-
-
-
-
-    public void updateProgressById(int userId, BigDecimal cash, BigDecimal loan, int interestRate, int customersPerDay, int restaurantSize, int daysPlayed){
-        String query = "UPDATE progress SET cash = ?, loan = ?, interest_rate = ?, customers_per_day = ?, restaurant_size = ?, days_played = ? WHERE user_id = ?;";
-        try (Connection connection = databaseService.getConnection()){
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setBigDecimal(1, cash);
-            ps.setBigDecimal(2, loan);
-            ps.setInt(3, interestRate);
-            ps.setInt(4, customersPerDay);
-            ps.setInt(5, restaurantSize);
-            ps.setInt(6, daysPlayed);
-            ps.setInt(7, userId);
-            ps.execute();
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // DELETE
 
     public void deleteProgressById(int id) throws SQLException {
         String query = "DELETE FROM progress WHERE user_id = ?;";

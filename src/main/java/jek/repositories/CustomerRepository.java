@@ -2,7 +2,6 @@ package jek.repositories;
 
 import jek.models.Customer;
 import jek.services.system.DatabaseService;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +15,6 @@ public class CustomerRepository {
     public CustomerRepository(DatabaseService databaseService) {
         this.databaseService = databaseService;
     }
-
-    // CREATE
 
     public void createCustomer(Customer newCustomer) {
 
@@ -81,24 +78,6 @@ public class CustomerRepository {
         }
     }
 
-    // UPDATE
-
-    public void updateCustomerById(int customerId, String customerName, int desiredTopping1, int desiredTopping2, int desiredTopping3){
-        String query = "UPDATE customers SET customer_name = ?, desired_topping1 = ?, desired_topping2 = ?, desired_topping3 = ? WHERE customer_id = ?;";
-        try (Connection connection = databaseService.getConnection()){
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, customerName);
-            ps.setInt(2, desiredTopping1);
-            ps.setInt(3, desiredTopping2);
-            ps.setInt(3, desiredTopping3);
-            ps.setInt(3, customerId);
-            ps.execute();
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     // DELETE
 
     public void deleteCustomerById(int customerId){
@@ -106,18 +85,6 @@ public class CustomerRepository {
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, customerId);
-            ps.execute();
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void deleteCustomer(Customer customer){
-        String query = "DELETE FROM customers WHERE customer_id = ?;";
-        try (Connection connection = databaseService.getConnection()){
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, customer.getCustomerId());
             ps.execute();
         }
         catch (SQLException e) {

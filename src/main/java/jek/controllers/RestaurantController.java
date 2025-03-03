@@ -13,16 +13,14 @@ public class RestaurantController {
     private final TextService textService;
     private final ProgressService progressService;
     private final CustomerService customerService;
-    private final RecipeService recipeService;
     private final RecipeToppingService recipeToppingService;
     private final ToppingService toppingService;
     private final BasicIngredientService basicIngredientService;
 
-    public RestaurantController(TextService textService, ProgressService progressService, CustomerService customerService, RecipeService recipeService, RecipeToppingService recipeToppingService, ToppingService toppingService, BasicIngredientService basicIngredientService) {
+    public RestaurantController(TextService textService, ProgressService progressService, CustomerService customerService, RecipeToppingService recipeToppingService, ToppingService toppingService, BasicIngredientService basicIngredientService) {
         this.textService = textService;
         this.progressService = progressService;
         this.customerService = customerService;
-        this.recipeService = recipeService;
         this.recipeToppingService = recipeToppingService;
         this.toppingService = toppingService;
         this.basicIngredientService = basicIngredientService;
@@ -55,17 +53,14 @@ public class RestaurantController {
                         System.out.println("Invalid choice. Try again.");
                         break;
                     }
-
                 }
             } catch (Exception e) {
                 System.out.println("An error occurred: " + e.getMessage());
             }
         } while (!exitFromRestaurant);
-
-
     }
 
-        // SERVE CUSTOMER - WHICH CUSTOMER? - WHICH RECIPE? - HAS ENOUGH INGREDIENTS?
+    // SERVE CUSTOMER - WHICH CUSTOMER? - WHICH RECIPE? - HAS ENOUGH INGREDIENTS?
 
     private void serveCustomer() throws SQLException {
         textService.serveCustomerScreen();
@@ -94,7 +89,6 @@ public class RestaurantController {
             customerService.deleteCustomerById(customerId);
             System.out.println("Customer served! Earned: $" + payment);
         }
-
     }
 
     private BigDecimal calculatePayment(int customerId, int recipeId) throws SQLException {
@@ -123,9 +117,7 @@ public class RestaurantController {
             payment = BigDecimal.valueOf(6);
         }
 
-
         System.out.println("Total payment for customer " + customerId + " is $" + payment + ".");
-
         return payment;
     }
 

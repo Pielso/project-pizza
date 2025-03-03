@@ -2,7 +2,6 @@ package jek.controllers;
 
 import jek.services.ProgressService;
 import jek.services.system.TextService;
-
 import java.math.BigDecimal;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -61,17 +60,13 @@ public class BankController {
                                 break;
                             }
 
-                        }
-
-                        // Denna funkar inte
-                        catch (InputMismatchException e) {
+                        } catch (InputMismatchException e) {
                             System.out.println("Not a valid sum");
                         }
                         break;
                     }
                     case 2: {
 
-                        // INGEN FELHANTERING ALLS!
                         if (progressService.getActiveProgress().getLoan().compareTo(BigDecimal.valueOf(50000)) > 0){
                             System.out.println("Your loan need to be less than $50'000 for this to be approved.");
                             break;
@@ -89,7 +84,6 @@ public class BankController {
                         break;
                     }
                     default: System.out.println("Invalid choice. Try again.");
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();

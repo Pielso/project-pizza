@@ -77,12 +77,12 @@ public class DependencyContainer {
 
             // Skapa controllers och injicera tjänster
             this.bankController = new BankController(textService, progressService);
-            this.kitchenController = new KitchenController(textService, progressService, recipeService, rawIngredientService, basicIngredientService, toppingService, recipeToppingService);
+            this.kitchenController = new KitchenController(textService, recipeService, rawIngredientService, basicIngredientService, recipeToppingService);
             this.officeController = new OfficeController(textService, progressService);
             this.pantryController = new PantryController(textService, progressService, rawIngredientService, basicIngredientService, toppingService);
-            this.restaurantController = new RestaurantController(textService, progressService, customerService, recipeService, recipeToppingService, toppingService, basicIngredientService);
+            this.restaurantController = new RestaurantController(textService, progressService, customerService, recipeToppingService, toppingService, basicIngredientService);
             this.loginController = new LoginController(loginService, textService, progressService, userService, saveAndLoadService);
-            this.pizzaGameController = new PizzaGameController(textService, progressService, loginController, officeController, pantryController, restaurantController, kitchenController, bankController, saveAndLoadService, rawIngredientService, basicIngredientService, toppingService, customerService);
+            this.pizzaGameController = new PizzaGameController(textService, loginController, officeController, pantryController, restaurantController, kitchenController, bankController, saveAndLoadService, customerService);
         }
 
         public DatabaseService getDatabaseService(){

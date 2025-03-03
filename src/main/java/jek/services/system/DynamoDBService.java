@@ -1,6 +1,5 @@
 package jek.services.system;
 
-import jek.models.Inventory;
 import jek.services.*;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;

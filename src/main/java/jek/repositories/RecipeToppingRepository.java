@@ -17,7 +17,6 @@ public class RecipeToppingRepository {
         this.databaseService = databaseService;
     }
 
-    // CREATE
     public void createRecipeTopping(RecipeTopping recipeTopping){
         String query = "INSERT INTO recipe_topping (recipe_id, topping_id) VALUES (?, ?)";
         try (Connection connection = databaseService.getConnection()){
@@ -30,7 +29,6 @@ public class RecipeToppingRepository {
         }
     }
 
-    // READ
     public RecipeTopping getRecipeTopping(int recipeId, int toppingId){
         String query = "SELECT * FROM recipe_topping WHERE recipe_id = ? AND topping_id = ?";
         RecipeTopping recipeTopping = null;

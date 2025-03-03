@@ -2,7 +2,6 @@ package jek.repositories;
 
 import jek.models.Recipe;
 import jek.services.system.DatabaseService;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +15,6 @@ public class RecipeRepository {
     public RecipeRepository(DatabaseService databaseService) {
         this.databaseService = databaseService;
     }
-
-    // CREATE
 
     public void createRecipe(Recipe newRecipe) {
 
@@ -33,8 +30,6 @@ public class RecipeRepository {
             throw new RuntimeException(e);
         }
     }
-
-    // READ
 
     public List <Recipe> getRecipesByUserId(int userId){
         List<Recipe> recipes = new ArrayList<>();
@@ -95,8 +90,6 @@ public class RecipeRepository {
         return recipes;
     }
 
-    // UPDATE
-
     public void updateRecipeById(int recipeId, String recipeName, int userId){
         String query = "UPDATE recipes SET recipe_name = ?, user_id = ? WHERE recipe_id = ?;";
         try (Connection connection = databaseService.getConnection()){
@@ -111,8 +104,6 @@ public class RecipeRepository {
         }
     }
 
-    // DELETE
-
     public void deleteRecipeById(int recipeId){
         String query = "DELETE FROM recipes WHERE recipe_id = ?;";
         try (Connection connection = databaseService.getConnection()){
@@ -123,6 +114,4 @@ public class RecipeRepository {
             throw new RuntimeException(e);
         }
     }
-
-
 }
