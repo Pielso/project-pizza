@@ -125,4 +125,16 @@ public class CustomerRepository {
         }
     }
 
+    public void deleteAllCustomers(){
+        String query = "DELETE FROM customers;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.execute();
+            ps = connection.prepareStatement("ALTER TABLE customers AUTO_INCREMENT = 1");
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

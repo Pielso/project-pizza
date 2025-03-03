@@ -85,4 +85,8 @@ public class ToppingService {
             id++;
         }
     }
+
+    public void deleteAllToppings(){
+        toppingRepository.deleteAllToppings();
+    }
 }

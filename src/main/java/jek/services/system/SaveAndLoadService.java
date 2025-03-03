@@ -26,4 +26,9 @@ public class SaveAndLoadService {
     public void dropAmountInStock() throws SQLException, InterruptedException {
         dynamoDBService.setAllAmountInStock(zeroRawIngredients, zeroBasicIngredients, zeroToppings);
     }
+
+    public void dropAllAmountInStockInDynamoDB() {
+        dynamoDBService.deleteAllAmountInStock();
+    }
+
 }

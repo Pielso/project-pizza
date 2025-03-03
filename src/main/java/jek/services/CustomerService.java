@@ -38,5 +38,9 @@ public class CustomerService {
         customerRepository.deleteCustomer(customer);
     }
 
+    public void deleteAllCustomers() throws SQLException {
+        customerRepository.deleteAllCustomers();
+    }
+
 }
 

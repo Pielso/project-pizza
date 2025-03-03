@@ -85,6 +85,18 @@ public class RawIngredientRepository {
         }
     }
 
+    public void deleteAllRawIngredients() {
+        String query = "DELETE FROM raw_ingredients;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.execute();
+            ps = connection.prepareStatement("ALTER TABLE raw_ingredients AUTO_INCREMENT = 1;");
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // DELETE
 
 

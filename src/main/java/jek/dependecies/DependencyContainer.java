@@ -73,7 +73,7 @@ public class DependencyContainer {
 
             this.dynamoDBService = new DynamoDBService(progressService, rawIngredientService, basicIngredientService, toppingService);
             this.saveAndLoadService = new SaveAndLoadService(dynamoDBService);
-            this.loginService = new LoginService(textService, userService);
+            this.loginService = new LoginService(textService, userService, saveAndLoadService);
 
             // Skapa controllers och injicera tjänster
             this.bankController = new BankController(textService, progressService);
@@ -82,7 +82,7 @@ public class DependencyContainer {
             this.pantryController = new PantryController(textService, progressService, rawIngredientService, basicIngredientService, toppingService);
             this.restaurantController = new RestaurantController(textService, progressService, customerService, recipeService, recipeToppingService, toppingService, basicIngredientService);
             this.loginController = new LoginController(loginService, textService, progressService, userService, saveAndLoadService);
-            this.pizzaGameController = new PizzaGameController(textService, progressService, loginController, officeController, pantryController, restaurantController, kitchenController, bankController, saveAndLoadService);
+            this.pizzaGameController = new PizzaGameController(textService, progressService, loginController, officeController, pantryController, restaurantController, kitchenController, bankController, saveAndLoadService, rawIngredientService, basicIngredientService, toppingService, customerService);
         }
 
         public DatabaseService getDatabaseService(){

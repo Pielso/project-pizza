@@ -73,5 +73,9 @@ public class RawIngredientService {
         }
     }
 
+    public void deleteAllRawIngredients() {
+        rawIngredientRepository.deleteAllRawIngredients();
+    }
+
 }
 

@@ -83,16 +83,17 @@ public class RestaurantController {
                 || !basicIngredientService.checkIfBasicIngredientsAmountInStockExists()) {
             System.out.println("Not enough ingredients to prepare this recipe.");
         }
+        else {
+            basicIngredientService.preparedOnePizza();
+            toppingService.servedOnePizza(recipeToppingService.getAllToppingIdsByRecipeId(recipeId));
 
-        basicIngredientService.preparedOnePizza();
-        toppingService.servedOnePizza(recipeToppingService.getAllToppingIdsByRecipeId(recipeId));
+            BigDecimal payment = calculatePayment(customerId, recipeId);
+            progressService.getActiveProgress().setCash(progressService.getActiveProgress().getCash().add(payment));
+            progressService.updateProgressCashById(progressService.getActiveProgress().getUserId(), progressService.getActiveProgress().getCash());
 
-        BigDecimal payment = calculatePayment(customerId, recipeId);
-        progressService.getActiveProgress().setCash(progressService.getActiveProgress().getCash().add(payment));
-        progressService.updateProgressCashById(progressService.getActiveProgress().getUserId(), progressService.getActiveProgress().getCash());
-
-        customerService.deleteCustomerById(customerId);
-        System.out.println("Customer served! Earned: $" + payment);
+            customerService.deleteCustomerById(customerId);
+            System.out.println("Customer served! Earned: $" + payment);
+        }
 
     }
 

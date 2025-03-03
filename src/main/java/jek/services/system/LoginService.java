@@ -13,10 +13,12 @@ public class LoginService {
     private final Scanner scan  = new Scanner(System.in);
     private final TextService textService;
     private final UserService userService;
+    private final SaveAndLoadService saveAndLoadService;
 
-    public LoginService(TextService textService, UserService userService) {
+    public LoginService(TextService textService, UserService userService, SaveAndLoadService saveAndLoadService) {
         this.textService = textService;
         this.userService = userService;
+        this.saveAndLoadService = saveAndLoadService;
     }
 
     public void registerNewUser() throws SQLException {
@@ -69,7 +71,7 @@ public class LoginService {
     }
 
     public void adminMenu() throws SQLException {
-        System.out.println("PASSWORD: ");
+        System.out.print("PASSWORD: ");
         tempUserPassword = scan.nextLine().trim();
         if (tempUserPassword.equalsIgnoreCase("admin")){
             System.out.println("1: DROP AND RESURRECT DATABASE (MySql)");
@@ -85,13 +87,11 @@ public class LoginService {
                     break;
                 }
                 case 2:{
-
-
+                    saveAndLoadService.dropAllAmountInStockInDynamoDB();
                     flushTemp();
                     break;
                 }
                 case 3:{
-
                     flushTemp();
                     break;
                 }

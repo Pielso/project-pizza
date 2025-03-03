@@ -18,8 +18,8 @@ CREATE TABLE recipe_topping (
    recipe_toppings_id INTEGER PRIMARY KEY AUTO_INCREMENT,
    recipe_id INTEGER,
    topping_id INTEGER,
-   FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id),
-   FOREIGN KEY (topping_id) REFERENCES toppings(topping_id));
+   FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id) ON DELETE CASCADE,
+   FOREIGN KEY (topping_id) REFERENCES toppings(topping_id) ON DELETE CASCADE );
 
 CREATE TABLE customers (
     customer_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -27,9 +27,9 @@ CREATE TABLE customers (
     desired_topping1 INTEGER,
     desired_topping2 INTEGER,
     desired_topping3 INTEGER,
-    FOREIGN KEY (desired_topping1) REFERENCES toppings(topping_id),
-    FOREIGN KEY (desired_topping2) REFERENCES toppings(topping_id),
-    FOREIGN KEY (desired_topping3) REFERENCES toppings(topping_id));
+    FOREIGN KEY (desired_topping1) REFERENCES toppings(topping_id) ON DELETE CASCADE,
+    FOREIGN KEY (desired_topping2) REFERENCES toppings(topping_id) ON DELETE CASCADE,
+    FOREIGN KEY (desired_topping3) REFERENCES toppings(topping_id) ON DELETE CASCADE);
 
 CREATE TABLE basic_ingredients (
     basic_ingredient_id INTEGER PRIMARY KEY AUTO_INCREMENT,

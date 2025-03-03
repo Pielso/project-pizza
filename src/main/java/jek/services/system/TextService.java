@@ -180,7 +180,7 @@ public class TextService {
 
     public void showAvailableRecipesAndToppings() {
         centerText("");
-        for (Recipe recipe: recipeService.getAllRecipes()){
+        for (Recipe recipe: recipeService.getRecipesByUserId(progressService.getActiveProgress().getUserId())){
             centerText("ID: " + recipe.getRecipeId() + " - " + recipe.getRecipeName().toUpperCase() + ":");
             for (String topping: recipeToppingService.getAllRecipeToppingNamesByRecipeId(recipe.getRecipeId())){
                 centerText("-" + topping);

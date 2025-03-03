@@ -1,6 +1,6 @@
 package jek.controllers;
 
-import jek.services.ProgressService;
+import jek.services.*;
 import jek.services.system.SaveAndLoadService;
 import jek.services.system.TextService;
 import java.sql.SQLException;
@@ -20,8 +20,13 @@ public class PizzaGameController {
     private final KitchenController kitchenController;
     private final BankController bankController;
     private final SaveAndLoadService saveAndLoadService;
+    private final RawIngredientService rawIngredientService;
+    private final BasicIngredientService basicIngredientService;
+    private final ToppingService toppingService;
+    private final CustomerService customerService;
 
-    public PizzaGameController(TextService textService, ProgressService progressService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController, BankController bankController, SaveAndLoadService saveAndLoadService) {
+
+    public PizzaGameController(TextService textService, ProgressService progressService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController, BankController bankController, SaveAndLoadService saveAndLoadService, RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService, CustomerService customerService) {
         this.textService = textService;
         this.progressService = progressService;
         this.loginController = loginController;
@@ -31,6 +36,10 @@ public class PizzaGameController {
         this.kitchenController = kitchenController;
         this.bankController = bankController;
         this.saveAndLoadService = saveAndLoadService;
+        this.rawIngredientService = rawIngredientService;
+        this.basicIngredientService = basicIngredientService;
+        this.toppingService = toppingService;
+        this.customerService = customerService;
     }
 
     public void menu() throws SQLException, InterruptedException {
@@ -89,6 +98,7 @@ public class PizzaGameController {
                 case 8:{
                     // RETURN TO LOGIN-SCREEN & LOGOUT (what is logout? reset of activeUsername?)
                     exit = true;
+                    customerService.deleteAllCustomers();
                     saveAndLoadService.saveAmountInStock();
                     saveAndLoadService.dropAmountInStock();
                     loginController.loginOrRegister();
@@ -101,7 +111,11 @@ public class PizzaGameController {
                 }
                 case 10:{
                     // SAVE AMOUNT_IN_STOCK LOGIC TO DYNAMODB HERE
+                    customerService.deleteAllCustomers();
                     saveAndLoadService.saveAmountInStock();
+                    rawIngredientService.deleteAllRawIngredients();
+                    basicIngredientService.deleteAllBasicIngredients();
+                    toppingService.deleteAllToppings();
 
                     // CONFIRM-SAVE-LOGIC HERE?
 

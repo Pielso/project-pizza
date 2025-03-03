@@ -101,6 +101,18 @@ public class BasicIngredientRepository {
 
     // DELETE
 
+    public void deleteAllBasicIngredients(){
+        String query = "DELETE FROM basic_ingredients;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.execute();
+            ps = connection.prepareStatement("ALTER TABLE basic_ingredients AUTO_INCREMENT = 1;");
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
 }

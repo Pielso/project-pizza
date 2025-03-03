@@ -107,6 +107,17 @@ public class ToppingRepository {
 
     // DELETE
 
+    public void deleteAllToppings(){
+        String query = "DELETE FROM toppings;";
+        try (Connection connection = databaseService.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.execute();
+            ps = connection.prepareStatement("ALTER TABLE toppings AUTO_INCREMENT = 1;");
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }

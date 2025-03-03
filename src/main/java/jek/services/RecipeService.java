@@ -26,6 +26,10 @@ public class RecipeService {
         return recipeRepository.getAllRecipes();
     }
 
+    public List<Recipe> getRecipesByUserId(int userId){
+        return recipeRepository.getRecipesByUserId(userId);
+    }
+
     // UPDATE
     public void updateRecipe(Recipe recipe){
         recipeRepository.updateRecipeById(recipe.getRecipeId(), recipe.getRecipeName(), recipe.getUserId());

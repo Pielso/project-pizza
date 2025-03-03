@@ -36,23 +36,25 @@ public class RecipeRepository {
 
     // READ
 
-    public Recipe getRecipeById(int recipeId){
-        Recipe recipe = new Recipe();
-        String query = "SELECT recipe_id, recipe_name, user_id FROM recipes WHERE recipe_id = ?;";
+    public List <Recipe> getRecipesByUserId(int userId){
+        List<Recipe> recipes = new ArrayList<>();
+        String query = "SELECT recipe_id, recipe_name, user_id FROM recipes WHERE user_id = ?;";
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, recipeId);
+            ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()){
+            while (rs.next()){
+                Recipe recipe = new Recipe();
                 recipe.setRecipeId(rs.getInt("recipe_id"));
                 recipe.setRecipeName(rs.getString("recipe_name"));
                 recipe.setUserId(rs.getInt("user_id"));
+                recipes.add(recipe);
             }
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return recipe;
+        return recipes;
     }
 
     public Recipe getRecipeByName(String name){

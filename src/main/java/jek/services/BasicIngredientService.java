@@ -92,4 +92,8 @@ public class BasicIngredientService {
             id++;
         }
     }
+
+    public void deleteAllBasicIngredients() {
+        basicIngredientRepository.deleteAllBasicIngredients();
+    }
 }
