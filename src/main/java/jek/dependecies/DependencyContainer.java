@@ -7,82 +7,51 @@ import jek.services.system.*;
 
 public class DependencyContainer {
 
-        // System Services
-        private final DatabaseService databaseService;
-        private final DynamoDBService dynamoDBService;
-        private final SaveAndLoadService saveAndLoadService;
-        private final TextService textService;
-        private final LoginService loginService;
+    // System Services
+    private final DatabaseService databaseService;
+    private final LoginController loginController;
+    private final PizzaGameController pizzaGameController;
 
-        // Repository
-        private final BasicIngredientRepository basicIngredientRepository;
-        private final RawIngredientRepository rawIngredientRepository;
-        private final CustomerRepository customerRepository;
-        private final ProgressRepository progressRepository;
-        private final RecipeRepository recipeRepository;
-        private final ToppingRepository toppingRepository;
-        private final UserRepository userRepository;
-        private final RecipeToppingRepository recipeToppingRepository;
+    public DependencyContainer() {
 
-        // Service
-        private final BasicIngredientService basicIngredientService;
-        private final RawIngredientService rawIngredientService;
-        private final CustomerService customerService;
-        private final ProgressService progressService;
-        private final RecipeService recipeService;
-        private final ToppingService toppingService;
-        private final UserService userService;
-        private final RecipeToppingService recipeToppingService;
+        this.databaseService = new DatabaseService();
+
+        // Create repositories, which should only need DatabaseService
+        RawIngredientRepository rawIngredientRepository = new RawIngredientRepository(databaseService);
+        BasicIngredientRepository basicIngredientRepository = new BasicIngredientRepository(databaseService);
+        ToppingRepository toppingRepository = new ToppingRepository(databaseService);
+        RecipeRepository recipeRepository = new RecipeRepository(databaseService);
+        RecipeToppingRepository recipeToppingRepository = new RecipeToppingRepository(databaseService);
+        CustomerRepository customerRepository = new CustomerRepository(databaseService);
+        UserRepository userRepository = new UserRepository(databaseService);
+        ProgressRepository progressRepository = new ProgressRepository(databaseService);
+
+        // Create services that for most part only should need their own repository.
+        RawIngredientService rawIngredientService = new RawIngredientService(rawIngredientRepository);
+        BasicIngredientService basicIngredientService = new BasicIngredientService(basicIngredientRepository);
+        ToppingService toppingService = new ToppingService(toppingRepository);
+        RecipeService recipeService = new RecipeService(recipeRepository);
+        RecipeToppingService recipeToppingService = new RecipeToppingService(recipeToppingRepository);
+        CustomerService customerService = new CustomerService(customerRepository);
+        UserService userService = new UserService(userRepository);
+        ProgressService progressService = new ProgressService(progressRepository);
+
+        // Services that is not represented by models.
+        TextService textService = new TextService(progressService, rawIngredientService, basicIngredientService, toppingService, customerService, recipeService, recipeToppingService);
+        DynamoDBService dynamoDBService = new DynamoDBService(progressService, rawIngredientService, basicIngredientService, toppingService);
+        SaveAndLoadService saveAndLoadService = new SaveAndLoadService(dynamoDBService, databaseService, rawIngredientService, basicIngredientService, toppingService);
+        LoginService loginService = new LoginService(textService, userService, saveAndLoadService);
 
         // Controllers
-        private final BankController bankController;
-        private final KitchenController kitchenController;
-        private final LoginController loginController;
-        private final OfficeController officeController;
-        private final PantryController pantryController;
-        private final PizzaGameController pizzaGameController;
-        private final RestaurantController restaurantController;
+        OfficeController officeController = new OfficeController(textService, progressService);
+        PantryController pantryController = new PantryController(textService, progressService, rawIngredientService, basicIngredientService, toppingService);
+        RestaurantController restaurantController = new RestaurantController(textService, progressService, customerService, recipeToppingService, toppingService, basicIngredientService);
+        KitchenController kitchenController = new KitchenController(textService, recipeService, rawIngredientService, basicIngredientService, recipeToppingService);
+        BankController bankController = new BankController(textService, progressService);
 
-        public DependencyContainer() {
+        this.loginController = new LoginController(loginService, textService, progressService, userService, saveAndLoadService);
+        this.pizzaGameController = new PizzaGameController(textService, loginController, officeController, pantryController, restaurantController, kitchenController, bankController, saveAndLoadService, customerService);
 
-            // Create System Services
-            this.databaseService = new DatabaseService();
-
-            // Create repositories, which should only need DatabaseService
-            this.basicIngredientRepository = new BasicIngredientRepository(databaseService);
-            this.rawIngredientRepository = new RawIngredientRepository(databaseService);
-            this.customerRepository = new CustomerRepository(databaseService);
-            this.progressRepository = new ProgressRepository(databaseService);
-            this.recipeRepository = new RecipeRepository(databaseService);
-            this.toppingRepository = new ToppingRepository(databaseService);
-            this.userRepository = new UserRepository(databaseService);
-            this.recipeToppingRepository = new RecipeToppingRepository(databaseService);
-
-
-
-            // Create services that for most part only should need their own repository.
-            this.recipeToppingService = new RecipeToppingService(recipeToppingRepository);
-            this.basicIngredientService = new BasicIngredientService(basicIngredientRepository);
-            this.rawIngredientService = new RawIngredientService(rawIngredientRepository);
-            this.customerService = new CustomerService(customerRepository);
-            this.progressService = new ProgressService(progressRepository);
-            this.recipeService = new RecipeService(recipeRepository);
-            this.toppingService = new ToppingService(toppingRepository);
-            this.userService = new UserService(userRepository);
-            this.textService = new TextService(progressService, rawIngredientService, basicIngredientService, toppingService, customerService, recipeService, recipeToppingService);
-
-            this.dynamoDBService = new DynamoDBService(progressService, rawIngredientService, basicIngredientService, toppingService);
-            this.saveAndLoadService = new SaveAndLoadService(dynamoDBService, databaseService, rawIngredientService, basicIngredientService, toppingService);
-            this.loginService = new LoginService(textService, userService, saveAndLoadService);
-
-            // Skapa controllers och injicera tjänster
-            this.bankController = new BankController(textService, progressService);
-            this.kitchenController = new KitchenController(textService, recipeService, rawIngredientService, basicIngredientService, recipeToppingService);
-            this.officeController = new OfficeController(textService, progressService);
-            this.pantryController = new PantryController(textService, progressService, rawIngredientService, basicIngredientService, toppingService);
-            this.restaurantController = new RestaurantController(textService, progressService, customerService, recipeToppingService, toppingService, basicIngredientService);
-            this.loginController = new LoginController(loginService, textService, progressService, userService, saveAndLoadService);
-            this.pizzaGameController = new PizzaGameController(textService, loginController, officeController, pantryController, restaurantController, kitchenController, bankController, saveAndLoadService, customerService);
         }
 
         public DatabaseService getDatabaseService(){
@@ -97,92 +66,5 @@ public class DependencyContainer {
             return pizzaGameController;
         }
 
-        public KitchenController getKitchenController() {
-            return kitchenController;
-        }
-
-        public BankController getBankController() {
-            return bankController;
-        }
-
-        public OfficeController getOfficeController() {
-            return officeController;
-        }
-
-        public PantryController getPentryController() {
-            return pantryController;
-        }
-
-        public RestaurantController getRestaurantController() {
-            return restaurantController;
-        }
-
-        public DynamoDBService getDynamoDBService() {
-            return dynamoDBService;
-        }
-
-        public SaveAndLoadService getSaveAndLoadService() {
-            return saveAndLoadService;
-        }
-
-        public TextService getTextService() {
-            return textService;
-        }
-
-        public BasicIngredientRepository getBasicIngredientRepository() {
-            return basicIngredientRepository;
-        }
-
-        public RawIngredientRepository getRawIngredientRepository() {
-            return rawIngredientRepository;
-        }
-
-        public CustomerRepository getCustomerRepository() {
-            return customerRepository;
-        }
-
-        public ProgressRepository getProgressRepository() {
-            return progressRepository;
-        }
-
-        public RecipeRepository getRecipeRepository() {
-            return recipeRepository;
-        }
-
-        public ToppingRepository getToppingRepository() {
-            return toppingRepository;
-        }
-
-        public UserRepository getUserRepository() {
-            return userRepository;
-        }
-
-        public BasicIngredientService getBasicIngredientService() {
-            return basicIngredientService;
-        }
-
-        public RawIngredientService getRawIngredientService() {
-            return rawIngredientService;
-        }
-
-        public CustomerService getCustomerService() {
-            return customerService;
-        }
-
-        public ProgressService getProgressService() {
-            return progressService;
-        }
-
-        public RecipeService getRecipeService() {
-            return recipeService;
-        }
-
-        public ToppingService getToppingService() {
-            return toppingService;
-        }
-
-        public UserService getUserService() {
-            return userService;
-        }
 
 }
