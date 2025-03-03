@@ -15,8 +15,10 @@ public class RawIngredientService {
 
     // CREATE
     public void createAllRawIngredients() {
-        for (RawIngredient rawIngredient: allRawIngredients()){
-            rawIngredientRepository.createRawIngredient(rawIngredient);
+        if (rawIngredientRepository.rawIngredientsIsEmpty()){
+            for (RawIngredient rawIngredient: allRawIngredients()){
+                rawIngredientRepository.createRawIngredient(rawIngredient);
+            }
         }
     }
 

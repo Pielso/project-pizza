@@ -74,32 +74,37 @@ public class LoginService {
         System.out.print("PASSWORD: ");
         tempUserPassword = scan.nextLine().trim();
         if (tempUserPassword.equalsIgnoreCase("admin")){
-            System.out.println("1: DROP AND RESURRECT DATABASE (MySql)");
-            System.out.println("2: DROP DATABASE (NoSql)");
-            System.out.println("3: EXIT");
-            int choice = Integer.parseInt(scan.nextLine());
-            switch (choice) {
-                case 1:{
-                    DependencyContainer dependencyContainer = new DependencyContainer();
-                    dependencyContainer.getDatabaseService().dropDatabase();
-                    dependencyContainer.getDatabaseService().createDatabase();
-                    flushTemp();
-                    break;
-                }
-                case 2:{
-                    saveAndLoadService.dropAllAmountInStockInDynamoDB();
-                    flushTemp();
-                    break;
-                }
-                case 3:{
-                    flushTemp();
-                    break;
-                }
-                default:{
-                    flushTemp();
-                    System.out.println("Wrong choice. Try again.");
+            boolean menuLoop = true;
+            while (menuLoop){
+                System.out.println("1: DROP AND RESURRECT DATABASE (MySql)");
+                System.out.println("2: DROP DATABASE (NoSql)");
+                System.out.println("3: EXIT");
+                int choice = Integer.parseInt(scan.nextLine());
+                switch (choice) {
+                    case 1:{
+                        DependencyContainer dependencyContainer = new DependencyContainer();
+                        dependencyContainer.getDatabaseService().dropDatabase();
+                        dependencyContainer.getDatabaseService().createDatabase();
+                        flushTemp();
+                        break;
+                    }
+                    case 2:{
+                        saveAndLoadService.dropAllAmountInStockInDynamoDB();
+                        flushTemp();
+                        break;
+                    }
+                    case 3:{
+                        flushTemp();
+                        menuLoop = false;
+                        break;
+                    }
+                    default:{
+                        flushTemp();
+                        System.out.println("Wrong choice. Try again.");
+                    }
                 }
             }
+
         }
     }
 

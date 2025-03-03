@@ -70,6 +70,17 @@ public class RawIngredientRepository {
         return amount;
     }
 
+    public boolean rawIngredientsIsEmpty(){
+        String query = "SELECT * FROM raw_ingredients";
+        try (Connection connection = databaseService.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            return !rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // UPDATE
 
     public void updateRawIngredientAmountInStockById(int rawIngredientId, int amountInStock){

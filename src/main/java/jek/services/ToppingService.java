@@ -17,9 +17,12 @@ public class ToppingService {
 
     // CREATE
     public void createAllToppings() throws SQLException {
-        for (Topping topping: allToppings()){
-            toppingRepository.createTopping(topping);
+        if (toppingRepository.toppingsIsEmpty()){
+            for (Topping topping: allToppings()){
+                toppingRepository.createTopping(topping);
+            }
         }
+
     }
 
     // READ

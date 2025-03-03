@@ -113,9 +113,7 @@ public class PizzaGameController {
                     // SAVE AMOUNT_IN_STOCK LOGIC TO DYNAMODB HERE
                     customerService.deleteAllCustomers();
                     saveAndLoadService.saveAmountInStock();
-                    rawIngredientService.deleteAllRawIngredients();
-                    basicIngredientService.deleteAllBasicIngredients();
-                    toppingService.deleteAllToppings();
+                    saveAndLoadService.dropInventory();
 
                     // CONFIRM-SAVE-LOGIC HERE?
 

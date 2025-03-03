@@ -70,6 +70,17 @@ public class BasicIngredientRepository {
         return basicIngredient;
     }
 
+    public boolean basicIngredientsIsEmpty(){
+        String query = "SELECT * FROM basic_ingredients";
+        try (Connection connection = databaseService.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            return !rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // UPDATE
 
     public void updateBasicIngredientById(BasicIngredient basicIngredient){

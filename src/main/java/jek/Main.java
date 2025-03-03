@@ -14,10 +14,10 @@ public class Main {
 //        dependencyContainer.getDatabaseService().dropDatabase();
 //        dependencyContainer.getDatabaseService().createDatabase();
 //
-        dependencyContainer.getDatabaseService().createInventory(
-                dependencyContainer.getRawIngredientService(),
-                dependencyContainer.getBasicIngredientService(),
-                dependencyContainer.getToppingService());
+//        dependencyContainer.getDatabaseService().createInventory(
+//                dependencyContainer.getRawIngredientService(),
+//                dependencyContainer.getBasicIngredientService(),
+//                dependencyContainer.getToppingService());
 
 
         try {

@@ -72,7 +72,7 @@ public class DependencyContainer {
             this.textService = new TextService(progressService, rawIngredientService, basicIngredientService, toppingService, customerService, recipeService, recipeToppingService);
 
             this.dynamoDBService = new DynamoDBService(progressService, rawIngredientService, basicIngredientService, toppingService);
-            this.saveAndLoadService = new SaveAndLoadService(dynamoDBService);
+            this.saveAndLoadService = new SaveAndLoadService(dynamoDBService, databaseService, rawIngredientService, basicIngredientService, toppingService);
             this.loginService = new LoginService(textService, userService, saveAndLoadService);
 
             // Skapa controllers och injicera tjänster

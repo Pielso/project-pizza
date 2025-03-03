@@ -9,7 +9,6 @@ import jek.services.system.SaveAndLoadService;
 import jek.services.system.TextService;
 
 import java.sql.*;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class LoginController {
@@ -50,9 +49,11 @@ public class LoginController {
             tempUserName = scan.nextLine().trim();
             if (tempUserName.equalsIgnoreCase("admin")) {
                 loginService.adminMenu();
+                continue;
             }
             if (tempUserName.equalsIgnoreCase("exit")){
                 loginService.flushTemp();
+                saveAndLoadService.dropInventory();
                 break;
             }
             if (tempUserName.equalsIgnoreCase("register")){
@@ -60,6 +61,7 @@ public class LoginController {
                 completedLogin = true;
                 progressService.createProgress(new Progress(userService.createUserAndReturnId(new User(tempUserName, tempUserPassword))));
                 activeProgress.setUserId(userService.getUserIdByUsername(tempUserName));
+                saveAndLoadService.createEmptyInventory();
                 saveAndLoadService.saveAmountInStock();
                 loginService.flushTemp();
                 loginOrRegister();
@@ -76,7 +78,7 @@ public class LoginController {
 
                     // HERE DYNAMO_DB WILL FILL ALL AMOUNT_IN_STOCK
                     completedLogin = true;
-
+                    saveAndLoadService.createEmptyInventory();
                     saveAndLoadService.loadAmountInStock();
                     pizzaGameController.menu();
                 }

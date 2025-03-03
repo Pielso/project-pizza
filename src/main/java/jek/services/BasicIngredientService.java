@@ -29,9 +29,10 @@ public class BasicIngredientService {
 
 
     public void createAllBasicIngredients() {
-
-        for (BasicIngredient basicIngredient: allBasicIngredients()){
-            basicIngredientRepository.createBasicIngredient(basicIngredient);
+        if (basicIngredientRepository.basicIngredientsIsEmpty()){
+            for (BasicIngredient basicIngredient: allBasicIngredients()){
+                basicIngredientRepository.createBasicIngredient(basicIngredient);
+            }
         }
     }
 
