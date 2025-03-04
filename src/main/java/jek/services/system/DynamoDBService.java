@@ -55,7 +55,6 @@ public class DynamoDBService {
                                 .readCapacityUnits(5L)
                                 .writeCapacityUnits(5L)
                                 .build()
-
                 )
                 .tableName(TABLE_NAME)
                 .build();

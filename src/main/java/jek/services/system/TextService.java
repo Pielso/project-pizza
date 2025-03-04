@@ -123,7 +123,6 @@ public class TextService {
         printBasicIngredientsAmountInStock();
         centerText("");
         printToppingsAmountInStock();
-
         centerText("");
         centerText("WHAT DO YOU WANT TO DO?");
         centerText("");
@@ -172,8 +171,21 @@ public class TextService {
 
     public void serveCustomerScreen() throws SQLException {
         centerText("");
-        for (Customer customer: customerService.getAllCustomers()){
-            centerText("ID: " + customer.getCustomerId() + " - " + customer.getCustomerName() + " - LIKES: " + toppingService.getToppingById(customer.getDesiredTopping1()).getToppingName() + ", " + toppingService.getToppingById(customer.getDesiredTopping2()).getToppingName() + ", " + toppingService.getToppingById(customer.getDesiredTopping3()).getToppingName());
+        if (customerService.getAllCustomers().isEmpty()){
+            centerText("YOU ARE ON DAY ZERO OF YOUR JOURNEY");
+            centerText("CUSTOMERS WILL START SHOWING UP TOMORROW");
+            centerText("USE THIS DAY TO CREATE RECIPES, BUY INGREDIENTS, AND PREPARE TOMATO SAUCE AND DOUGH");
+        }
+        else {
+            for (Customer customer: customerService.getAllCustomers()){
+                String bestChoice = "";
+                for (Recipe recipe: recipeService.getAllRecipes()){
+                    if (recipeToppingService.getAllToppingIdsByRecipeId(recipe.getRecipeId()).contains(customer.getDesiredTopping1()) && recipeToppingService.getAllToppingIdsByRecipeId(recipe.getRecipeId()).contains(customer.getDesiredTopping2()) && recipeToppingService.getAllToppingIdsByRecipeId(recipe.getRecipeId()).contains(customer.getDesiredTopping3())){
+                        bestChoice = recipe.getRecipeName();
+                    }
+                }
+                centerText("ID: " + customer.getCustomerId() + " - " + customer.getCustomerName() + " - LIKES: " + toppingService.getToppingById(customer.getDesiredTopping1()).getToppingName() + ", " + toppingService.getToppingById(customer.getDesiredTopping2()).getToppingName() + ", " + toppingService.getToppingById(customer.getDesiredTopping3()).getToppingName() + " - (" + bestChoice + ")");
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package jek.controllers;
 
 import jek.services.*;
+import jek.services.system.NextDayService;
 import jek.services.system.SaveAndLoadService;
 import jek.services.system.TextService;
 import java.sql.SQLException;
@@ -20,9 +21,10 @@ public class PizzaGameController {
     private final BankController bankController;
     private final SaveAndLoadService saveAndLoadService;
     private final CustomerService customerService;
+    private final NextDayService nextDayService;
 
 
-    public PizzaGameController(TextService textService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController, BankController bankController, SaveAndLoadService saveAndLoadService, CustomerService customerService) {
+    public PizzaGameController(TextService textService, LoginController loginController, OfficeController officeController, PantryController pantryController, RestaurantController restaurantController, KitchenController kitchenController, BankController bankController, SaveAndLoadService saveAndLoadService, CustomerService customerService, NextDayService nextDayService) {
         this.textService = textService;
         this.loginController = loginController;
         this.officeController = officeController;
@@ -32,6 +34,8 @@ public class PizzaGameController {
         this.bankController = bankController;
         this.saveAndLoadService = saveAndLoadService;
         this.customerService = customerService;
+        this.nextDayService = nextDayService;
+
     }
 
     public void menu() throws SQLException, InterruptedException {
@@ -77,7 +81,7 @@ public class PizzaGameController {
                 }
                 case 6:{
                     // INCREASE DAYS PLAYED, GENERATE NEW CUSTOMERS, INCREMENT LOAN BY INTEREST / 365
-
+                    nextDayService.goToNextDay();
                     break;
                 }
                 case 7:{

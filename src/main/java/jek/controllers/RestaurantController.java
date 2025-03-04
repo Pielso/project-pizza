@@ -29,9 +29,7 @@ public class RestaurantController {
     public void goToRestaurant() throws SQLException {
         boolean exitFromRestaurant = false;
 
-        for (int i = 10; i > 0; i--) {
-            customerService.createCustomer(new Customer());
-        }
+
 
         do {
             textService.restaurantScreen();

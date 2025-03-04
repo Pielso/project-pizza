@@ -41,16 +41,17 @@ public class DependencyContainer {
         DynamoDBService dynamoDBService = new DynamoDBService(progressService, rawIngredientService, basicIngredientService, toppingService);
         SaveAndLoadService saveAndLoadService = new SaveAndLoadService(dynamoDBService, databaseService, rawIngredientService, basicIngredientService, toppingService);
         LoginService loginService = new LoginService(textService, userService, saveAndLoadService);
+        NextDayService nextDayService = new NextDayService(progressService, customerService);
 
         // Controllers
-        OfficeController officeController = new OfficeController(textService, progressService);
+        OfficeController officeController = new OfficeController(textService);
         PantryController pantryController = new PantryController(textService, progressService, rawIngredientService, basicIngredientService, toppingService);
         RestaurantController restaurantController = new RestaurantController(textService, progressService, customerService, recipeToppingService, toppingService, basicIngredientService);
         KitchenController kitchenController = new KitchenController(textService, recipeService, rawIngredientService, basicIngredientService, recipeToppingService);
         BankController bankController = new BankController(textService, progressService);
 
         this.loginController = new LoginController(loginService, textService, progressService, userService, saveAndLoadService);
-        this.pizzaGameController = new PizzaGameController(textService, loginController, officeController, pantryController, restaurantController, kitchenController, bankController, saveAndLoadService, customerService);
+        this.pizzaGameController = new PizzaGameController(textService, loginController, officeController, pantryController, restaurantController, kitchenController, bankController, saveAndLoadService, customerService, nextDayService);
 
         }
 
