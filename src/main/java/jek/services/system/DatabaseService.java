@@ -69,9 +69,4 @@ public class DatabaseService {
         scriptRunner(createDB);
     }
 
-    public void createInventory(RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService) throws SQLException {
-        toppingService.createAllToppings();
-        basicIngredientService.createAllBasicIngredients();
-        rawIngredientService.createAllRawIngredients();
-    }
 }

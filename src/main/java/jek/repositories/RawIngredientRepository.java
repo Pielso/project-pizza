@@ -14,19 +14,21 @@ public class RawIngredientRepository {
         this.databaseService = databaseService;
     }
 
+    // CREATE
+
     public void createRawIngredient(RawIngredient newRawIngredient) {
         String query = "INSERT INTO raw_ingredients (raw_ingredient_name, amount_in_stock) VALUES (?, ?);";
-
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, newRawIngredient.getRawIngredientName());
             ps.setInt(2, newRawIngredient.getAmountInStock());
             ps.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    // READ
 
     public int getRawIngredientAmountInStockById(int rawIngredientId){
         String query = "SELECT amount_in_stock FROM pizza.raw_ingredients WHERE raw_ingredient_id = ?";
@@ -55,6 +57,8 @@ public class RawIngredientRepository {
         }
     }
 
+    // UPDATE
+
     public void updateRawIngredientAmountInStockById(int rawIngredientId, int amountInStock){
         String query = "UPDATE raw_ingredients SET raw_ingredients.amount_in_stock = ? WHERE raw_ingredient_id = ?;";
         try (Connection connection = databaseService.getConnection()){
@@ -62,11 +66,12 @@ public class RawIngredientRepository {
             ps.setInt(1, amountInStock);
             ps.setInt(2, rawIngredientId);
             ps.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    // DELETE
 
     public void deleteAllRawIngredients() {
         String query = "DELETE FROM raw_ingredients;";

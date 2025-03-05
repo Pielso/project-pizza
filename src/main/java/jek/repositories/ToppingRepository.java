@@ -16,24 +16,25 @@ public class ToppingRepository {
         this.databaseService = databaseService;
     }
 
+    // CREATE
+
     public void createTopping(Topping newTopping) {
-
         String query = "INSERT INTO toppings (topping_name, amount_in_stock) VALUES (?, ?);";
-
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, newTopping.getToppingName());
             ps.setInt(2, newTopping.getAmountInStock());
             ps.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    // READ
+
     public Topping getToppingById(int toppingId){
-        Topping topping = new Topping();
         String query = "SELECT topping_id, topping_name, amount_in_stock FROM toppings WHERE topping_id = ?;";
+        Topping topping = new Topping();
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, toppingId);
@@ -43,8 +44,7 @@ public class ToppingRepository {
                 topping.setToppingName(rs.getString("topping_name"));
                 topping.setAmountInStock(rs.getInt("amount_in_stock"));
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return topping;
@@ -96,6 +96,8 @@ public class ToppingRepository {
         }
     }
 
+    // UPDATE
+
     public void updateToppingAmountInStockById(int toppingId, int amountInStock){
         String query = "UPDATE toppings SET amount_in_stock = ? WHERE topping_id = ?;";
         try (Connection connection = databaseService.getConnection()){
@@ -103,11 +105,12 @@ public class ToppingRepository {
             ps.setInt(1, amountInStock);
             ps.setInt(2, toppingId);
             ps.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    // DELETE
 
     public void deleteAllToppings(){
         String query = "DELETE FROM toppings;";

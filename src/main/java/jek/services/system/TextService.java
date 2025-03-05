@@ -27,13 +27,13 @@ public class TextService {
         this.recipeToppingService = recipeToppingService;
     }
 
-    public void centerText(String text){
+    public void centerText(String text) {
         int consoleWidth = 200;
         int padding = (consoleWidth - text.length()) / 2;
         System.out.printf("%" + padding + "s%s%n", "", text);
     }
 
-    public void loginScreen(){
+    public void loginScreen() {
         centerText("--------------------------------------------------------------------------< LOGIN >--------------------------------------------------------------------------");
         centerText("INPUT LOGIN CREDENTIALS TO CONTINUE PLAYING");
         centerText("IF YOU DONT HAVE AN ACCOUNT, INPUT 'REGISTER'");
@@ -41,7 +41,7 @@ public class TextService {
         centerText("");
     }
 
-    public void createNewUserScreen(){
+    public void createNewUserScreen() {
         centerText("--------------------------------------------------------------------< CREATE NEW USER >----------------------------------------------------------------------");
         centerText("");
         centerText("CHOOSE A USERNAME & PASSWORD");
@@ -113,7 +113,7 @@ public class TextService {
     }
 
 
-    public void pentryScreen(){
+    public void pentryScreen() {
         centerText("--------------------------------------------------------------------------< YOUR PANTRY  >-------------------------------------------------------------------------");
         centerText("");
         centerText("YOUR CURRENT INVENTORY IS:");
@@ -180,7 +180,7 @@ public class TextService {
             for (Customer customer: customerService.getAllCustomers()){
                 String bestChoice = "";
                 for (Recipe recipe: recipeService.getAllRecipes()){
-                    if (recipeToppingService.getAllToppingIdsByRecipeId(recipe.getRecipeId()).contains(customer.getDesiredTopping1()) && recipeToppingService.getAllToppingIdsByRecipeId(recipe.getRecipeId()).contains(customer.getDesiredTopping2()) && recipeToppingService.getAllToppingIdsByRecipeId(recipe.getRecipeId()).contains(customer.getDesiredTopping3())){
+                    if (recipeToppingService.getAllToppingIdByRecipeId(recipe.getRecipeId()).contains(customer.getDesiredTopping1()) && recipeToppingService.getAllToppingIdByRecipeId(recipe.getRecipeId()).contains(customer.getDesiredTopping2()) && recipeToppingService.getAllToppingIdByRecipeId(recipe.getRecipeId()).contains(customer.getDesiredTopping3())){
                         bestChoice = recipe.getRecipeName();
                     }
                 }

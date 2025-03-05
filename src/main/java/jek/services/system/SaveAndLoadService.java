@@ -10,18 +10,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SaveAndLoadService {
-    List <Integer> zeroRawIngredients = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0));
-    List <Integer> zeroBasicIngredients = new ArrayList<Integer>(Arrays.asList(0, 0, 0));
-    List <Integer> zeroToppings = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     private final DynamoDBService dynamoDBService;
-    private final DatabaseService databaseService;
     private final RawIngredientService rawIngredientService;
     private final BasicIngredientService basicIngredientService;
     private final ToppingService toppingService;
 
-    public SaveAndLoadService(DynamoDBService dynamoDBService, DatabaseService databaseService, RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService) {
+    public SaveAndLoadService(DynamoDBService dynamoDBService, RawIngredientService rawIngredientService, BasicIngredientService basicIngredientService, ToppingService toppingService) {
         this.dynamoDBService = dynamoDBService;
-        this.databaseService = databaseService;
         this.rawIngredientService = rawIngredientService;
         this.basicIngredientService = basicIngredientService;
         this.toppingService = toppingService;
@@ -35,16 +30,17 @@ public class SaveAndLoadService {
         dynamoDBService.loadAmountInStock();
     }
 
-    public void dropAmountInStock() throws SQLException, InterruptedException {
-        dynamoDBService.setAllAmountInStock(zeroRawIngredients, zeroBasicIngredients, zeroToppings);
-    }
-
-    public void dropAllAmountInStockInDynamoDB() {
-        dynamoDBService.deleteAllAmountInStock();
-    }
-
     public void createEmptyInventory() throws SQLException {
-        databaseService.createInventory(rawIngredientService, basicIngredientService, toppingService);
+        toppingService.createAllToppings();
+        basicIngredientService.createAllBasicIngredients();
+        rawIngredientService.createAllRawIngredients();
+    }
+
+    public void resetAmountInStock() throws SQLException, InterruptedException {
+        List <Integer> zeroRawIngredients = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0));
+        List <Integer> zeroBasicIngredients = new ArrayList<Integer>(Arrays.asList(0, 0, 0));
+        List <Integer> zeroToppings = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+        dynamoDBService.setAllAmountInStock(zeroRawIngredients, zeroBasicIngredients, zeroToppings);
     }
 
     public void dropInventory() {
@@ -52,5 +48,13 @@ public class SaveAndLoadService {
         basicIngredientService.deleteAllBasicIngredients();
         toppingService.deleteAllToppings();
     }
+
+    public void dropAllAmountInStockInDynamoDB() {
+        dynamoDBService.deleteAllAmountInStock();
+    }
+
+
+
+
 
 }

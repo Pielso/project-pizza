@@ -15,6 +15,8 @@ public class ProgressRepository {
         this.databaseService = databaseService;
     }
 
+    // CREATE
+
     public void createProgress(Progress newProgress) {
         String query = "INSERT INTO progress (user_id, cash, loan, interest_rate, customers_per_day, restaurant_size, days_played) VALUES (?, ?, ?, ?, ?, ?, ?);";
         try (Connection connection = databaseService.getConnection()){
@@ -27,15 +29,16 @@ public class ProgressRepository {
             ps.setInt(6, newProgress.getRestaurantSize());
             ps.setInt(7, newProgress.getDaysPlayed());
             ps.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    // READ
+
     public Progress getProgressById(int userId){
-        Progress progress = new Progress();
         String query = "SELECT user_id, cash, loan, interest_rate, customers_per_day, restaurant_size, days_played FROM progress WHERE user_id = ?;";
+        Progress progress = new Progress();
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, userId);
@@ -49,12 +52,13 @@ public class ProgressRepository {
                 progress.setRestaurantSize(rs.getInt("restaurant_size"));
                 progress.setDaysPlayed(rs.getInt("days_played"));
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return progress;
     }
+
+    // UPDATE
 
     public void updateProgressCashById(int userId, BigDecimal cash) throws SQLException {
         String query = "UPDATE progress SET cash = ? WHERE user_id = ?;";
@@ -111,6 +115,8 @@ public class ProgressRepository {
             ps.execute();
         }
     }
+
+    // DELETE
 
     public void deleteProgressById(int id) throws SQLException {
         String query = "DELETE FROM progress WHERE user_id = ?;";

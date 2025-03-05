@@ -12,7 +12,6 @@ public class RecipeToppingService {
         this.recipeToppingRepository = recipeToppingRepository;
     }
 
-    // CREATE
     public void createRecipeTopping(RecipeTopping recipeTopping){
         recipeToppingRepository.createRecipeTopping(recipeTopping);
     }
@@ -21,7 +20,7 @@ public class RecipeToppingService {
         return recipeToppingRepository.getAllToppingNamesByRecipeId(recipeId);
     }
 
-    public List<Integer> getAllToppingIdsByRecipeId(int recipeId){
+    public List<Integer> getAllToppingIdByRecipeId(int recipeId){
         return recipeToppingRepository.getAllToppingIdByRecipeId(recipeId);
     }
 

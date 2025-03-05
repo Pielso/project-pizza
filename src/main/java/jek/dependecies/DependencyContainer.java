@@ -39,7 +39,7 @@ public class DependencyContainer {
         // Services that is not represented by models.
         TextService textService = new TextService(progressService, rawIngredientService, basicIngredientService, toppingService, customerService, recipeService, recipeToppingService);
         DynamoDBService dynamoDBService = new DynamoDBService(progressService, rawIngredientService, basicIngredientService, toppingService);
-        SaveAndLoadService saveAndLoadService = new SaveAndLoadService(dynamoDBService, databaseService, rawIngredientService, basicIngredientService, toppingService);
+        SaveAndLoadService saveAndLoadService = new SaveAndLoadService(dynamoDBService, rawIngredientService, basicIngredientService, toppingService);
         LoginService loginService = new LoginService(textService, userService, saveAndLoadService);
         NextDayService nextDayService = new NextDayService(progressService, customerService);
 

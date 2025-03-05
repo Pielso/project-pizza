@@ -94,7 +94,7 @@ public class PizzaGameController {
                     exit = true;
                     customerService.deleteAllCustomers();
                     saveAndLoadService.saveAmountInStock();
-                    saveAndLoadService.dropAmountInStock();
+                    saveAndLoadService.resetAmountInStock();
                     loginController.loginOrRegister();
                     break;
                 }

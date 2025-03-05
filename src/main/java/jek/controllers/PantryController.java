@@ -25,7 +25,7 @@ public class PantryController {
         this.toppingService = toppingService;
     }
 
-    public void goToPantry() {
+    public void goToPantry() throws SQLException {
         boolean exitFromPantry = false;
 
         do {

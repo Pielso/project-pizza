@@ -16,24 +16,25 @@ public class RecipeRepository {
         this.databaseService = databaseService;
     }
 
+    // CREATE
+
     public void createRecipe(Recipe newRecipe) {
-
         String query = "INSERT INTO recipes (recipe_name, user_id) VALUES (?, ?);";
-
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, newRecipe.getRecipeName());
             ps.setInt(2, newRecipe.getUserId());
             ps.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    // READ
+
     public List <Recipe> getRecipesByUserId(int userId){
-        List<Recipe> recipes = new ArrayList<>();
         String query = "SELECT recipe_id, recipe_name, user_id FROM recipes WHERE user_id = ?;";
+        List<Recipe> recipes = new ArrayList<>();
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, userId);
@@ -45,16 +46,15 @@ public class RecipeRepository {
                 recipe.setUserId(rs.getInt("user_id"));
                 recipes.add(recipe);
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return recipes;
     }
 
     public Recipe getRecipeByName(String name){
-        Recipe recipe = new Recipe();
         String query = "SELECT recipe_id, recipe_name, user_id FROM recipes WHERE recipe_name = ?;";
+        Recipe recipe = new Recipe();
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, name);
@@ -64,8 +64,7 @@ public class RecipeRepository {
                 recipe.setRecipeName(rs.getString("recipe_name"));
                 recipe.setUserId(rs.getInt("user_id"));
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return recipe;
@@ -90,6 +89,8 @@ public class RecipeRepository {
         return recipes;
     }
 
+    // UPDATE
+
     public void updateRecipeById(int recipeId, String recipeName, int userId){
         String query = "UPDATE recipes SET recipe_name = ?, user_id = ? WHERE recipe_id = ?;";
         try (Connection connection = databaseService.getConnection()){
@@ -98,11 +99,12 @@ public class RecipeRepository {
             ps.setInt(2, userId);
             ps.setInt(3,recipeId);
             ps.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    // DELETE
 
     public void deleteRecipeById(int recipeId){
         String query = "DELETE FROM recipes WHERE recipe_id = ?;";

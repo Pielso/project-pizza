@@ -1,6 +1,5 @@
 package jek.controllers;
 
-import jek.models.Customer;
 import jek.services.*;
 import jek.services.system.TextService;
 
@@ -72,13 +71,13 @@ public class RestaurantController {
         System.out.println("Enter recipe ID to serve: ");
         int recipeId = Integer.parseInt(scan.nextLine());
 
-        if (!toppingService.checkIfToppingAmountInStockExists(recipeToppingService.getAllToppingIdsByRecipeId(recipeId))
+        if (!toppingService.checkIfToppingAmountInStockExists(recipeToppingService.getAllToppingIdByRecipeId(recipeId))
                 || !basicIngredientService.checkIfBasicIngredientsAmountInStockExists()) {
             System.out.println("Not enough ingredients to prepare this recipe.");
         }
         else {
             basicIngredientService.preparedOnePizza();
-            toppingService.servedOnePizza(recipeToppingService.getAllToppingIdsByRecipeId(recipeId));
+            toppingService.servedOnePizza(recipeToppingService.getAllToppingIdByRecipeId(recipeId));
 
             BigDecimal payment = calculatePayment(customerId, recipeId);
             progressService.getActiveProgress().setCash(progressService.getActiveProgress().getCash().add(payment));
@@ -93,13 +92,13 @@ public class RestaurantController {
         BigDecimal payment = null;
         int counter = 0;
 
-        if (recipeToppingService.getAllToppingIdsByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping1())){
+        if (recipeToppingService.getAllToppingIdByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping1())){
             counter++;
         }
-        if (recipeToppingService.getAllToppingIdsByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping2())){
+        if (recipeToppingService.getAllToppingIdByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping2())){
             counter++;
         }
-        if (recipeToppingService.getAllToppingIdsByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping3())){
+        if (recipeToppingService.getAllToppingIdByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping3())){
             counter++;
         }
         if (counter == 1){

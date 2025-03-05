@@ -14,9 +14,19 @@ public class BasicIngredientService {
         this.basicIngredientRepository = basicIngredientRepository;
     }
 
+    /**
+     * <h3>Part of creating the empty inventory of BasicIngredients</h3>
+     * <h5>Used when player registers or logs in</h5>
+     * <p>There is counterparts for loading the amountInStock of RawIngredients and Toppings.</p>
+     */
     public void createAllBasicIngredients() {
         if (basicIngredientRepository.basicIngredientsIsEmpty()){
-            for (BasicIngredient basicIngredient: allBasicIngredients()){
+            BasicIngredient dough = new BasicIngredient("Dough", 0);
+            BasicIngredient tomatoSauce = new BasicIngredient("Tomato Sauce", 0);
+            BasicIngredient cheese = new BasicIngredient("Cheese", 0);
+            List <BasicIngredient> basicIngredients = new ArrayList<>(Arrays.asList(dough, tomatoSauce, cheese));
+
+            for (BasicIngredient basicIngredient: basicIngredients){
                 basicIngredientRepository.createBasicIngredient(basicIngredient);
             }
         }
@@ -26,21 +36,18 @@ public class BasicIngredientService {
         return basicIngredientRepository.getBasicIngredientAmountInStockById(basicIngredientId);
     }
 
-    public List<BasicIngredient> allBasicIngredients(){
-        BasicIngredient dough = new BasicIngredient("Dough", 0);
-        BasicIngredient tomatoSauce = new BasicIngredient("Tomato Sauce", 0);
-        BasicIngredient cheese = new BasicIngredient("Cheese", 0);
-        return new ArrayList<>(Arrays.asList(dough, tomatoSauce, cheese));
+    public boolean checkIfBasicIngredientsAmountInStockExists(){
+        return getBasicIngredientAmountInStockById(1) > 0
+                && getBasicIngredientAmountInStockById(2) > 0
+                && getBasicIngredientAmountInStockById(3) > 0;
     }
 
     public void addDough(int amountToAdd) {
         basicIngredientRepository.updateBasicIngredientAmountInStockById(1, getBasicIngredientAmountInStockById(1)+amountToAdd);
     }
-
     public void addTomatoSauce(int amountToAdd) {
         basicIngredientRepository.updateBasicIngredientAmountInStockById(2, getBasicIngredientAmountInStockById(2)+amountToAdd);
     }
-
     public void addCheese(int amountToAdd){
         basicIngredientRepository.updateBasicIngredientAmountInStockById(3, getBasicIngredientAmountInStockById(3)+amountToAdd);
     }
@@ -48,11 +55,9 @@ public class BasicIngredientService {
     public void subtractDough(int amountToSubtract) {
         basicIngredientRepository.updateBasicIngredientAmountInStockById(1, getBasicIngredientAmountInStockById(1)-amountToSubtract);
     }
-
     public void subtractTomatoSauce(int amountToSubtract) {
         basicIngredientRepository.updateBasicIngredientAmountInStockById(2, getBasicIngredientAmountInStockById(2)-amountToSubtract);
     }
-
     public void subtractCheese(int amountToSubtract) {
         basicIngredientRepository.updateBasicIngredientAmountInStockById(3, getBasicIngredientAmountInStockById(3)-amountToSubtract);
     }
@@ -63,13 +68,12 @@ public class BasicIngredientService {
         subtractCheese(1);
     }
 
-
-    public boolean checkIfBasicIngredientsAmountInStockExists(){
-        return getBasicIngredientAmountInStockById(1) > 0
-                && getBasicIngredientAmountInStockById(2) > 0
-                && getBasicIngredientAmountInStockById(3) > 0;
-    }
-
+    /**
+     * <h3>Part of loading amountInStock of BasicIngredients from DynamoDB</h3>
+     * <h5>Used when already existing player logs in (see LoginController)</h5>
+     * <p>There is counterparts for loading the amountInStock of RawIngredients and Toppings.</p>
+     * @param amountInStock List of integer values retrieved from DynamoDB.
+     */
     public void setAllAmountInStock(List <Integer> amountInStock) {
         int id = 1;
         for (Integer num : amountInStock) {
@@ -78,6 +82,11 @@ public class BasicIngredientService {
         }
     }
 
+    /**
+     * <h3>Part of purging all BasicIngredients between application shutdowns.</h3>
+     * <h5>Resets the auto_increment in the sql-table</h5>
+     * <p>There is counterparts for purging the amountInStock of RawIngredients and Toppings.</p>
+     */
     public void deleteAllBasicIngredients() {
         basicIngredientRepository.deleteAllBasicIngredients();
     }

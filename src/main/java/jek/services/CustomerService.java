@@ -13,7 +13,6 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-
     public void createCustomer(Customer customer) throws SQLException {
         customerRepository.createCustomer(customer);
     }

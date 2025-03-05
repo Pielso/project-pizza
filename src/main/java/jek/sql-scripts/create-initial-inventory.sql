@@ -1,2 +1,0 @@
-INSERT INTO raw_ingredients (raw_ingredient_name, amount_in_stock) VALUES (?, ?);
-

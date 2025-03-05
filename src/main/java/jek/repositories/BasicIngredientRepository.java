@@ -17,16 +17,13 @@ public class BasicIngredientRepository {
     // CREATE
 
     public void createBasicIngredient(BasicIngredient newBasicIngredient) {
-
         String query = "INSERT INTO basic_ingredients (basic_ingredient_name, amount_in_stock) VALUES (?, ?);";
-
         try (Connection connection = databaseService.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, newBasicIngredient.getBasicIngredientName());
             ps.setInt(2, newBasicIngredient.getAmountInStock());
             ps.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -43,7 +40,6 @@ public class BasicIngredientRepository {
             if (rs.next()){
                 id = rs.getInt("amount_in_stock");
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -70,8 +66,7 @@ public class BasicIngredientRepository {
             ps.setInt(1, newAmountInStock);
             ps.setInt(2, basicIngredientId);
             ps.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

@@ -15,9 +15,31 @@ public class ToppingService {
         this.toppingRepository = toppingRepository;
     }
 
+    /**
+     * <h3>Part of creating the empty inventory of Toppings</h3>
+     * <h5>Used when player registers or logs in</h5>
+     * <p>There is counterparts for loading the amountInStock of RawIngredients and BasicIngredients.</p>
+     */
     public void createAllToppings() throws SQLException {
         if (toppingRepository.toppingsIsEmpty()){
-            for (Topping topping: allToppings()){
+            Topping ham = new Topping("Ham", 0);
+            Topping mushroom = new Topping("Mushroom", 0);
+            Topping kebab = new Topping("Kebab", 0);
+            Topping tuna = new Topping("Tuna", 0);
+            Topping beef = new Topping("Beef", 0);
+            Topping chicken = new Topping("Chicken", 0);
+            Topping pepperoni = new Topping("Pepperoni", 0);
+            Topping olives = new Topping("Olives", 0);
+            Topping paprika = new Topping("Paprika", 0);
+            Topping onion = new Topping("Onion", 0);
+            Topping pineapple = new Topping("Pineapple", 0);
+            Topping shrimps = new Topping("Shrimps", 0);
+            Topping bacon = new Topping("Bacon", 0);
+            Topping jalapenos = new Topping("Jalapenos", 0);
+            Topping sauce = new Topping("Sauce", 0);
+            List<Topping> toppings = new ArrayList<>(Arrays.asList(ham, mushroom, kebab, tuna, beef, chicken, pepperoni, olives, paprika, onion, pineapple, shrimps, bacon, jalapenos, sauce));
+
+            for (Topping topping: toppings){
                 toppingRepository.createTopping(topping);
             }
         }
@@ -57,26 +79,12 @@ public class ToppingService {
         }
     }
 
-    public List<Topping> allToppings(){
-        Topping ham = new Topping("Ham", 0);
-        Topping mushroom = new Topping("Mushroom", 0);
-        Topping kebab = new Topping("Kebab", 0);
-        Topping tuna = new Topping("Tuna", 0);
-        Topping beef = new Topping("Beef", 0);
-        Topping chicken = new Topping("Chicken", 0);
-        Topping pepperoni = new Topping("Pepperoni", 0);
-        Topping olives = new Topping("Olives", 0);
-        Topping paprika = new Topping("Paprika", 0);
-        Topping onion = new Topping("Onion", 0);
-        Topping pineapple = new Topping("Pineapple", 0);
-        Topping shrimps = new Topping("Shrimps", 0);
-        Topping bacon = new Topping("Bacon", 0);
-        Topping jalapenos = new Topping("Jalapenos", 0);
-        Topping sauce = new Topping("Sauce", 0);
-        return new ArrayList<>(Arrays.asList(ham, mushroom, kebab, tuna, beef, chicken, pepperoni, olives, paprika, onion, pineapple, shrimps, bacon, jalapenos, sauce));
-    }
-
-
+    /**
+     * <h3>Part of loading amountInStock of Toppings from DynamoDB</h3>
+     * <h5>Used when already existing player logs in (see LoginController)</h5>
+     * <p>There is counterparts for loading the amountInStock of RawIngredients and BasicIngredients.</p>
+     * @param amountInStock List of integer values retrieved from DynamoDB.
+     */
     public void setAllAmountInStock(List <Integer> amountInStock) {
         int id = 1;
         for (Integer num : amountInStock) {
@@ -85,6 +93,11 @@ public class ToppingService {
         }
     }
 
+    /**
+     * <h3>Part of purging all Toppings between application shutdowns.</h3>
+     * <h5>Resets the auto_increment in the sql-table</h5>
+     * <p>There is counterparts for purging the amountInStock of RawIngredients and BasicIngredients.</p>
+     */
     public void deleteAllToppings(){
         toppingRepository.deleteAllToppings();
     }

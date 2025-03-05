@@ -20,16 +20,12 @@ public class RecipeService {
         return recipeRepository.getRecipeByName(name);
     }
 
-    public List<Recipe> getAllRecipes() {
-        return recipeRepository.getAllRecipes();
-    }
-
     public List<Recipe> getRecipesByUserId(int userId){
         return recipeRepository.getRecipesByUserId(userId);
     }
 
-    public void updateRecipe(Recipe recipe){
-        recipeRepository.updateRecipeById(recipe.getRecipeId(), recipe.getRecipeName(), recipe.getUserId());
+    public List<Recipe> getAllRecipes() {
+        return recipeRepository.getAllRecipes();
     }
 
     public void deleteRecipe(Recipe recipe){

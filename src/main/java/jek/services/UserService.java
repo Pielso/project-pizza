@@ -28,11 +28,15 @@ public class UserService {
         return userRepository.getUserByUsername(newUser.getUsername()).getUserId();
     }
 
+    public User getUserById(int userId) throws SQLException {
+        return userRepository.getUserById(userId);
+    }
+
     public String getPasswordByUsername(String name) {
         return userRepository.getUserByUsername(name).getPassword();
     }
 
-    public boolean doesUsernameExistInDB(String name) throws SQLException {
-        return userRepository.getListOfAllUsernames().contains(name);
+    public boolean doesUsernameExistInDB(String name) {
+        return userRepository.getAllUsernames().contains(name);
     }
 }
