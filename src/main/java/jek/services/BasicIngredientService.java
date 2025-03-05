@@ -2,7 +2,6 @@ package jek.services;
 
 import jek.models.BasicIngredient;
 import jek.repositories.BasicIngredientRepository;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +16,7 @@ public class BasicIngredientService {
     /**
      * <h3>Part of creating the empty inventory of BasicIngredients</h3>
      * <h5>Used when player registers or logs in</h5>
-     * <p>There is counterparts for loading the amountInStock of RawIngredients and Toppings.</p>
+     * <p>There are counterparts for loading the amountInStock of RawIngredients and Toppings.</p>
      */
     public void createAllBasicIngredients() {
         if (basicIngredientRepository.basicIngredientsIsEmpty()){
@@ -71,7 +70,7 @@ public class BasicIngredientService {
     /**
      * <h3>Part of loading amountInStock of BasicIngredients from DynamoDB</h3>
      * <h5>Used when already existing player logs in (see LoginController)</h5>
-     * <p>There is counterparts for loading the amountInStock of RawIngredients and Toppings.</p>
+     * <p>There are counterparts for loading the amountInStock of RawIngredients and Toppings.</p>
      * @param amountInStock List of integer values retrieved from DynamoDB.
      */
     public void setAllAmountInStock(List <Integer> amountInStock) {
@@ -85,7 +84,7 @@ public class BasicIngredientService {
     /**
      * <h3>Part of purging all BasicIngredients between application shutdowns.</h3>
      * <h5>Resets the auto_increment in the sql-table</h5>
-     * <p>There is counterparts for purging the amountInStock of RawIngredients and Toppings.</p>
+     * <p>There are counterparts for purging the amountInStock of RawIngredients and Toppings.</p>
      */
     public void deleteAllBasicIngredients() {
         basicIngredientRepository.deleteAllBasicIngredients();

@@ -2,8 +2,6 @@ package jek.services;
 
 import jek.models.Topping;
 import jek.repositories.ToppingRepository;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +16,7 @@ public class ToppingService {
     /**
      * <h3>Part of creating the empty inventory of Toppings</h3>
      * <h5>Used when player registers or logs in</h5>
-     * <p>There is counterparts for loading the amountInStock of RawIngredients and BasicIngredients.</p>
+     * <p>There are counterparts for loading the amountInStock of RawIngredients and BasicIngredients.</p>
      */
     public void createAllToppings() {
         if (toppingRepository.toppingsIsEmpty()){
@@ -82,7 +80,7 @@ public class ToppingService {
     /**
      * <h3>Part of loading amountInStock of Toppings from DynamoDB</h3>
      * <h5>Used when already existing player logs in (see LoginController)</h5>
-     * <p>There is counterparts for loading the amountInStock of RawIngredients and BasicIngredients.</p>
+     * <p>There are counterparts for loading the amountInStock of RawIngredients and BasicIngredients.</p>
      * @param amountInStock List of integer values retrieved from DynamoDB.
      */
     public void setAllAmountInStock(List <Integer> amountInStock) {
@@ -96,7 +94,7 @@ public class ToppingService {
     /**
      * <h3>Part of purging all Toppings between application shutdowns.</h3>
      * <h5>Resets the auto_increment in the sql-table</h5>
-     * <p>There is counterparts for purging the amountInStock of RawIngredients and BasicIngredients.</p>
+     * <p>There are counterparts for purging the amountInStock of RawIngredients and BasicIngredients.</p>
      */
     public void deleteAllToppings(){
         toppingRepository.deleteAllToppings();

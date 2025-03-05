@@ -5,9 +5,7 @@ import jek.dependecies.DependencyContainer;
 
 
 public class Main {
-
-    public static void main(String[] args) throws Exception {
-
+    public static void main(String[] args) {
         DependencyContainer dependencyContainer = new DependencyContainer();
         LoginController loginController = dependencyContainer.getLoginController();
 
@@ -18,6 +16,5 @@ public class Main {
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
 }

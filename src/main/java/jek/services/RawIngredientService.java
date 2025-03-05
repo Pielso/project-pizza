@@ -16,7 +16,7 @@ public class RawIngredientService {
     /**
      * <h3>Part of creating the empty inventory of RawIngredients</h3>
      * <h5>Used when player registers or logs in</h5>
-     * <p>There is counterparts for loading the amountInStock of BasicIngredients and Toppings.</p>
+     * <p>There are counterparts for loading the amountInStock of BasicIngredients and Toppings.</p>
      */
     public void createAllRawIngredients() {
         if (rawIngredientRepository.rawIngredientsIsEmpty()){
@@ -66,7 +66,7 @@ public class RawIngredientService {
     /**
      * <h3>Part of loading amountInStock of RawIngredients from DynamoDB</h3>
      * <h5>Used when already existing player logs in (see LoginController)</h5>
-     * <p>There is counterparts for loading the amountInStock of BasicIngredients and Toppings.</p>
+     * <p>There are counterparts for loading the amountInStock of BasicIngredients and Toppings.</p>
      * @param amountInStock List of integer values retrieved from DynamoDB.
      */
     public void setAllAmountInStock(List <Integer> amountInStock) {
@@ -80,7 +80,7 @@ public class RawIngredientService {
     /**
      * <h3>Part of purging all RawIngredients between application shutdowns.</h3>
      * <h5>Resets the auto_increment in the sql-table</h5>
-     * <p>There is counterparts for purging the amountInStock of BasicIngredients and Toppings.</p>
+     * <p>There are counterparts for purging the amountInStock of BasicIngredients and Toppings.</p>
      */
     public void deleteAllRawIngredients() {
         rawIngredientRepository.deleteAllRawIngredients();
