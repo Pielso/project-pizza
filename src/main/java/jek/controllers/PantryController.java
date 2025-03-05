@@ -6,7 +6,6 @@ import jek.services.RawIngredientService;
 import jek.services.ToppingService;
 import jek.services.system.TextService;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class PantryController {
@@ -25,7 +24,7 @@ public class PantryController {
         this.toppingService = toppingService;
     }
 
-    public void goToPantry() throws SQLException {
+    public void goToPantry() {
         boolean exitFromPantry = false;
 
         do {
@@ -62,7 +61,7 @@ public class PantryController {
         } while (!exitFromPantry);
     }
 
-    private void buyRawIngredients() throws SQLException {
+    private void buyRawIngredients() {
         int quantity = getAmountToBuyFromUser("raw ingredients", BigDecimal.valueOf(0.2));
         boolean paid = handlePurchase(BigDecimal.valueOf(quantity), BigDecimal.valueOf(0.2), BigDecimal.valueOf(6));
         if (paid){
@@ -70,7 +69,7 @@ public class PantryController {
         }
     }
 
-    private void buyToppings() throws SQLException {
+    private void buyToppings() {
         int quantity = getAmountToBuyFromUser("toppings", BigDecimal.valueOf(2));
         boolean paid = handlePurchase(BigDecimal.valueOf(quantity), BigDecimal.valueOf(2), BigDecimal.valueOf(15));
         if (paid){
@@ -78,7 +77,7 @@ public class PantryController {
         }
     }
 
-    private void buyCheese() throws SQLException {
+    private void buyCheese() {
         int quantity = getAmountToBuyFromUser("cheese", BigDecimal.valueOf(0.5));
         boolean paid = handlePurchase(BigDecimal.valueOf(quantity), BigDecimal.valueOf(0.5), BigDecimal.valueOf(1));
         if (paid) {
@@ -86,7 +85,7 @@ public class PantryController {
         }
     }
 
-    private Boolean handlePurchase(BigDecimal quantity, BigDecimal costPerUnit, BigDecimal numberOfItems) throws SQLException {
+    private Boolean handlePurchase(BigDecimal quantity, BigDecimal costPerUnit, BigDecimal numberOfItems) {
         BigDecimal costOfPurchase = costPerUnit.multiply(quantity).multiply(numberOfItems);
         if (quantity.equals(BigDecimal.valueOf(0))) {
             return false;

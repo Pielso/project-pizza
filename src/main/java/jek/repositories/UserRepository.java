@@ -26,7 +26,7 @@ public class UserRepository {
             ps.setString(2, user.getPassword());
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -45,7 +45,7 @@ public class UserRepository {
                 user.setPassword(rs.getString("password"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return user;
     }
@@ -60,7 +60,7 @@ public class UserRepository {
                 usernames.add(rs.getString("username"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return usernames;
     }
@@ -76,7 +76,7 @@ public class UserRepository {
             ps.setInt(3,userId);
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -89,7 +89,7 @@ public class UserRepository {
             ps.setInt(1, userId);
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -100,7 +100,7 @@ public class UserRepository {
             ps.setString(1, user.getUsername());
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -117,7 +117,7 @@ public class UserRepository {
                 user.setPassword(rs.getString("password"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return user;
     }

@@ -1,6 +1,5 @@
 package jek.controllers;
 
-import jek.services.ProgressService;
 import jek.services.system.TextService;
 
 public class OfficeController {

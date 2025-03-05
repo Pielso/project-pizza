@@ -21,14 +21,14 @@ public class LoginService {
         this.saveAndLoadService = saveAndLoadService;
     }
 
-    public void registerNewUser() throws SQLException {
+    public void registerNewUser() {
         flushTemp();
         textService.createNewUserScreen();
         userChoosesUsername();
         userChoosesPassword();
     }
 
-    public void userChoosesUsername() throws SQLException {
+    public void userChoosesUsername() {
         while (true){
             System.out.print("CHOOSE USERNAME: ");
             tempUserName = scan.nextLine().trim();
@@ -70,6 +70,10 @@ public class LoginService {
         return (passInDB.equals(tempUserPassword));
     }
 
+    /**
+     * Lets admin drop and resurrect all sql-tables in database and/or drop all items in DynamoDB
+     * @throws SQLException - Because I felt that a try-catch around IF > WHILE > SWITCH w/ Default would be overkill.
+     */
     public void adminMenu() throws SQLException {
         System.out.print("PASSWORD: ");
         tempUserPassword = scan.nextLine().trim();

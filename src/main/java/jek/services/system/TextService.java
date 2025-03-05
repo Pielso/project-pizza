@@ -5,7 +5,6 @@ import jek.models.Recipe;
 import jek.models.Topping;
 import jek.services.*;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.List;
 
 public class TextService {
@@ -57,10 +56,8 @@ public class TextService {
                 4: GO TO KITCHEN
                 5: GO TO THE BANK
                 6: GO TO THE NEXT DAY
-                7: RULES
-                8: LOGOUT
-                9: ACCOUNT MANAGEMENT
-                10: SAVE & EXIT""");
+                7: LOGOUT
+                8: SAVE & EXIT""");
     }
 
     public void officeStats(){
@@ -158,7 +155,7 @@ public class TextService {
         }
     }
 
-    public void restaurantScreen() throws SQLException {
+    public void restaurantScreen() {
         centerText("----------------------------------------------------------------< WELCOME TO YOUR RESTAURANT >----------------------------------------------------------------");
         centerText("");
         centerText("HERE, YOU CAN SERVE YOUR CUSTOMERS AND EARN PRECIOUS MONEY");
@@ -169,7 +166,7 @@ public class TextService {
 
     }
 
-    public void serveCustomerScreen() throws SQLException {
+    public void serveCustomerScreen() {
         centerText("");
         if (customerService.getAllCustomers().isEmpty()){
             centerText("YOU ARE ON DAY ZERO OF YOUR JOURNEY");

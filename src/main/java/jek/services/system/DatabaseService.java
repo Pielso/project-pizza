@@ -1,14 +1,8 @@
 package jek.services.system;
 
-import jek.services.BasicIngredientService;
-import jek.services.RawIngredientService;
-import jek.services.ToppingService;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseService {
 
@@ -45,27 +39,11 @@ public class DatabaseService {
         }
     }
 
-    public List <String> columnToList(String column, String table) throws SQLException {
-        String query = "SELECT " + column + " FROM " + table + " ;";
-        List<String> list = new ArrayList<>();
-        try (Connection connection = getConnection()){
-            PreparedStatement ps = connection.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()){
-                list.add(rs.getString(column));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return list;
-    }
-
-    public void dropDatabase() throws SQLException {
+    public void dropDatabase() {
         scriptRunner(dropDB);
     }
 
-    public void createDatabase() throws SQLException {
+    public void createDatabase() {
         scriptRunner(createDB);
     }
 

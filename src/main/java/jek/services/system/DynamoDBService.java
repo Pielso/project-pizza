@@ -4,8 +4,6 @@ import jek.services.*;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
-
-import java.sql.SQLException;
 import java.util.*;
 
 public class DynamoDBService {
@@ -103,7 +101,7 @@ public class DynamoDBService {
         dynamoDbClient.putItem(request);
     }
 
-    public void loadAmountInStock() throws SQLException, InterruptedException {
+    public void loadAmountInStock() {
         HashMap<String, AttributeValue> loadAmountInStockMap = new HashMap<>();
         loadAmountInStockMap.put(KEY_ATTRIBUTE_NAME, AttributeValue.builder().n(String.valueOf(progressService.getActiveProgress().getUserId())).build());
 
@@ -114,27 +112,21 @@ public class DynamoDBService {
 
         Map <String, AttributeValue> amountInStock = dynamoDbClient.getItem(request).item();
         if (amountInStock == null) {
-            System.out.println("Amount in stock is null");
+            System.out.println("Amount in stock is empty");
         }
         else {
             List <Integer> rawIngredients = new ArrayList<>();
-            amountInStock.get("RawIngredients").l().forEach(item -> {
-                rawIngredients.add(Integer.parseInt(item.n()));
-            });
+            amountInStock.get("RawIngredients").l().forEach(item -> rawIngredients.add(Integer.parseInt(item.n())));
             List <Integer> basicIngredients = new ArrayList<>();
-            amountInStock.get("BasicIngredients").l().forEach(item -> {
-                basicIngredients.add(Integer.parseInt(item.n()));
-            });
+            amountInStock.get("BasicIngredients").l().forEach(item -> basicIngredients.add(Integer.parseInt(item.n())));
             List <Integer> toppings = new ArrayList<>();
-            amountInStock.get("Toppings").l().forEach(item -> {
-                toppings.add(Integer.parseInt(item.n()));
-            });
+            amountInStock.get("Toppings").l().forEach(item -> toppings.add(Integer.parseInt(item.n())));
 
             setAllAmountInStock(rawIngredients, basicIngredients, toppings);
         }
     }
 
-    public void setAllAmountInStock(List <Integer> rawIngredients, List <Integer> basicIngredients, List <Integer> toppings) throws SQLException, InterruptedException {
+    public void setAllAmountInStock(List <Integer> rawIngredients, List <Integer> basicIngredients, List <Integer> toppings) {
         rawIngredientService.setAllAmountInStock(rawIngredients);
         basicIngredientService.setAllAmountInStock(basicIngredients);
         toppingService.setAllAmountInStock(toppings);

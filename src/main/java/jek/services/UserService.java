@@ -23,12 +23,12 @@ public class UserService {
         activeUser.setPassword(user.getPassword());
     }
 
-    public int createUserAndReturnId(User newUser) throws SQLException {
+    public int createUserAndReturnId(User newUser) {
         userRepository.createUser(newUser);
         return userRepository.getUserByUsername(newUser.getUsername()).getUserId();
     }
 
-    public User getUserById(int userId) throws SQLException {
+    public User getUserById(int userId) {
         return userRepository.getUserById(userId);
     }
 

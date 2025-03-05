@@ -30,7 +30,6 @@ public class BankController {
             int menuChoice = scan.nextInt();
             try {
                 switch (menuChoice){
-
                     case 1: {
                         System.out.println("How much do you want to pay back to the bank?");
                         System.out.println("AMOUNT: ");

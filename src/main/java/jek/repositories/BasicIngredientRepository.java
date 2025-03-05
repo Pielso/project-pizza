@@ -24,7 +24,7 @@ public class BasicIngredientRepository {
             ps.setInt(2, newBasicIngredient.getAmountInStock());
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -41,18 +41,19 @@ public class BasicIngredientRepository {
                 id = rs.getInt("amount_in_stock");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return id;
     }
 
-    public boolean basicIngredientsIsEmpty(){
+    public boolean basicIngredientsIsEmpty() {
         String query = "SELECT * FROM basic_ingredients";
         try (Connection connection = databaseService.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             return !rs.next();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -67,12 +68,16 @@ public class BasicIngredientRepository {
             ps.setInt(2, basicIngredientId);
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
     // DELETE
 
+    /**
+     * <h3>Part of purging all BasicIngredients between application shutdowns</h3>
+     * <h5>Needs to reset the auto_increment so that the next player have BasicIngredients on same basic_ingredient_id</h5>
+     */
     public void deleteAllBasicIngredients() {
         String query = "DELETE FROM basic_ingredients;";
         try (Connection connection = databaseService.getConnection()){
@@ -81,7 +86,7 @@ public class BasicIngredientRepository {
             ps = connection.prepareStatement("ALTER TABLE basic_ingredients AUTO_INCREMENT = 1;");
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }

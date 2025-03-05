@@ -13,9 +13,7 @@ public class Customer {
     private int desiredTopping3;
 
     public Customer(){
-
-            this.customerName = randomizeCustomerName();
-
+        this.customerName = randomizeCustomerName();
         do {
             desiredTopping1 = randomizeDesiredTopping();
             desiredTopping2 = randomizeDesiredTopping();

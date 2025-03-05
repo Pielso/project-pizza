@@ -27,7 +27,7 @@ public class RecipeToppingRepository {
             ps.setInt(2, recipeTopping.getToppingId());
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -44,7 +44,7 @@ public class RecipeToppingRepository {
                 toppingsInRecipe.add((rs.getString("topping_name")));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return toppingsInRecipe;
     }
@@ -60,9 +60,8 @@ public class RecipeToppingRepository {
                 toppingIdsInRecipe.add((rs.getInt("topping_id")));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return toppingIdsInRecipe;
     }
-
 }

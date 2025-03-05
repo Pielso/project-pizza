@@ -40,7 +40,6 @@ public class PizzaGameController {
 
     public void menu() throws SQLException, InterruptedException {
         exit = false;
-
         int menuChoice = 0;
 
         while (!exit){
@@ -50,47 +49,34 @@ public class PizzaGameController {
             }
             catch (Exception e) {
                 System.out.println("Not a valid choice");
-                scan.nextLine();
             }
 
             switch (menuChoice){
                 case 1:{
-                    // SEE STATS BREAKDOWN & MANAGE UPGRADES
                     officeController.goToOffice();
                     break;
                 }
                 case 2:{
-                    // ORDER NEW INGREDIENTS/TOPPINGS
                     pantryController.goToPantry();
                     break;
                 }
                 case 3:{
-                    // SERVE CUSTOMERS
                     restaurantController.goToRestaurant();
                     break;
                 }
                 case 4:{
-                    // CREATE RECIPES & PREPARE BASIC INGREDIENTS
                     kitchenController.goToKitchen();
                     break;
                 }
                 case 5:{
-                    // PAY OFF LOAN, TAKE LOAN, CHANGE INTEREST?
                     bankController.goToBank();
                     break;
                 }
                 case 6:{
-                    // INCREASE DAYS PLAYED, GENERATE NEW CUSTOMERS, INCREMENT LOAN BY INTEREST / 365
                     nextDayService.goToNextDay();
                     break;
                 }
                 case 7:{
-                    // RULES HERE
-
-                    break;
-                }
-                case 8:{
-                    // RETURN TO LOGIN-SCREEN & LOGOUT (what is logout? reset of activeUsername?)
                     exit = true;
                     customerService.deleteAllCustomers();
                     saveAndLoadService.saveAmountInStock();
@@ -98,19 +84,10 @@ public class PizzaGameController {
                     loginController.loginOrRegister();
                     break;
                 }
-                case 9:{
-                    // CHANGE PASSWORD AND/OR REMOVE ACCOUNT.
-
-                    break;
-                }
-                case 10:{
-                    // SAVE AMOUNT_IN_STOCK LOGIC TO DYNAMODB HERE
+                case 8:{
                     customerService.deleteAllCustomers();
                     saveAndLoadService.saveAmountInStock();
                     saveAndLoadService.dropInventory();
-
-                    // CONFIRM-SAVE-LOGIC HERE?
-
                     exit = true;
                     break;
                 }

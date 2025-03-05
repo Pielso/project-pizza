@@ -26,27 +26,27 @@ public class ProgressService {
         return LoginController.activeProgress;
     }
 
-    public void updateProgressCashById(int userId, BigDecimal cash) throws SQLException {
+    public void updateProgressCashById(int userId, BigDecimal cash) {
         progressRepository.updateProgressCashById(userId, cash);
     }
 
-    public void updateProgressLoanById(int userId, BigDecimal loan) throws SQLException {
+    public void updateProgressLoanById(int userId, BigDecimal loan) {
         progressRepository.updateProgressLoanById(userId, loan);
     }
 
-    public void updateProgressInterestRateById(int userId, int interestRate) throws SQLException {
+    public void updateProgressInterestRateById(int userId, int interestRate) {
         progressRepository.updateProgressInterestRateById(userId, interestRate);
     }
 
-    public void updateProgressCustomersPerDayById(int userId, int customersPerDay) throws SQLException {
+    public void updateProgressCustomersPerDayById(int userId, int customersPerDay) {
         progressRepository.updateProgressCustomersPerDayById(userId, customersPerDay);
     }
 
-    public void updateProgressRestaurantSizeById(int userId, int restaurantSize) throws SQLException {
+    public void updateProgressRestaurantSizeById(int userId, int restaurantSize) {
         progressRepository.updateProgressRestaurantSizeById(userId, restaurantSize);
     }
 
-    public void updateProgressDaysPlayedById(int userId, int daysPlayed) throws SQLException {
+    public void updateProgressDaysPlayedById(int userId, int daysPlayed) {
         progressRepository.updateProgressDaysPlayedById(userId, daysPlayed);
     }
 

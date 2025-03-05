@@ -3,8 +3,6 @@ package jek.services.system;
 import jek.services.BasicIngredientService;
 import jek.services.RawIngredientService;
 import jek.services.ToppingService;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,20 +24,24 @@ public class SaveAndLoadService {
         dynamoDBService.saveAmountInStock();
     }
 
-    public void loadAmountInStock() throws SQLException, InterruptedException {
+    public void loadAmountInStock() {
         dynamoDBService.loadAmountInStock();
     }
 
-    public void createEmptyInventory() throws SQLException {
+    public void createEmptyInventory() {
         toppingService.createAllToppings();
         basicIngredientService.createAllBasicIngredients();
         rawIngredientService.createAllRawIngredients();
     }
 
-    public void resetAmountInStock() throws SQLException, InterruptedException {
-        List <Integer> zeroRawIngredients = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0));
-        List <Integer> zeroBasicIngredients = new ArrayList<Integer>(Arrays.asList(0, 0, 0));
-        List <Integer> zeroToppings = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    /**
+     * <h3>Part of resetting all amountInStock between player logouts</h3>
+     * <h5>Used in LoginController & PizzaGameController</h5>
+     */
+    public void resetAmountInStock() {
+        List <Integer> zeroRawIngredients = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0));
+        List <Integer> zeroBasicIngredients = new ArrayList<>(Arrays.asList(0, 0, 0));
+        List <Integer> zeroToppings = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
         dynamoDBService.setAllAmountInStock(zeroRawIngredients, zeroBasicIngredients, zeroToppings);
     }
 
@@ -52,9 +54,4 @@ public class SaveAndLoadService {
     public void dropAllAmountInStockInDynamoDB() {
         dynamoDBService.deleteAllAmountInStock();
     }
-
-
-
-
-
 }

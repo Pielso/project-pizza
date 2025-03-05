@@ -26,7 +26,7 @@ public class RecipeRepository {
             ps.setInt(2, newRecipe.getUserId());
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -47,7 +47,7 @@ public class RecipeRepository {
                 recipes.add(recipe);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return recipes;
     }
@@ -65,7 +65,7 @@ public class RecipeRepository {
                 recipe.setUserId(rs.getInt("user_id"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return recipe;
     }
@@ -84,7 +84,7 @@ public class RecipeRepository {
                 recipes.add(recipe);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return recipes;
     }
@@ -100,7 +100,7 @@ public class RecipeRepository {
             ps.setInt(3,recipeId);
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -113,7 +113,7 @@ public class RecipeRepository {
             ps.setInt(1, recipeId);
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }

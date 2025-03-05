@@ -73,6 +73,10 @@ public class RawIngredientRepository {
 
     // DELETE
 
+    /**
+     * <h3>Part of purging all RawIngredients between application shutdowns</h3>
+     * <h5>Needs to reset the auto_increment so that the next player have RawIngredients on same raw_ingredient_id</h5>
+     */
     public void deleteAllRawIngredients() {
         String query = "DELETE FROM raw_ingredients;";
         try (Connection connection = databaseService.getConnection()){
@@ -81,7 +85,7 @@ public class RawIngredientRepository {
             ps = connection.prepareStatement("ALTER TABLE raw_ingredients AUTO_INCREMENT = 1;");
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }

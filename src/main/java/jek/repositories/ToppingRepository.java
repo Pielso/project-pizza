@@ -26,7 +26,7 @@ public class ToppingRepository {
             ps.setInt(2, newTopping.getAmountInStock());
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -45,7 +45,7 @@ public class ToppingRepository {
                 topping.setAmountInStock(rs.getInt("amount_in_stock"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return topping;
     }
@@ -112,6 +112,10 @@ public class ToppingRepository {
 
     // DELETE
 
+    /**
+     * <h3>Part of purging all Toppings between application shutdowns</h3>
+     * <h5>Needs to reset the auto_increment so that the next player have Toppings on same topping_id</h5>
+     */
     public void deleteAllToppings(){
         String query = "DELETE FROM toppings;";
         try (Connection connection = databaseService.getConnection()){
@@ -120,7 +124,7 @@ public class ToppingRepository {
             ps = connection.prepareStatement("ALTER TABLE toppings AUTO_INCREMENT = 1;");
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }

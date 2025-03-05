@@ -18,9 +18,8 @@ public class NextDayService {
 
     /**
      * Should increase loan by interestRate * Loan / 365, increase daysPlayed and delete all customers, and generate (7 * restaurantSize) new customers
-     * @throws SQLException
      */
-    public void goToNextDay() throws SQLException {
+    public void goToNextDay() {
 
         progressService.updateProgressLoanById(
                 progressService.getActiveProgress().getUserId(),

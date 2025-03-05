@@ -20,7 +20,7 @@ public class ToppingService {
      * <h5>Used when player registers or logs in</h5>
      * <p>There is counterparts for loading the amountInStock of RawIngredients and BasicIngredients.</p>
      */
-    public void createAllToppings() throws SQLException {
+    public void createAllToppings() {
         if (toppingRepository.toppingsIsEmpty()){
             Topping ham = new Topping("Ham", 0);
             Topping mushroom = new Topping("Mushroom", 0);

@@ -1,10 +1,11 @@
 package jek.controllers;
 
+import jek.models.Customer;
 import jek.services.*;
 import jek.services.system.TextService;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class RestaurantController {
@@ -25,10 +26,8 @@ public class RestaurantController {
         this.basicIngredientService = basicIngredientService;
     }
 
-    public void goToRestaurant() throws SQLException {
+    public void goToRestaurant() {
         boolean exitFromRestaurant = false;
-
-
 
         do {
             textService.restaurantScreen();
@@ -59,7 +58,7 @@ public class RestaurantController {
 
     // SERVE CUSTOMER - WHICH CUSTOMER? - WHICH RECIPE? - HAS ENOUGH INGREDIENTS?
 
-    private void serveCustomer() throws SQLException {
+    private void serveCustomer() {
         textService.serveCustomerScreen();
         System.out.println("Enter customer ID to serve, or '0' to exit. ");
         int customerId = Integer.parseInt(scan.nextLine());
@@ -88,43 +87,23 @@ public class RestaurantController {
         }
     }
 
-    private BigDecimal calculatePayment(int customerId, int recipeId) throws SQLException {
-        BigDecimal payment = null;
+    private BigDecimal calculatePayment(int customerId, int recipeId) {
+        List<Integer> recipeToppings = recipeToppingService.getAllToppingIdByRecipeId(recipeId);  // Hämta en gång
+        Customer customer = customerService.getCustomerById(customerId); // Hämta en gång
+
         int counter = 0;
+        if (recipeToppings.contains(customer.getDesiredTopping1())) counter++;
+        if (recipeToppings.contains(customer.getDesiredTopping2())) counter++;
+        if (recipeToppings.contains(customer.getDesiredTopping3())) counter++;
 
-        if (recipeToppingService.getAllToppingIdByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping1())){
-            counter++;
+        BigDecimal payment;
+        switch (counter) {
+            case 1 -> payment = BigDecimal.valueOf(8);
+            case 2 -> payment = BigDecimal.valueOf(11);
+            case 3 -> payment = BigDecimal.valueOf(15);
+            default -> payment = BigDecimal.valueOf(6);
         }
-        if (recipeToppingService.getAllToppingIdByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping2())){
-            counter++;
-        }
-        if (recipeToppingService.getAllToppingIdByRecipeId(recipeId).contains(customerService.getCustomerById(customerId).getDesiredTopping3())){
-            counter++;
-        }
-        if (counter == 1){
-            payment = BigDecimal.valueOf(8);
-        }
-        if (counter == 2){
-            payment = BigDecimal.valueOf(11);
-        }
-        if (counter == 3){
-            payment = BigDecimal.valueOf(15);
-        }
-        else if (counter == 0){
-            payment = BigDecimal.valueOf(6);
-        }
-
         System.out.println("Total payment for customer " + customerId + " is $" + payment + ".");
         return payment;
     }
-
-    // ADD TO PROGRESS, SAVE.
-
-    // DELETE CUSTOMER
-
-    // SAVE
-
-
-
-
 }

@@ -28,7 +28,7 @@ public class CustomerRepository {
             ps.setInt(4, newCustomer.getDesiredTopping3());
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -49,18 +49,17 @@ public class CustomerRepository {
                 customer.setDesiredTopping3(rs.getInt("desired_topping3"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return customer;
     }
 
-    public List<Customer> getAllCustomers() throws SQLException {
+    public List<Customer> getAllCustomers() {
         String query = "SELECT * FROM customers;";
         List<Customer> customers = new ArrayList<>();
         try (Connection connection = databaseService.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()){
                 while (rs.next()){
                     Customer customer = new Customer();
                     customer.setCustomerId(rs.getInt("customer_id"));
@@ -70,14 +69,10 @@ public class CustomerRepository {
                     customer.setDesiredTopping3(rs.getInt("desired_topping3"));
                     customers.add(customer);
                 }
-            }
-            else {
-                return null;
-            }
-            return customers;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+        return customers;
     }
 
     // DELETE
@@ -89,7 +84,7 @@ public class CustomerRepository {
             ps.setInt(1, customerId);
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -101,7 +96,7 @@ public class CustomerRepository {
             ps = connection.prepareStatement("ALTER TABLE customers AUTO_INCREMENT = 1");
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 

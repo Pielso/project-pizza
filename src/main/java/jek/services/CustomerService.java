@@ -13,23 +13,23 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public void createCustomer(Customer customer) throws SQLException {
+    public void createCustomer(Customer customer) {
         customerRepository.createCustomer(customer);
     }
 
-    public Customer getCustomerById(int id) throws SQLException {
+    public Customer getCustomerById(int id) {
         return customerRepository.getCustomerById(id);
     }
 
-    public List<Customer> getAllCustomers() throws SQLException {
+    public List<Customer> getAllCustomers() {
         return customerRepository.getAllCustomers();
     }
 
-    public void deleteCustomerById(int customerId) throws SQLException {
+    public void deleteCustomerById(int customerId) {
         customerRepository.deleteCustomerById(customerId);
     }
 
-    public void deleteAllCustomers() throws SQLException {
+    public void deleteAllCustomers() {
         customerRepository.deleteAllCustomers();
     }
 }

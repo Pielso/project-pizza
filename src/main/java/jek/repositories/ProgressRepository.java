@@ -30,7 +30,7 @@ public class ProgressRepository {
             ps.setInt(7, newProgress.getDaysPlayed());
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -53,14 +53,14 @@ public class ProgressRepository {
                 progress.setDaysPlayed(rs.getInt("days_played"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return progress;
     }
 
     // UPDATE
 
-    public void updateProgressCashById(int userId, BigDecimal cash) throws SQLException {
+    public void updateProgressCashById(int userId, BigDecimal cash) {
         String query = "UPDATE progress SET cash = ? WHERE user_id = ?;";
         try (Connection connection = databaseService.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
@@ -68,9 +68,12 @@ public class ProgressRepository {
             ps.setInt(2, userId);
             ps.execute();
         }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
-    public void updateProgressLoanById(int userId, BigDecimal loan) throws SQLException {
+    public void updateProgressLoanById(int userId, BigDecimal loan) {
         String query = "UPDATE progress SET loan = ? WHERE user_id = ?;";
         try (Connection connection = databaseService.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
@@ -78,47 +81,62 @@ public class ProgressRepository {
             ps.setInt(2, userId);
             ps.execute();
         }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
-    public void updateProgressInterestRateById(int id, int interestRate) throws SQLException {
+    public void updateProgressInterestRateById(int id, int interestRate) {
         String query = "UPDATE progress SET interest_rate = ?;";
         try (Connection connection = databaseService.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, interestRate);
             ps.execute();
         }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
-    public void updateProgressCustomersPerDayById(int id, int customersPerDay) throws SQLException {
+    public void updateProgressCustomersPerDayById(int id, int customersPerDay) {
         String query = "UPDATE progress SET customers_per_day = ?;";
         try (Connection connection = databaseService.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, customersPerDay);
             ps.execute();
         }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
-    public void updateProgressRestaurantSizeById(int id, int restaurantSize) throws SQLException {
+    public void updateProgressRestaurantSizeById(int id, int restaurantSize) {
         String query = "UPDATE progress SET restaurant_size = ?;";
         try (Connection connection = databaseService.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, restaurantSize);
             ps.execute();
         }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
-    public void updateProgressDaysPlayedById(int id, int daysPlayed) throws SQLException {
+    public void updateProgressDaysPlayedById(int id, int daysPlayed) {
         String query = "UPDATE progress SET days_played = ?;";
         try (Connection connection = databaseService.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, daysPlayed);
             ps.execute();
         }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     // DELETE
 
-    public void deleteProgressById(int id) throws SQLException {
+    public void deleteProgressById(int id) {
         String query = "DELETE FROM progress WHERE user_id = ?;";
         try (Connection connection = databaseService.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
@@ -126,18 +144,18 @@ public class ProgressRepository {
             ps.execute();
         }
         catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
-    public void deleteProgress(Progress progress) throws SQLException {
+    public void deleteProgress(Progress progress) {
         try (Connection connection = databaseService.getConnection()) {
             PreparedStatement ps = connection.prepareStatement("DELETE FROM progress WHERE user_id = ?;");
             ps.setInt(1, progress.getUserId());
             ps.execute();
         }
         catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
