@@ -43,8 +43,8 @@ CREATE TABLE raw_ingredients (
 
 CREATE TABLE progress (
     user_id INTEGER PRIMARY KEY,
-    cash DECIMAL,
-    loan DECIMAL,
+    cash DECIMAL (10,4),
+    loan DECIMAL (10,4),
     interest_rate DECIMAL,
     customers_per_day INTEGER,
     restaurant_size INTEGER,
